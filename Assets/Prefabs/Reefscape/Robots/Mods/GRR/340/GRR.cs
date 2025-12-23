@@ -1,4 +1,5 @@
 using System.Collections;
+using Codice.Client.Common.TreeGrouper;
 using Games.Reefscape.Enums;
 using Games.Reefscape.FieldScripts;
 using Games.Reefscape.GamePieceSystem;
@@ -69,6 +70,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         private ReefscapeSetpoints _previousSetpoint;
         private bool alreadyPlaced;
 
+        private GameObject targetReef;
+
         protected override void Start()
         {
             base.Start();
@@ -89,6 +92,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             coralController.intakes.Add(coralIntakeComponent);
 
             alreadyPlaced = false;
+
+            targetReef = Alliance == Alliance.Blue ? GameObject.Find("BlueReef") : GameObject.Find("RedReef");
         }
 
         private void LateUpdate()
@@ -99,6 +104,15 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
         private void FixedUpdate()
         {
+            bool autoPlace = false;
+            bool autoAligning = AutoAlignLeftAction.IsPressed() || AutoAlignRightAction.IsPressed();
+            float reefDistance = (targetReef.transform.position - transform.position).magnitude;
+            if (autoAligning && FacingReef && reefDistance <= 1.37f)
+            {
+                SetState(ReefscapeSetpoints.Place);
+                autoPlace = true;
+            }
+
             if (coralController.HasPiece())
             {
                 foreach (var roller in funnelRollers)
@@ -155,7 +169,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     coralController.RequestIntake(coralIntakeComponent, IntakeAction.IsPressed() && isCoral);
                     break;
                 case ReefscapeSetpoints.Place:
-                    if (!alreadyPlaced && OuttakeAction.triggered)
+                    if (!alreadyPlaced && (OuttakeAction.triggered || autoPlace))
                     {
                         StartCoroutine(PlacePiece());
                     }
@@ -265,14 +279,18 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             //default mode is impulse
             if (CurrentRobotMode == ReefscapeRobotMode.Coral && coralController.HasPiece())
             {
-                var time = 0.01f;
-                Vector3 force = new Vector3(0, 0, 5f);
-                var maxSpeed = 0.5f;
+                var time = 1.0f;
+                // do not change this line
+                // if you think what you're doing is going
+                // to work, it won't. don't even fucking bother
+                Vector3 force = new Vector3(0, -0.2f, 2.73f);
+                var maxSpeed = 0.75f;
 
                 if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.Barge)
                 {
-                    time = 0.15f;
-                    force = new Vector3(0, 1, 5f);
+                    time = 1.5f;
+                    force = new Vector3(0, 0.0f, 4f);
+                    maxSpeed = 0.25f;
                 }
                 else if (LastSetpoint == ReefscapeSetpoints.L1)
                 {
