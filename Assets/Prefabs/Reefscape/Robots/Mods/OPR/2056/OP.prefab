@@ -41431,8 +41431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alliance: 0
   bumperMeshes: []
-  blueBumperMaterial: {fileID: -7143233500245697307, guid: 4a7afad46f8984c4bbe8c41a511e0752,
-    type: 3}
+  blueBumperMaterial: {fileID: 2100000, guid: fbcebe11ae026e146a167124dac117de, type: 2}
   redBumperMaterial: {fileID: 2100000, guid: 8891c8be8334c264dbe596d910db7283, type: 2}
   <CurrentSetpoint>k__BackingField: 0
   <CurrentCoralStationMode>k__BackingField:
@@ -41662,7 +41661,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 4.2}
   rotation: 0
   enableForwardAlign: 1
-  enableBackwardsAlign: 1
+  enableBackwardsAlign: 0
   maxAlignDistanceFeet: 10
 --- !u!114 &-7580194406061437170
 MonoBehaviour:

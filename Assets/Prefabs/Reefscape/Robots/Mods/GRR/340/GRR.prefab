@@ -32142,7 +32142,7 @@ Transform:
   m_GameObject: {fileID: 2566540249735847228}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -0.151, y: 0.282, z: 0}
+  m_LocalPosition: {x: -0.1397, y: 0.3017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68128,7 +68128,7 @@ Transform:
   m_GameObject: {fileID: 5705757400319348284}
   serializedVersion: 2
   m_LocalRotation: {x: 2.7755576e-15, y: 2.7755576e-15, z: 1.3877788e-15, w: 1}
-  m_LocalPosition: {x: 0.00024, y: 0, z: -0.000032}
+  m_LocalPosition: {x: 0.00024, y: 0, z: -0.000154}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73366,7 +73366,15 @@ MonoBehaviour:
   elevator: {fileID: 4930663437931110733}
   climber: {fileID: 3039939583381403324}
   intakeCollider: {fileID: 8291404363158409048}
-  funnelRollers: []
+  funnelRollers:
+  - {fileID: 7983798073950328595}
+  - {fileID: 468062139124619578}
+  - {fileID: 337320261812508562}
+  - {fileID: 8987577351773590958}
+  - {fileID: 5295425900358278074}
+  - {fileID: 6211951304211377540}
+  - {fileID: 8918156700541941282}
+  - {fileID: 1792298370812884045}
   wristPIDMI:
     kP: 1.75
     kI: 0
