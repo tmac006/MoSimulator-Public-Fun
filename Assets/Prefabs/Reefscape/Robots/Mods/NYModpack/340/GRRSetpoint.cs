@@ -8,7 +8,5 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("Deg")] public float wristTarget;
         [Tooltip("Inch")] public float elevatorDistance;
         [Tooltip("Deg")] public float climberTarget;
-        [Tooltip("Deg")] public float wristNoWrapAngle;
-        [Tooltip("Deg")] public float climberNoWrapAngle;
     }
 }

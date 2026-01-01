@@ -27,6 +27,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
         [Header("Setpoints")]
         [SerializeField] private float safeDistance = 1.6f;
+        [SerializeField] private float climberNoWrapAngle = -100f;
         [SerializeField] private GRRSetpoint stow;
         [SerializeField] private GRRSetpoint coralIntake;
         [SerializeField] private GRRSetpoint coralStow;
@@ -49,10 +50,10 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [SerializeField] private GamePieceState coralStowState;
 
         [Header("Audio")]
-        [SerializeField] private AudioSource intakeAudioSource;
-        [SerializeField] private AudioClip intakeAudioClip;
         [SerializeField] private AudioSource gooseAudioSource;
         [SerializeField] private AudioClip gooseAudioClip;
+        [SerializeField] private AudioSource intakeAudioSource;
+        [SerializeField] private AudioClip intakeAudioClip;
 
         [Header("Goose Wheel Animation")]
         [SerializeField] private GenericAnimationJoint[] gooseAnimationWheels;
@@ -65,8 +66,10 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _coralController;
 
         private bool _alreadyPlaced = false;
-        private float _placeAudioStartTime = -1f;
+        private float _placingUntil = 0f;
 
+        private float _gooseWheels;
+        private float _intakeWheels;
         private float _wristAngle;
         private float _elevatorDistance;
         private float _climberAngle;
@@ -88,19 +91,19 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             _coralController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Coral.ToString());
             _coralController.gamePieceStates = new[] { coralIntakeState, coralStowState };
             _coralController.intakes.Add(coralIntakeComponent);
-
-            if (intakeAudioSource != null && intakeAudioClip != null)
-            {
-                intakeAudioSource.clip = intakeAudioClip;
-                intakeAudioSource.loop = true;
-                intakeAudioSource.Stop();
-            }
             
             if (gooseAudioSource != null && gooseAudioClip != null)
             {
                 gooseAudioSource.clip = gooseAudioClip;
                 gooseAudioSource.loop = true;
                 gooseAudioSource.Stop();
+            }
+
+            if (intakeAudioSource != null && intakeAudioClip != null)
+            {
+                intakeAudioSource.clip = intakeAudioClip;
+                intakeAudioSource.loop = true;
+                intakeAudioSource.Stop();
             }
         }
 
@@ -117,16 +120,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
             if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
             {
-                if (intakeAudioSource != null && intakeAudioSource.isPlaying)
-                {
-                    intakeAudioSource.Stop();
-                }
-
-                if (gooseAudioSource != null && gooseAudioSource.isPlaying)
-                {
-                    gooseAudioSource.Stop();
-                }
-
+                intakeAudioSource?.Stop();
+                gooseAudioSource?.Stop();
                 return;
             }
 
@@ -137,6 +132,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
             if (autoPlace) SetState(ReefscapeSetpoints.Place);
             if (CurrentSetpoint != ReefscapeSetpoints.Place) _alreadyPlaced = false;
+
+            bool playIntakeAudio = false;
 
             switch (CurrentSetpoint)
             {
@@ -174,7 +171,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                         _alreadyPlaced = true;
                     }
 
-                    SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
+                    if (Time.time < _placingUntil) SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
                     if (_alreadyPlaced && safe) SetSetpoint(stow);
                     break;
                 case ReefscapeSetpoints.L1:
@@ -211,62 +208,13 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     throw new System.ArgumentOutOfRangeException();
             }
 
-            // Play funnel audio when actively intaking coral (same condition as intake wheels)
-            bool isIntaking = (CurrentSetpoint == ReefscapeSetpoints.Stow || CurrentSetpoint == ReefscapeSetpoints.Intake) &&
-                              !coralSeated && IntakeAction.IsPressed() && safe;
-            
-            if (isIntaking)
-            {
-                if (intakeAudioSource != null && !intakeAudioSource.isPlaying)
-                {
-                    intakeAudioSource.Play();
-                }
-            }
-            else
-            {
-                if (intakeAudioSource != null && intakeAudioSource.isPlaying)
-                {
-                    intakeAudioSource.Stop();
-                }
-            }
-
-            // Play goose audio when at algae setpoints or when actually scoring (Place setpoint)
-            bool isAtAlgae = CurrentSetpoint == ReefscapeSetpoints.LowAlgae ||
-                             CurrentSetpoint == ReefscapeSetpoints.HighAlgae;
-            
-            bool isScoring = CurrentSetpoint == ReefscapeSetpoints.Place;
-            
-            // Track when we enter Place setpoint for timing the audio
-            if (isScoring && _placeAudioStartTime < 0)
-            {
-                _placeAudioStartTime = Time.time;
-            }
-            else if (!isScoring)
-            {
-                _placeAudioStartTime = -1f;
-            }
-            
-            // Check if Place audio should still be playing (0.75 seconds)
-            bool shouldPlayPlaceAudio = isScoring && 
-                                        _placeAudioStartTime >= 0 && 
-                                        (Time.time - _placeAudioStartTime) < 0.45f;
-            
-            if (isAtAlgae || shouldPlayPlaceAudio)
-            {
-                if (gooseAudioSource != null && !gooseAudioSource.isPlaying)
-                {
-                    gooseAudioSource.Play();
-                }
-            }
-            else
-            {
-                if (gooseAudioSource != null && gooseAudioSource.isPlaying)
-                {
-                    gooseAudioSource.Stop();
-                }
-            }
-
             UpdateSetpoints();
+        }
+
+        private void SetWheelSpeeds(float goose, float intake)
+        {
+            _gooseWheels = goose;
+            _intakeWheels = intake;
         }
 
         private void SetSetpoint(GRRSetpoint setpoint)
@@ -275,31 +223,6 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             _wristAngle = setpoint.wristTarget;
             _elevatorDistance = setpoint.elevatorDistance;
             _climberAngle = setpoint.climberTarget;
-        }
-
-        private void UpdateSetpoints()
-        {
-            var wristAngleCall = wrist.SetTargetAngle(_wristAngle).withAxis(JointAxis.X).flipDirection();
-            if (_currentSetpoint != null && _currentSetpoint.wristNoWrapAngle != 360)
-            {
-                wristAngleCall.noWrap(_currentSetpoint.wristNoWrapAngle);
-            }
-            else
-            {
-                wrist.noWrap = false;
-            }
-            
-            elevator.SetTarget(_elevatorDistance);
-            
-            var climberAngleCall = climber.SetTargetAngle(_climberAngle).withAxis(JointAxis.Z).flipDirection();
-            if (_currentSetpoint != null && _currentSetpoint.climberNoWrapAngle != 360)
-            {
-                climberAngleCall.noWrap(_currentSetpoint.climberNoWrapAngle);
-            }
-            else
-            {
-                climber.noWrap = false;
-            }
         }
 
         private IEnumerator PlacePiece()
@@ -319,7 +242,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     break;
             }
 
-            if (CurrentRobotMode == ReefscapeRobotMode.Coral && _coralController.HasPiece())
+            if (_coralController.HasPiece() && _coralController.atTarget && CurrentRobotMode == ReefscapeRobotMode.Coral)
             {
                 var time = 0.3f;
                 var force = new Vector3(0, 0, 4f);
@@ -331,40 +254,58 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     force = new Vector3(0, 0.4f, 0.6f);
                     maxSpeed = 5f;
                 }
-
                 else if (LastSetpoint == ReefscapeSetpoints.L1)
                 {
                     time = 0.4f;
                     force = new Vector3(0, 0f, 3f);
                     maxSpeed = 0.5f;
                 }
-
-                // Reverse force if coral is in stow position
-                // Check if we came from Stow/Intake position and coral was in stow state
-                bool isInStow = (LastSetpoint == ReefscapeSetpoints.Stow || LastSetpoint == ReefscapeSetpoints.Intake) &&
-                                 _coralController.GetCurrentState() == coralStowState;
-                
-                if (isInStow)
+                else if (LastSetpoint == ReefscapeSetpoints.Stow || LastSetpoint == ReefscapeSetpoints.Intake)
                 {
-                    force = -force;
+                    time = 0.3f;
+                    force = new Vector3(0, 0f, -1f);
+                    maxSpeed = 1.2f;
                 }
 
+                _placingUntil = Time.time + time;
                 _coralController.ReleaseGamePieceWithContinuedForce(force, time, maxSpeed);
             }
             
             yield break;
         }
 
-        private void SetWheelSpeeds(float goose, float intake)
+        private void UpdateSetpoints()
         {
+            wrist.SetTargetAngle(_wristAngle).withAxis(JointAxis.X).flipDirection();
+            elevator.SetTarget(_elevatorDistance);
+            climber.SetTargetAngle(_climberAngle).withAxis(JointAxis.Z).flipDirection().noWrap(climberNoWrapAngle);
+
             for (int i = 0; i < gooseAnimationWheels.Length; i++)
             {
-                gooseAnimationWheels[i].VelocityRoller(goose * (i < 3 ? -1 : 1));
+                gooseAnimationWheels[i].VelocityRoller(_gooseWheels * (i < 3 ? -1 : 1));
+            }
+
+            if (Mathf.Abs(_gooseWheels) > 1e-6)
+            {
+                if (gooseAudioSource?.isPlaying != true) gooseAudioSource?.Play();
+            }
+            else
+            {
+                gooseAudioSource?.Stop();
             }
 
             for (int i = 0; i < intakeAnimationWheels.Length; i++)
             {
-                intakeAnimationWheels[i].VelocityRoller(intake * (i < 2 ? 1 : -1));
+                intakeAnimationWheels[i].VelocityRoller(_intakeWheels * (i < 2 ? 1 : -1));
+            }
+
+            if (Mathf.Abs(_intakeWheels) > 1e-6)
+            {
+                if (intakeAudioSource?.isPlaying != true) intakeAudioSource?.Play();
+            }
+            else
+            {
+                intakeAudioSource?.Stop();
             }
         }
     }
