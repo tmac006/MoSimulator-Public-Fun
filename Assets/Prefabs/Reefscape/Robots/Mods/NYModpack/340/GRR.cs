@@ -135,8 +135,6 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             if (autoPlace) SetState(ReefscapeSetpoints.Place);
             if (CurrentSetpoint != ReefscapeSetpoints.Place) _alreadyPlaced = false;
 
-            bool playIntakeAudio = false;
-
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stack:
