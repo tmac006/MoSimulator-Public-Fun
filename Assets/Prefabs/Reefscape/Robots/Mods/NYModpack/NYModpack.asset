@@ -15,7 +15,7 @@ MonoBehaviour:
   modpackName: NY Modpack
   modpackVersion: 1.0.0
   authorName: Trent (340), Bryce (340), and Seb (694)
-  description: Fun Collection of New York Teams
+  description: 
   robots:
   - {fileID: 11400000, guid: bf13614c2c3c5c24eaadbd50f5093984, type: 2}
   - {fileID: 11400000, guid: bfdebe1f0a53291449a1e9b7c15a2271, type: 2}

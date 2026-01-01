@@ -95,6 +95,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             if (gooseAudioSource != null && gooseAudioClip != null)
             {
                 gooseAudioSource.clip = gooseAudioClip;
+                intakeAudioSource.volume = 0.2f;
                 gooseAudioSource.loop = true;
                 gooseAudioSource.Stop();
             }
@@ -102,6 +103,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             if (intakeAudioSource != null && intakeAudioClip != null)
             {
                 intakeAudioSource.clip = intakeAudioClip;
+                intakeAudioSource.volume = 0.2f;
                 intakeAudioSource.loop = true;
                 intakeAudioSource.Stop();
             }

@@ -6052,7 +6052,7 @@ MonoBehaviour:
   _SortingLayerID: 0
   _SortingOrder: 0
   m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 4752811472548126128}
+  m_renderer: {fileID: 12633458198601760}
   m_maskType: 0
 --- !u!1 &481817934702011314
 GameObject:
@@ -19099,7 +19099,7 @@ MonoBehaviour:
   _SortingLayerID: 0
   _SortingOrder: 0
   m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 4752811472548126128}
+  m_renderer: {fileID: 3362981490481097568}
   m_maskType: 0
 --- !u!1 &1442345462196661426
 GameObject:
@@ -24794,7 +24794,7 @@ MonoBehaviour:
   _SortingLayerID: 0
   _SortingOrder: 0
   m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 4752811472548126128}
+  m_renderer: {fileID: 615739172552130446}
   m_maskType: 0
 --- !u!1 &1870224291855973732
 GameObject:
@@ -74547,6 +74547,7 @@ MonoBehaviour:
     Max: 1.5
     Isaturation: 0
   safeDistance: 1.6
+  climberNoWrapAngle: -100
   stow: {fileID: 11400000, guid: d514a2d7736fe784a8a8e20f1b52aeb9, type: 2}
   coralIntake: {fileID: 11400000, guid: 350ab1ca4b8613a4da73528e884b3ee1, type: 2}
   coralStow: {fileID: 11400000, guid: dc702507740eda940a777586f5fed462, type: 2}
@@ -74577,10 +74578,10 @@ MonoBehaviour:
     stateTarget: {fileID: 3729205841098675400}
     smoothHandoff: 0
     angularSpeed: 540
+  gooseAudioSource: {fileID: 1124702984704368395}
+  gooseAudioClip: {fileID: 8300000, guid: bad13d7e08522374d8b53b84d9873a54, type: 3}
   intakeAudioSource: {fileID: 2089935199074200190}
   intakeAudioClip: {fileID: 8300000, guid: c14afd4ff3d1fb2458302bc263109f73, type: 3}
-  gooseAudioSource: {fileID: 1124702984704368395}
-  gooseAudioClip: {fileID: 8300000, guid: 602fb269d44b4964d8d4881108b75f19, type: 3}
   gooseAnimationWheels:
   - {fileID: 3299604546102114655}
   - {fileID: 1227249501912366965}

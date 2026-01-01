@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GRR
   m_EditorClassIdentifier: 
   teamNumber: 340
-  teamName: G.R.R
+  teamName: G.R.R.
   robotPrefab: {fileID: 6145107239193163244, guid: cf449a6043c39bd4289c3836effc5a37,
     type: 3}
   robotPreloadGamePiece: {fileID: 2185987706872048638, guid: 970bdf84a203d9a4b8dc602974341a07,
