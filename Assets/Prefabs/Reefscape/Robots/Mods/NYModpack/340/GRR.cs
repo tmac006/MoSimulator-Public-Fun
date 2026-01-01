@@ -128,7 +128,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             }
 
             bool hasCoral = _coralController.HasPiece();
-            bool coralSeated = _coralController.atTarget;
+            bool coralSeated = _coralController.atTarget && _coralController.GetCurrentState().Equals(coralStowState);
             bool autoPlace = autoAlign.InPosition();
             bool safe = autoAlign.ReefDistance() >= safeDistance;
 
