@@ -35791,7 +35791,7 @@ MonoBehaviour:
     kP: 30
     kI: 0.1
     kD: 1.65
-    Max: 1.25
+    Max: 1
     Isaturation: 1
   rotatePID:
     kP: 0.1
