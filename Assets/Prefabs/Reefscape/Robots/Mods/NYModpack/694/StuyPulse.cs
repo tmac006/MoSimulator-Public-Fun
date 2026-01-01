@@ -1,5 +1,7 @@
 using System;
+using Codice.CM.Common;
 using Games.Reefscape.Enums;
+using Games.Reefscape.FieldScripts;
 using Games.Reefscape.GamePieceSystem;
 using Games.Reefscape.Robots;
 using JetBrains.Annotations;
@@ -377,6 +379,15 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             if (CurrentSetpoint != ReefscapeSetpoints.Place)
             {
                 stillInPlaceState = false;
+            }
+
+            if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
+            {
+                CurrentCoralStationMode.DropType = DropType.Ground;
+            }
+            else
+            {
+                CurrentCoralStationMode.DropType = DropType.Station;
             }
             
             switch (CurrentSetpoint)
