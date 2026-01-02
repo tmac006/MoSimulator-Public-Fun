@@ -1,11 +1,12 @@
 using System;
 using Games.Reefscape.Enums;
-using Games.Reefscape.FieldScripts;
 using Games.Reefscape.GamePieceSystem;
 using Games.Reefscape.Robots;
+using JetBrains.Annotations;
 using MoSimCore.BaseClasses.GameManagement;
 using MoSimCore.Enums;
 using RobotFramework.Components;
+using RobotFramework.Controllers.Drivetrain;
 using RobotFramework.Controllers.GamePieceSystem;
 using RobotFramework.Controllers.PidSystems;
 using RobotFramework.Enums;
@@ -321,14 +322,6 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     roller.flipVelocity();
                 }
             }
-
-            if (shooterHasCoral)
-            {
-                _algaeController.RequestIntake(shooterAlgaeIntake, false);
-            } else if (shooterHasAlgae)
-            {
-                _coralController.RequestIntake(funnelCoralIntake, false);
-            }
             
             if (froggyCoralIntake.GamePiece != null)
             {
@@ -377,15 +370,6 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             {
                 stillInPlaceState = false;
             }
-
-            if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
-            {
-                CurrentCoralStationMode.DropType = DropType.Ground;
-            }
-            else
-            {
-                CurrentCoralStationMode.DropType = DropType.Station;
-            }
             
             switch (CurrentSetpoint)
             {
@@ -395,7 +379,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     {
                         col.enabled = false;
                     }
-                    _coralController.RequestIntake(funnelCoralIntake, CurrentIntakeMode != ReefscapeIntakeMode.L1 && !shooterHasCoral && !shooterHasAlgae);
+                    _coralController.RequestIntake(funnelCoralIntake, CurrentIntakeMode != ReefscapeIntakeMode.L1);
                     _coralController.RequestIntake(froggyCoralIntake, false);
                     _coralController.RequestIntake(shooterAlgaeIntake, false);
                     _algaeController.RequestIntake(froggyAlgaeIntake, false);
