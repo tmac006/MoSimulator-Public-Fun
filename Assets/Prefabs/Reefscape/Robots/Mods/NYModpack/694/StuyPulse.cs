@@ -256,6 +256,10 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     {
                         col.enabled = false;
                     }
+                    foreach (var col in shooterCollidersForAlgae)
+                    {
+                        col.enabled = false;
+                    }
                     _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
                 }
             }
