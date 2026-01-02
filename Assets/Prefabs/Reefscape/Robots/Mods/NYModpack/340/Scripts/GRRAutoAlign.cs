@@ -15,7 +15,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
         [Header("Wildlife Protection Program")]
         [Tooltip("Additional distance to add to the X offset for avoiding the reef while the robot's superstructure is preparing to score")]
-        public float avoidDistance = 0.18f;
+        public float avoidDistance = 0.25f;
         [Tooltip("The amount of time in seconds to avoid the reef for while the robot's superstructure is preparing to score")]
         public float avoidTime = 0.5f;
 
