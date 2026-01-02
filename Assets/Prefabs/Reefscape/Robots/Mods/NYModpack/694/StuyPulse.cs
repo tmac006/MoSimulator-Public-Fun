@@ -461,7 +461,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     }
                     break;
                 case ReefscapeSetpoints.Stack:
-                    if (!shooterHasCoral)
+                    if (!shooterHasCoral && !hasAlgae)
                     {
                         SetSetpoint(lollipopIntake);
                         _algaeController.SetTargetState(shooterAlgaeStowState);
@@ -489,7 +489,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     }
                     break;
                 case ReefscapeSetpoints.LowAlgae:
-                    if (!shooterHasCoral)
+                    if (!shooterHasCoral && !hasAlgae)
                     {
                         SetSetpoint(FacingReef ? frontLowAlgae : backLowAlgae);
                         _algaeController.SetTargetState(shooterAlgaeStowState);
@@ -513,7 +513,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     _algaeController.RequestIntake(froggyAlgaeIntake, false);
                     break;
                 case ReefscapeSetpoints.HighAlgae:
-                    if (!shooterHasCoral)
+                    if (!shooterHasCoral && !hasAlgae)
                     {
                         SetSetpoint(FacingReef ? frontHighAlgae : backHighAlgae);
                         _algaeController.SetTargetState(shooterAlgaeStowState);
