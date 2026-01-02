@@ -27,7 +27,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("Arbitrary strength force for centering the robot on the targeted reef pole")]
         public float strength = 250f;
         [Tooltip("The tolerance at which the controller signals that the robot is in position")]
-        public float positionTolerance = 0.08f;
+        public float positionTolerance = 0.05f;
 
         [Header("Rotation")]
         [Tooltip("Kp constant to apply to the robot's rotation")]

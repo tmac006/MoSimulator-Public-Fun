@@ -74615,7 +74615,7 @@ MonoBehaviour:
   maxVelocity: 17
   maxDeceleration: 32
   strength: 250
-  positionTolerance: 0.08
+  positionTolerance: 0.05
   rotateKp: 1
 --- !u!114 &8756483182333210291
 MonoBehaviour:
