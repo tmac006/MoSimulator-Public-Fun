@@ -74611,10 +74611,10 @@ MonoBehaviour:
   x: 1.3
   y: 0.17
   avoidDistance: 0.18
-  avoidTime: 0.45
+  avoidTime: 0.5
   maxVelocity: 17
   maxDeceleration: 32
-  strength: 475
+  strength: 250
   positionTolerance: 0.08
   rotateKp: 1
 --- !u!114 &8756483182333210291

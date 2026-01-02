@@ -17,7 +17,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("Additional distance to add to the X offset for avoiding the reef while the robot's superstructure is preparing to score")]
         public float avoidDistance = 0.18f;
         [Tooltip("The amount of time in seconds to avoid the reef for while the robot's superstructure is preparing to score")]
-        public float avoidTime = 0.45f;
+        public float avoidTime = 0.5f;
 
         [Header("Translation")]
         [Tooltip("The configured maximum velocity of the robot, in ft/s")]
@@ -25,7 +25,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("The maximum deceleration of the auto-align controller, in ft/s/s")]
         public float maxDeceleration = 32.0f;
         [Tooltip("Arbitrary strength force for centering the robot on the targeted reef pole")]
-        public float strength = 475f;
+        public float strength = 250f;
         [Tooltip("The tolerance at which the controller signals that the robot is in position")]
         public float positionTolerance = 0.08f;
 
@@ -95,8 +95,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                 var proj = Rotate2(robot - pole, -Mathf.Atan2(att.y, att.x));
                 if (proj.x > 0.0 && proj.x < SL - rk_x)
                 {
-                    float t = Mathf.Abs(proj.y) / SW / 2f;
-                    float m = -strength * t * t * Mathf.Sign(proj.y);
+                    float t = proj.y / SW / 2f;
+                    float m = -strength * t * t * Mathf.Sign(proj.y) / Mathf.Abs(proj.x);
                     force += m * Rotate2(Vector2.down, rk_w);
                 }
 
