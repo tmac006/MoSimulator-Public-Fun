@@ -125,11 +125,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                 intakeAudioSource?.Stop();
                 gooseAudioSource?.Stop();
 
-                climber
-                    .SetTargetAngle(climber.GetSingleAxisAngle(JointAxis.Z))
-                    .withAxis(JointAxis.Z)
-                    .flipDirection()
-                    .noWrap(climberNoWrapAngle);
+                climber.SetTargetAngle(_climberAngle).withAxis(JointAxis.Z).flipDirection().noWrap(climberNoWrapAngle);
 
                 return;
             }
@@ -160,11 +156,11 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                         }
                         else
                         {
-                            if (IntakeAction.IsPressed()) _coralController.SetTargetState(coralStowState);
+                            _coralController.SetTargetState(coralStowState);
                             SetSetpoint(!coralSeated ? coralIntake : coralStow);
                         }
                 
-                        if (!coralSeated && IntakeAction.IsPressed())
+                        if ((hasCoral && !coralSeated) || IntakeAction.IsPressed())
                         {
                             SetWheelSpeeds(gooseAnimationWheelSpeed, intakeAnimationWheelSpeed);
                         }
@@ -196,14 +192,18 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     if (coralSeated) SetSetpoint(l4);
                     break;
                 case ReefscapeSetpoints.LowAlgae:
-                    SetSetpoint(lowAlgae);
-                    // Move rollers on algae setpoints (same as outtake)
-                    SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
+                    if (!hasCoral)
+                    {
+                        SetSetpoint(lowAlgae);
+                        SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
+                    }
                     break;
                 case ReefscapeSetpoints.HighAlgae:
-                    SetSetpoint(highAlgae);
-                    // Move rollers on algae setpoints (same as outtake)
-                    SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
+                    if (!hasCoral)
+                    {
+                        SetSetpoint(highAlgae);
+                        SetWheelSpeeds(-gooseAnimationWheelSpeed, 0);
+                    }
                     break;
                 case ReefscapeSetpoints.Climb:
                     SetSetpoint(climb);
@@ -235,43 +235,40 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         private IEnumerator PlacePiece()
         {
             if (_alreadyPlaced) yield break;
-            
-            switch (LastSetpoint)
-            {
-                case ReefscapeSetpoints.L4:
-                    SetSetpoint(l4Place);
-                    break;
-                case ReefscapeSetpoints.L3:
-                    SetSetpoint(l3Place);
-                    break;
-                case ReefscapeSetpoints.L2:
-                    SetSetpoint(l2Place);
-                    break;
-            }
 
             if (_coralController.HasPiece() && _coralController.atTarget && CurrentRobotMode == ReefscapeRobotMode.Coral)
             {
-                var time = 0.3f;
-                var force = new Vector3(0, 0, 4f);
-                var maxSpeed = 0.8f;
+                float time;
+                float maxSpeed;
+                Vector3 force;
 
-                if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.Barge)
+                if (_currentSetpoint == l4)
                 {
                     time = 0.35f;
-                    force = new Vector3(0, 0.4f, 0.6f);
                     maxSpeed = 5f;
+                    force = new Vector3(0, 0.4f, 0.6f);
+
+                    SetSetpoint(l4Place);
                 }
-                else if (LastSetpoint == ReefscapeSetpoints.L1)
-                {
-                    time = 0.4f;
-                    force = new Vector3(0, 0f, 3f);
-                    maxSpeed = 0.5f;
-                }
-                else if (LastSetpoint == ReefscapeSetpoints.Stow || LastSetpoint == ReefscapeSetpoints.Intake)
+                else if (_currentSetpoint == l3 || _currentSetpoint == l2)
                 {
                     time = 0.3f;
-                    force = new Vector3(0, 0f, -1f);
+                    maxSpeed = 0.8f;
+                    force = new Vector3(0, 0, 4f);
+
+                    SetSetpoint(_currentSetpoint == l3 ? l3Place : l2Place);
+                }
+                else if (_currentSetpoint == l1Left || _currentSetpoint == l1Right)
+                {
+                    time = 0.4f;
+                    maxSpeed = 0.5f;
+                    force = new Vector3(0, 0f, 3f);
+                }
+                else
+                {
+                    time = 0.3f;
                     maxSpeed = 1.2f;
+                    force = new Vector3(0, 0f, -1f);
                 }
 
                 _placingUntil = Time.time + time;
