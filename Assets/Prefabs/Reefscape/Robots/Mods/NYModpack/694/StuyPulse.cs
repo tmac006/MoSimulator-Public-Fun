@@ -107,12 +107,17 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
         [SerializeField] private AudioSource froggyAudioSource;
         [SerializeField] private AudioClip froggyAudioClip;
         
+        [Header("Animation Wheel Sets")]
+        [SerializeField] private GenericAnimationJoint[] shooterWheelsTop;
+        [SerializeField] private GenericAnimationJoint[] shooterBottomWheels;
+        [SerializeField] private float shooterAnimationWheelSpeeds = 300;
         
+        [SerializeField] private GenericAnimationJoint[] froggyGreenRollerWheels;
+        [SerializeField] private GenericAnimationJoint[] froggyOrangeRollerWheels;
+        [SerializeField] private float froggyAnimationWheelSpeeds = 150;
         
-        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode
-            _coralController;
-        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode
-            _algaeController;
+        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _coralController;
+        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _algaeController;
 
         private float _elevatorTargetHeight;
         private float _eeArmTargetAngle;
@@ -131,6 +136,9 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
         private bool _isIntaking;
         private float _outtakeAudioUntil = 0f;
         private float _froggyOuttakeAudioUntil = 0f;
+
+        private float froggyWheelSpeeds;
+        private float shooterWheelSpeeds;
         
         protected override void Start()
         {
@@ -204,6 +212,12 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             _climbPivot2TargetAngle = setpoint.climbPivot2Angle;
         }
 
+        private void SetWheelSpeeds(float fog, float shot)
+        {
+            froggyWheelSpeeds = -fog;
+            shooterWheelSpeeds = shot;
+        }
+
         private void UpdateSetpoints()
         {
             elevator.SetTarget(_elevatorTargetHeight);
@@ -258,6 +272,26 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             else
             {
                 endEffectorAudioSource?.Stop();
+            }
+
+            foreach (var joint in froggyOrangeRollerWheels)
+            {
+                joint.VelocityRoller(froggyWheelSpeeds);
+            }
+
+            foreach (var joint in froggyGreenRollerWheels)
+            {
+                joint.VelocityRoller(-froggyWheelSpeeds);
+            }
+
+            foreach (var joint in shooterWheelsTop)
+            {
+                joint.VelocityRoller(shooterWheelSpeeds);
+            }
+
+            foreach (var joint in shooterBottomWheels)
+            {
+                joint.VelocityRoller(-shooterWheelSpeeds);
             }
         }
 
@@ -316,6 +350,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             
             if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint != ReefscapeSetpoints.L2 && LastSetpoint != ReefscapeSetpoints.L3 && LastSetpoint != ReefscapeSetpoints.L4 && _coralController.HasPiece() && !(_coralController.currentStateNum == shooterCoralStowState.stateNum && _coralController.atTarget))
             {
+                SetWheelSpeeds(-froggyAnimationWheelSpeeds, 0);
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, 2, 0));
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Algae || !_coralController.atTarget) && _algaeController.HasPiece())
@@ -327,6 +362,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         col.enabled = false;
                     }
                     _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3.3f, 7.6f));
+                    SetWheelSpeeds(0, shooterAnimationWheelSpeeds*1.5f);
                 } else if (_algaeController.currentStateNum == shooterAlgaeStowState.stateNum && LastSetpoint == ReefscapeSetpoints.Processor)
                 {
                     foreach (var col in shooterCollidersForAlgae)
@@ -334,6 +370,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         col.enabled = false;
                     }
                     _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
+                    SetWheelSpeeds(0, shooterAnimationWheelSpeeds/.75f);
                 }
                 else
                 {
@@ -346,6 +383,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         col.enabled = false;
                     }
                     _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
+                    SetWheelSpeeds(froggyAnimationWheelSpeeds, 0);
                 }
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint == ReefscapeSetpoints.L4)
@@ -353,14 +391,17 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 _coralController.ReleaseGamePieceWithForce(FacingReef
                                                             ? new Vector3(0, 0, -6)
                                                             : new Vector3(0, 0, 5));
+                SetWheelSpeeds(0, FacingReef ? -shooterAnimationWheelSpeeds : shooterAnimationWheelSpeeds);
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Coral || _algaeController.atTarget) && LastSetpoint == ReefscapeSetpoints.L1 && CurrentIntakeMode == ReefscapeIntakeMode.Normal)
             {
                 _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 3.5f), 0.2f, .9f);
+                SetWheelSpeeds(0, shooterAnimationWheelSpeeds);
             }
             else if (CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget)
             {
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 5));
+                SetWheelSpeeds(0, shooterAnimationWheelSpeeds);
             }
 
             stillInPlaceState = true;
@@ -387,6 +428,11 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 {
                     roller.flipVelocity();
                 }
+            }
+
+            if (!OuttakeAction.IsPressed() && !IntakeAction.IsPressed())
+            {
+                SetWheelSpeeds(0,0);
             }
 
             // Track if we're actively intaking (requesting intake and don't have piece)
@@ -504,6 +550,8 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     {
                         col.enabled = true;
                     }
+                    
+                    SetWheelSpeeds(0, shooterHasCoral || shooterHasAlgae ? 0 : shooterAnimationWheelSpeeds);
                     break;
                 case ReefscapeSetpoints.Intake:
 
@@ -517,6 +565,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         _coralController.RequestIntake(froggyCoralIntake);
                         _coralController.RequestIntake(funnelCoralIntake, false);
                         _isIntaking = true;
+                        SetWheelSpeeds(froggyAnimationWheelSpeeds, 0);
                     }
                     else if (CurrentRobotMode == ReefscapeRobotMode.Coral && !hasCoral && !shooterHasAlgae && CurrentIntakeMode != ReefscapeIntakeMode.L1)
                     {
@@ -525,6 +574,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         _coralController.RequestIntake(funnelCoralIntake);
                         _coralController.RequestIntake(froggyCoralIntake, false);
                         _isIntaking = true;
+                        SetWheelSpeeds(0, shooterAnimationWheelSpeeds);
                     }
                     else if (!hasCoral && (!hasAlgae || (hasAlgae && !shooterHasAlgae)) && (LastSetpoint == ReefscapeSetpoints.HighAlgae || LastSetpoint == ReefscapeSetpoints.LowAlgae || LastSetpoint == ReefscapeSetpoints.Stack))
                     {
@@ -532,6 +582,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         _algaeController.RequestIntake(shooterAlgaeIntake);
                         _algaeController.RequestIntake(froggyAlgaeIntake, false);
                         _isIntaking = true;
+                        SetWheelSpeeds(0, -shooterAnimationWheelSpeeds);
                     }
                     else if (CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae)
                     {
@@ -544,6 +595,8 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         froggyRollers[1].SetAngularVelocity(6000);
                         _froggyWheels = 6000f;
                         _isIntaking = true;
+                        
+                        SetWheelSpeeds(-froggyAnimationWheelSpeeds, 0);
                     }
                     
                     break;
