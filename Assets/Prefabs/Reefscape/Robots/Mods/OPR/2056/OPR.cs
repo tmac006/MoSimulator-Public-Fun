@@ -235,27 +235,6 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
                     }
                 }
 
-                // Don't auto-stow override while placing
-                bool allowAutoStowOverride = CurrentSetpoint != ReefscapeSetpoints.Place && !_isPlacingCoral;
-                
-                if (allowAutoStowOverride && (((_coralController.currentStateNum != coralArmStowState.stateNum && !_disruptable) &&
-                     !_coralController.atTarget) || _intakeSequenceRunning))
-                {
-                    if (!_disruptable && CurrentRobotMode != ReefscapeRobotMode.Coral && _intakeSequenceRunning &&
-                        !_algaeController.HasPiece())
-                    {
-                        _bufferAlgaeState = true;
-                        SetRobotMode(ReefscapeRobotMode.Coral);
-                    }
-                    else if (_disruptable && CurrentRobotMode != ReefscapeRobotMode.Coral)
-                    {
-                    }
-                    else
-                    {
-                        SetState(ReefscapeSetpoints.Stow);
-                    }
-                }
-
                 if ((!_intakeSequenceRunning && CurrentSetpoint != ReefscapeSetpoints.Intake) && _bufferedSetpoint != null)
                 {
                     SetState(_bufferedSetpoint.Value);
