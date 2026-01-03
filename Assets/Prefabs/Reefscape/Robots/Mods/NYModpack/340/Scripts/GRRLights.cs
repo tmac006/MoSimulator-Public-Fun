@@ -22,6 +22,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         public Texture climbing;
         public Texture autoAligning;
         public Texture hasCoral;
+        public Texture scored;
 
         private ReefscapeRobotBase _base;
         private GRRAutoAlign _autoAlign;
@@ -30,6 +31,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         private Material _leftMaterial;
         private Material _rightMaterial;
         private Material _topMaterial;
+
+        private float _lastCoral = 0f;
 
         private void Start()
         {
@@ -53,9 +56,11 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         {
             if (_base == null || _coralController == null) return;
 
+            bool coral = _coralController.HasPiece();
+
             if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
             {
-                SetSides(_base.Alliance == Alliance.Blue ? disabledBlue : disabledRed, 20f);
+                SetSides(_base.Alliance == Alliance.Blue ? disabledBlue : disabledRed, 10f);
                 SetTop(null, 0f);
             }
             else if (_base.CurrentSetpoint == ReefscapeSetpoints.Climb)
@@ -81,15 +86,21 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                     SetSides(null, 0f);
                 }
 
-                if (_coralController.HasPiece() && _coralController.atTarget)
+                if (coral)
                 {
                     SetTop(hasCoral, blink);
+                }
+                else if (Time.time < _lastCoral + 1.2f)
+                {
+                    SetTop(scored, Time.time % 0.18 > 0.09 ? 20f : 0f);
                 }
                 else
                 {
                     SetTop(null, 0f);
                 }
             }
+
+            if (coral) _lastCoral = Time.time;
         }
 
         private void SetAll(Texture texture, float intensity)

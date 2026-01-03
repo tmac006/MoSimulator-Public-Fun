@@ -74939,6 +74939,7 @@ MonoBehaviour:
   climbing: {fileID: 2800000, guid: c2b5c3a2f2e8eb347a43648842fbcb73, type: 3}
   autoAligning: {fileID: 2800000, guid: a3571a6ac8d6ebe4b8dbfbe129d94d9a, type: 3}
   hasCoral: {fileID: 2800000, guid: a3571a6ac8d6ebe4b8dbfbe129d94d9a, type: 3}
+  scored: {fileID: 2800000, guid: c2b5c3a2f2e8eb347a43648842fbcb73, type: 3}
 --- !u!114 &4650330038648231244
 MonoBehaviour:
   m_ObjectHideFlags: 0
