@@ -33,8 +33,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("Kp constant to apply to the robot's rotation")]
         public float rotateKp = 1f;
 
-        private DriveController _driveController;
         private ReefscapeRobotBase _base;
+        private DriveController _driveController;
         private bool _usePerspective;
         private Vector2 _blueReef;
         private Vector2 _redReef;
@@ -47,8 +47,8 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
         protected void Start()
         {
-            _driveController = gameObject.GetComponent<DriveController>();
             _base = gameObject.GetComponent<ReefscapeRobotBase>();
+            _driveController = gameObject.GetComponent<DriveController>();
             _usePerspective = PlayerPrefs.GetInt("PerspectiveAutoAlign", 1) == 1;
             _blueReef = Vec3ToVec2(GameObject.Find("BlueReef").transform.position);
             _redReef = Vec3ToVec2(GameObject.Find("RedReef").transform.position);
