@@ -124,6 +124,13 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             {
                 intakeAudioSource?.Stop();
                 gooseAudioSource?.Stop();
+
+                climber
+                    .SetTargetAngle(climber.GetSingleAxisAngle(JointAxis.Z))
+                    .withAxis(JointAxis.Z)
+                    .flipDirection()
+                    .noWrap(climberNoWrapAngle);
+
                 return;
             }
 
