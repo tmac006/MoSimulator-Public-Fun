@@ -383,6 +383,13 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             {
                 CurrentCoralStationMode.DropType = DropType.Station;
             }
+
+            if (LastSetpoint == ReefscapeSetpoints.Intake && CurrentIntakeMode == ReefscapeIntakeMode.L1 && !hasCoral && CurrentRobotMode == ReefscapeRobotMode.Coral)
+            {
+                _coralController.SetTargetState(froggyCoralStowState);
+                _coralController.RequestIntake(froggyCoralIntake, true);
+                _coralController.RequestIntake(funnelCoralIntake, false);
+            }
             
             switch (CurrentSetpoint)
             {
@@ -393,7 +400,6 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         col.enabled = false;
                     }
                     _coralController.RequestIntake(funnelCoralIntake, CurrentIntakeMode != ReefscapeIntakeMode.L1 && !shooterHasCoral && !shooterHasAlgae);
-                    _coralController.RequestIntake(froggyCoralIntake, false);
                     _coralController.RequestIntake(shooterAlgaeIntake, false);
                     _algaeController.RequestIntake(froggyAlgaeIntake, false);
                     foreach (var col in shooterCollidersForAlgae)
