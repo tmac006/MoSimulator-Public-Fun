@@ -47415,7 +47415,7 @@ ConfigurableJoint:
   m_YDrive:
     serializedVersion: 4
     positionSpring: 100000
-    positionDamper: 20000
+    positionDamper: 50000
     maximumForce: 3.4028233e+38
     useAcceleration: 0
   m_ZDrive:
@@ -88592,7 +88592,7 @@ ConfigurableJoint:
   m_YDrive:
     serializedVersion: 4
     positionSpring: 100000
-    positionDamper: 20000
+    positionDamper: 50000
     maximumForce: 3.4028233e+38
     useAcceleration: 0
   m_ZDrive:
