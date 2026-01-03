@@ -41671,7 +41671,7 @@ MonoBehaviour:
   avoidDistance: 0
   avoidTime: 0
   maxVelocity: 14
-  maxDeceleration: 15.25
+  maxDeceleration: 14.55
   strength: 250
   positionTolerance: 0.05
   rotateKp: 1
