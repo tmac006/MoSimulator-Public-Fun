@@ -97059,7 +97059,7 @@ Transform:
   m_GameObject: {fileID: 7263511761553267103}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.11, z: 0.012}
+  m_LocalPosition: {x: -0, y: 0.117, z: 0.012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100529,7 +100529,7 @@ Transform:
   m_GameObject: {fileID: 7471363819826098802}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7699566, y: -0, z: -0, w: -0.6380962}
-  m_LocalPosition: {x: -0.0009, y: 0.2044, z: -0.1499}
+  m_LocalPosition: {x: -0.0009, y: 0.2058, z: -0.1427}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -100556,11 +100556,11 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 39
-  intakeForce: 157
+  intakeSpeed: 20
+  intakeForce: 50
   usePlanarTolerancing: 1
-  boxExtents: {x: 12.1, y: 2, z: 3}
-  maxDistance: 9.03
+  boxExtents: {x: 15.7, y: 2.94, z: 3.43}
+  maxDistance: 7.41
   accuracy: 7.05
   lockXAxis: 1
   lockYAxis: 0
