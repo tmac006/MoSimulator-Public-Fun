@@ -481,7 +481,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 froggyAlgaeSlider.localPosition = new Vector3(localSliderSpaceX, 0, 0);
             }
 
-            if (CurrentIntakeMode == ReefscapeIntakeMode.L1 && (CurrentSetpoint == ReefscapeSetpoints.Place || LastSetpoint == ReefscapeSetpoints.Place || CurrentSetpoint == ReefscapeSetpoints.L1))
+            if (CurrentIntakeMode == ReefscapeIntakeMode.L1 && (CurrentSetpoint == ReefscapeSetpoints.Place || LastSetpoint == ReefscapeSetpoints.Place || CurrentSetpoint == ReefscapeSetpoints.L1 || (hasCoral && !shooterHasCoral)))
             {
                 foreach (var col in froggyRollerColliders)
                 {
