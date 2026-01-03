@@ -74848,11 +74848,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 1.3
   y: 0.17
-  avoidDistance: 0.25
+  avoidDistance: 0.3
   avoidTime: 0.5
   maxVelocity: 17
   maxDeceleration: 32
-  strength: 250
+  strength: 200
   positionTolerance: 0.05
   rotateKp: 1
 --- !u!114 &8756483182333210291

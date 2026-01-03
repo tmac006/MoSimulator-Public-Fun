@@ -15,7 +15,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
         [Header("Wildlife Protection Program")]
         [Tooltip("Additional distance to add to the X offset for avoiding the reef while the robot's superstructure is preparing to score")]
-        public float avoidDistance = 0.25f;
+        public float avoidDistance = 0.3f;
         [Tooltip("The amount of time in seconds to avoid the reef for while the robot's superstructure is preparing to score")]
         public float avoidTime = 0.5f;
 
@@ -25,7 +25,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("The maximum deceleration of the auto-align controller, in ft/s/s")]
         public float maxDeceleration = 32.0f;
         [Tooltip("Arbitrary strength force for centering the robot on the targeted reef pole")]
-        public float strength = 250f;
+        public float strength = 200f;
         [Tooltip("The tolerance at which the controller signals that the robot is in position")]
         public float positionTolerance = 0.05f;
 
