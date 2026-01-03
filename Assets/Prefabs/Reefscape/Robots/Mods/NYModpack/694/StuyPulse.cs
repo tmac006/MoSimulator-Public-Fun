@@ -241,7 +241,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     {
                         col.enabled = false;
                     }
-                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 4, 8));
+                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3.3f, 7.6f));
                 } else if (_algaeController.currentStateNum == shooterAlgaeStowState.stateNum && LastSetpoint == ReefscapeSetpoints.Processor)
                 {
                     foreach (var col in shooterCollidersForAlgae)
