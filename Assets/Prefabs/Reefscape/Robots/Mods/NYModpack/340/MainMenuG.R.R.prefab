@@ -3139,6 +3139,7 @@ GameObject:
   - component: {fileID: 8175736120397627143}
   - component: {fileID: 4418364423669427598}
   - component: {fileID: 7554893327318600751}
+  - component: {fileID: 5128814365307602159}
   m_Layer: 0
   m_Name: Solid2.077
   m_TagString: Untagged
@@ -3213,6 +3214,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5128814365307602159
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391580551936273014}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.32385, y: 0.006350009, z: 0.5079999}
+  m_Center: {x: -0.020955063, y: -0.0031750002, z: -0.000000010192428}
 --- !u!1 &391633266208644075
 GameObject:
   m_ObjectHideFlags: 0
@@ -55556,6 +55578,7 @@ GameObject:
   - component: {fileID: 6574542301299609116}
   - component: {fileID: 1333615699729255938}
   - component: {fileID: 8145321953650725370}
+  - component: {fileID: 3163187777327530151}
   m_Layer: 0
   m_Name: Solid2.081
   m_TagString: Untagged
@@ -55630,6 +55653,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3163187777327530151
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4881204630085756334}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.26086983, y: 0.3334765, z: 0.21231492}
+  m_Center: {x: 0.07164254, y: 0.16673827, z: -0.04511994}
 --- !u!1 &4887227220640495464
 GameObject:
   m_ObjectHideFlags: 0
@@ -62898,6 +62942,7 @@ GameObject:
   - component: {fileID: 5480442457344434935}
   - component: {fileID: 6311885846627631768}
   - component: {fileID: 7544862432466700243}
+  - component: {fileID: 9044568164292394817}
   m_Layer: 0
   m_Name: Solid2.078
   m_TagString: Untagged
@@ -62972,6 +63017,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9044568164292394817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5537271064392910027}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2608699, y: 0.33347657, z: 0.21231496}
+  m_Center: {x: 0.071642525, y: -0.16673829, z: -0.04511996}
 --- !u!1 &5543771034669956648
 GameObject:
   m_ObjectHideFlags: 0
@@ -87779,6 +87845,7 @@ GameObject:
   - component: {fileID: 6699046277936335150}
   - component: {fileID: 5969315610175370059}
   - component: {fileID: 5980711374988965638}
+  - component: {fileID: 7822510496730494886}
   m_Layer: 6
   m_Name: Solid1.844
   m_TagString: Untagged
@@ -87854,6 +87921,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7822510496730494886
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7818124237185858112}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9144004, y: 0.9144, z: 0.15398766}
+  m_Center: {x: 0, y: 0, z: 0.000000007450581}
 --- !u!1 &7822761517837410817
 GameObject:
   m_ObjectHideFlags: 0
@@ -92785,7 +92873,7 @@ Transform:
   m_GameObject: {fileID: 8279164426956462189}
   serializedVersion: 2
   m_LocalRotation: {x: -5.06888e-16, y: 0.7071067, z: 0.7071069, w: 5.0259473e-16}
-  m_LocalPosition: {x: 0, y: 0.11349355, z: 0}
+  m_LocalPosition: {x: 0, y: 0.105, z: 0}
   m_LocalScale: {x: 99.999985, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
