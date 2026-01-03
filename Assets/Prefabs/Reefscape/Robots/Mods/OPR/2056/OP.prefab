@@ -41668,12 +41668,12 @@ MonoBehaviour:
   l2Offset: {fileID: 11400000, guid: 6e26a3a7733822141ac7b7fc8d3a3fa1, type: 2}
   l1Offset: {fileID: 11400000, guid: 077d29af2c54c4f4cbc8a1a9a70341b5, type: 2}
   noneOffset: {fileID: 11400000, guid: 8b95078559db75649b02fff7ec36447b, type: 2}
-  avoidDistance: 0
-  avoidTime: 0
-  maxVelocity: 14
-  maxDeceleration: 14.55
-  strength: 250
-  positionTolerance: 0.05
+  avoidDistance: 0.25
+  avoidTime: 0.4
+  maxVelocity: 17.5
+  maxDeceleration: 29
+  strength: 150
+  positionTolerance: 0.00001
   rotateKp: 1
 --- !u!1 &3010813242046372179
 GameObject:
