@@ -160,7 +160,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                             SetSetpoint(!coralSeated ? coralIntake : coralStow);
                         }
                 
-                        if ((hasCoral && !coralSeated) || IntakeAction.IsPressed())
+                        if (!coralSeated || IntakeAction.IsPressed())
                         {
                             SetWheelSpeeds(gooseAnimationWheelSpeed, intakeAnimationWheelSpeed);
                         }
