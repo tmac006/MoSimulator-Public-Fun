@@ -280,12 +280,6 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
                 case ReefscapeSetpoints.Place:
                     // Force place setpoint every frame while in Place (but DON'T return - allow Place logic to run)
                     ApplyPlaceSetpoint();
-                    
-                    if (LastSetpoint == ReefscapeSetpoints.Stow && coralAtEE)
-                    {
-                        SetState(ReefscapeSetpoints.Stow);
-                        break;
-                    }
 
                     if (_algaeController.HasPiece())
                     {
@@ -390,8 +384,7 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
             _placeLock = true;
             _placeLockUntil = Time.time + 0.25f;
             
-            // Transition to Stow and stay there
-            SetState(ReefscapeSetpoints.Stow);
+            // Don't auto-stow after placing - let user control the setpoint
         }
 
         private void ApplyPlaceSetpoint()

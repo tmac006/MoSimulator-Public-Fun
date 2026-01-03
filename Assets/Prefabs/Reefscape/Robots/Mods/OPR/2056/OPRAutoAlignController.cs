@@ -109,7 +109,21 @@ namespace Games.Reefscape.Components
 
             var face = Rotate2((reef - robot).normalized, SIXTH_PI);
             float rk_w = Mathf.Floor(Mathf.Atan2(face.y, face.x) / THIRD_PI) * THIRD_PI;
-            _left = !_usePerspective ? c_l : cm_f ^ (Mathf.Abs(rk_w) < HALF_PI) ^ !c_l;
+            
+            // For "none" offset, always align to the same side (no flipping based on left/right input)
+            bool isNoneOffset = _base.CurrentSetpoint != ReefscapeSetpoints.L4 && 
+                               _base.CurrentSetpoint != ReefscapeSetpoints.L3 && 
+                               _base.CurrentSetpoint != ReefscapeSetpoints.L2 && 
+                               _base.CurrentSetpoint != ReefscapeSetpoints.L1;
+            
+            if (isNoneOffset)
+            {
+                _left = true; // Always use left side for none offset
+            }
+            else
+            {
+                _left = !_usePerspective ? c_l : cm_f ^ (Mathf.Abs(rk_w) < HALF_PI) ^ !c_l;
+            }
 
             bool waiting = Time.time < _waitUntil;
             _currentY = currentOffset.y;
