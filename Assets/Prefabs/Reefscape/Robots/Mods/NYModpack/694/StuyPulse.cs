@@ -136,6 +136,8 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
         private bool _isIntaking;
         private float _outtakeAudioUntil = 0f;
         private float _froggyOuttakeAudioUntil = 0f;
+        private float _outtakeRollersUntil = 0f;
+        private float _froggyOuttakeRollersUntil = 0f;
 
         private float froggyWheelSpeeds;
         private float shooterWheelSpeeds;
@@ -340,12 +342,16 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
             {
                 _froggyOuttakeAudioUntil = Time.time + 0.35f;
+                _froggyOuttakeRollersUntil = Time.time + 0.35f;
                 _outtakeAudioUntil = 0f; // Reset station audio timer
+                _outtakeRollersUntil = 0f; // Reset station roller timer
             }
             else
             {
                 _outtakeAudioUntil = Time.time + 0.35f;
+                _outtakeRollersUntil = Time.time + 0.35f;
                 _froggyOuttakeAudioUntil = 0f; // Reset froggy audio timer
+                _froggyOuttakeRollersUntil = 0f; // Reset froggy roller timer
             }
             
             if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint != ReefscapeSetpoints.L2 && LastSetpoint != ReefscapeSetpoints.L3 && LastSetpoint != ReefscapeSetpoints.L4 && _coralController.HasPiece() && !(_coralController.currentStateNum == shooterCoralStowState.stateNum && _coralController.atTarget))
@@ -428,11 +434,6 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 {
                     roller.flipVelocity();
                 }
-            }
-
-            if (!OuttakeAction.IsPressed() && !IntakeAction.IsPressed())
-            {
-                SetWheelSpeeds(0,0);
             }
 
             // Track if we're actively intaking (requesting intake and don't have piece)
@@ -758,6 +759,25 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 case ReefscapeSetpoints.Climbed:
                     SetSetpoint(climbClimb);
                     break;
+            }
+            
+            // Final check: Stop rollers if we have a piece (like GRR.cs)
+            // This overrides any speeds set in switch cases, but preserves outtake speeds during timer
+            bool isFroggyMode = CurrentIntakeMode == ReefscapeIntakeMode.L1;
+            bool froggyOuttakeRollers = Time.time < _froggyOuttakeRollersUntil;
+            bool stationOuttakeRollers = Time.time < _outtakeRollersUntil;
+            
+            if ((hasCoral || hasAlgae) && !froggyOuttakeRollers && !stationOuttakeRollers)
+            {
+                // We have a piece and not during outtake - stop all rollers
+                SetWheelSpeeds(0, 0);
+            }
+
+            // If we're not actively intaking and we're not in the outtake window, rollers must be off.
+            // This prevents PlacePiece() wheel speeds from persisting forever after the 0.35s outtake window.
+            if (!IntakeAction.IsPressed() && !froggyOuttakeRollers && !stationOuttakeRollers)
+            {
+                SetWheelSpeeds(0, 0);
             }
             
             UpdateSetpoints();
