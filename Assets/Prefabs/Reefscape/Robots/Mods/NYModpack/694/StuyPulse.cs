@@ -639,6 +639,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         if (stackIntaking)
                         {
                             _isIntaking = true;
+                            SetWheelSpeeds(0, -shooterAnimationWheelSpeeds);
                         }
                         foreach (var col in shooterCollidersForAlgae)
                         {
@@ -672,6 +673,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         if (lowAlgaeIntaking)
                         {
                             _isIntaking = true;
+                            SetWheelSpeeds(0, -shooterAnimationWheelSpeeds);
                         }
                         foreach (var col in shooterCollidersForAlgae)
                         {
@@ -701,6 +703,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                         if (highAlgaeIntaking)
                         {
                             _isIntaking = true;
+                            SetWheelSpeeds(0, -shooterAnimationWheelSpeeds);
                         }
                         foreach (var col in shooterCollidersForAlgae)
                         {
