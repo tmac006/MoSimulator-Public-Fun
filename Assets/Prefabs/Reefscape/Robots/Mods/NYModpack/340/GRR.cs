@@ -21,7 +21,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [SerializeField] private GenericJoint climber;
 
         [Header("Motion Controllers")]
-        [SerializeField]  private GRRAutoAlign autoAlign;
+        [SerializeField] private GRRAutoAlign autoAlign;
         [SerializeField] private PidConstants wristPID;
         [SerializeField] private PidConstants climberPID;
 
