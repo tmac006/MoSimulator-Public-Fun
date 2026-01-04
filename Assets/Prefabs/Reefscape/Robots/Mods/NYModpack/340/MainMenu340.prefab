@@ -17674,7 +17674,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17718,8 +17718,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -17750,7 +17750,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -20272,7 +20272,7 @@ GameObject:
   - component: {fileID: 2774489380063130053}
   - component: {fileID: 5059894866954649311}
   m_Layer: 0
-  m_Name: MainMenuG.R.R
+  m_Name: MainMenu340
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60916,7 +60916,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -60960,8 +60960,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -60992,7 +60992,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -79246,7 +79246,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79290,8 +79290,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -79322,7 +79322,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -83701,7 +83701,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83745,8 +83745,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -83777,7 +83777,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -87940,7 +87940,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9144004, y: 0.9144, z: 0.15398766}
+  m_Size: {x: 0.92, y: 0.92, z: 0.165}
   m_Center: {x: 0, y: 0, z: 0.000000007450581}
 --- !u!1 &7822761517837410817
 GameObject:

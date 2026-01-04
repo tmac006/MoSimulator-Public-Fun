@@ -5969,7 +5969,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6013,8 +6013,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6045,7 +6045,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -18928,7 +18928,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18972,8 +18972,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -19004,7 +19004,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -24655,7 +24655,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24699,8 +24699,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -24731,7 +24731,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -60877,7 +60877,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
+  - {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -60921,8 +60921,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 340
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a1b70d70205653e4c89e019d6117e598, type: 2}
-  m_sharedMaterial: {fileID: 2802901225516692092, guid: a1b70d70205653e4c89e019d6117e598,
+  m_fontAsset: {fileID: 11400000, guid: 4fbe8563429126d44a520f353c41e139, type: 2}
+  m_sharedMaterial: {fileID: -6844032627018789919, guid: 4fbe8563429126d44a520f353c41e139,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -60953,7 +60953,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -74543,7 +74543,7 @@ GameObject:
   - component: {fileID: 4650330038648231244}
   - component: {fileID: 7687418991113011009}
   m_Layer: 6
-  m_Name: GRR
+  m_Name: 340
   m_TagString: BlueRobot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
