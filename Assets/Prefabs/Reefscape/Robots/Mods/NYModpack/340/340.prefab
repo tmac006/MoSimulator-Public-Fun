@@ -48672,7 +48672,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3856117be8f9d1544bc7dd5bc957d4d6, type: 2}
+  - {fileID: 2100000, guid: 55ac5bf0e319ab842a9e7daedb828e5c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74754,8 +74754,8 @@ MonoBehaviour:
   alliance: 0
   bumperMeshes:
   - {fileID: 3109221060711403616}
-  blueBumperMaterial: {fileID: 2100000, guid: 3e1a70866406ce94ea5b1db42fb51c43, type: 2}
-  redBumperMaterial: {fileID: 2100000, guid: 8891c8be8334c264dbe596d910db7283, type: 2}
+  blueBumperMaterial: {fileID: 2100000, guid: ff3af18c0dc9267488f08ffd0050c72f, type: 2}
+  redBumperMaterial: {fileID: 2100000, guid: 336b7c948ac350b4a853efcc1b0b2736, type: 2}
   <CurrentSetpoint>k__BackingField: 0
   <CurrentCoralStationMode>k__BackingField:
     <DropType>k__BackingField: 1
