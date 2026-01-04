@@ -25,7 +25,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         [Tooltip("The maximum deceleration of the auto-align controller, in ft/s/s")]
         public float maxDeceleration = 32.0f;
         [Tooltip("Arbitrary strength force for centering the robot on the targeted reef pole")]
-        public float strength = 200f;
+        public float strength = 600f;
         [Tooltip("The tolerance at which the controller signals that the robot is in position")]
         public float positionTolerance = 0.05f;
 
@@ -96,7 +96,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                 if (proj.x > 0.0 && proj.x < SL - rk_x)
                 {
                     float t = proj.y / SW / 2f;
-                    float m = -strength * t * t * Mathf.Sign(proj.y) / Mathf.Abs(proj.x);
+                    float m = -strength * t * t * Mathf.Sign(proj.y) / Mathf.Abs(proj.x * 4f);
                     force += m * Rotate2(Vector2.down, rk_w);
                 }
 
