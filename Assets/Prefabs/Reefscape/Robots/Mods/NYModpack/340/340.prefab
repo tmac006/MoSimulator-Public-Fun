@@ -38340,7 +38340,7 @@ ConfigurableJoint:
   m_AngularXDrive:
     serializedVersion: 4
     positionSpring: 9e+12
-    positionDamper: 1.2
+    positionDamper: 1.75
     maximumForce: 3.4028233e+38
     useAcceleration: 0
   m_AngularYZDrive:
@@ -74902,12 +74902,12 @@ MonoBehaviour:
   topStrip: {fileID: 1186089426626211092}
   shaderGraphShader: {fileID: -6465566751694194690, guid: 88d82d76b25302e4f81533f3cee81aab,
     type: 3}
-  disabledBlue: {fileID: 2800000, guid: 0b413960445674a4abc63ed85c3b0d8f, type: 3}
-  disabledRed: {fileID: 2800000, guid: 5e80cbf4e690954429db86f8f0c70d9e, type: 3}
-  climbing: {fileID: 2800000, guid: c2b5c3a2f2e8eb347a43648842fbcb73, type: 3}
-  autoAligning: {fileID: 2800000, guid: a3571a6ac8d6ebe4b8dbfbe129d94d9a, type: 3}
-  hasCoral: {fileID: 2800000, guid: a3571a6ac8d6ebe4b8dbfbe129d94d9a, type: 3}
-  scored: {fileID: 2800000, guid: c2b5c3a2f2e8eb347a43648842fbcb73, type: 3}
+  disabledBlue: {fileID: 2800000, guid: 36de75b26cd5b2f48b83e05ff2a32529, type: 3}
+  disabledRed: {fileID: 2800000, guid: de1945d0bb5577f4daab5dd0334ae8ab, type: 3}
+  climbing: {fileID: 2800000, guid: 28b5c246059867948adff09a49ddc569, type: 3}
+  autoAligning: {fileID: 2800000, guid: 1afafa77b76cfd3439a9333f8e967969, type: 3}
+  hasCoral: {fileID: 2800000, guid: 1afafa77b76cfd3439a9333f8e967969, type: 3}
+  scored: {fileID: 2800000, guid: cc48402b5a7c55b4ab20226af6430ef6, type: 3}
 --- !u!114 &4650330038648231244
 MonoBehaviour:
   m_ObjectHideFlags: 0

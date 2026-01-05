@@ -76,7 +76,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             {
                 float blink = Time.time % 0.5 > 0.25 ? 20f : 0f;
 
-                if (_base.AutoAlignLeftAction.IsPressed() || _base.AutoAlignRightAction.IsPressed())
+                if (_autoAlign.Active())
                 {
                     Set(_leftMaterial, autoAligning, _autoAlign.Left() ? blink : 20f);
                     Set(_rightMaterial, autoAligning, !_autoAlign.Left() ? blink : 20f);

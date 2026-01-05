@@ -39,9 +39,10 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         private Vector2 _blueReef;
         private Vector2 _redReef;
 
-        private float _reefDistance = 0f;
+        private bool _active = false;
         private bool _left = true;
         private bool _inPosition = false;
+        private float _reefDistance = 0f;
         private bool _fallingEdge = false;
         private float _waitUntil = 0f;
 
@@ -104,10 +105,12 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
                 float alpha = rotateKp * ((rk_w - yaw + THREE_PI) % TWO_PI - Mathf.PI);
 
                 _driveController.overideInput(force.normalized * k, alpha, DriveController.DriveMode.FieldOriented);
+                _active = true;
             }
             else
             {
                 _waitUntil = Time.time + avoidTime;
+                _active = false;
             }
         }
 
@@ -128,9 +131,9 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
             return new Vector2(vec3.x, vec3.z);
         }
 
-        public float ReefDistance()
+        public bool Active()
         {
-            return _reefDistance;
+            return _active;
         }
 
         public bool Left()
@@ -141,6 +144,11 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
         public bool InPosition()
         {
             return _inPosition;
+        }
+
+        public float ReefDistance()
+        {
+            return _reefDistance;
         }
 
         private const float SL = 10f;
