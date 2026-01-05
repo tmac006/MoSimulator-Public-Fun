@@ -60,7 +60,7 @@ namespace Prefabs.Reefscape.Robots.Mods.GRR._340
 
             if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
             {
-                SetSides(_base.Alliance == Alliance.Blue ? disabledBlue : disabledRed, 10f);
+                SetSides(_base.Alliance == Alliance.Blue ? disabledBlue : disabledRed, 20f);
                 SetTop(null, 0f);
             }
             else if (_base.CurrentSetpoint == ReefscapeSetpoints.Climb)
