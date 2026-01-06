@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: High Algae
   m_EditorClassIdentifier: 
   wristTarget: 180
-  elevatorDistance: 38
+  elevatorDistance: 33
   climberTarget: -90

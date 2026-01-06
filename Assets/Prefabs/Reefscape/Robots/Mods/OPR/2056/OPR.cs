@@ -235,27 +235,6 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
                     }
                 }
 
-                // Don't auto-stow override while placing
-                bool allowAutoStowOverride = CurrentSetpoint != ReefscapeSetpoints.Place && !_isPlacingCoral;
-                
-                if (allowAutoStowOverride && (((_coralController.currentStateNum != coralArmStowState.stateNum && !_disruptable) &&
-                     !_coralController.atTarget) || _intakeSequenceRunning))
-                {
-                    if (!_disruptable && CurrentRobotMode != ReefscapeRobotMode.Coral && _intakeSequenceRunning &&
-                        !_algaeController.HasPiece())
-                    {
-                        _bufferAlgaeState = true;
-                        SetRobotMode(ReefscapeRobotMode.Coral);
-                    }
-                    else if (_disruptable && CurrentRobotMode != ReefscapeRobotMode.Coral)
-                    {
-                    }
-                    else
-                    {
-                        SetState(ReefscapeSetpoints.Stow);
-                    }
-                }
-
                 if ((!_intakeSequenceRunning && CurrentSetpoint != ReefscapeSetpoints.Intake) && _bufferedSetpoint != null)
                 {
                     SetState(_bufferedSetpoint.Value);
@@ -301,12 +280,6 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
                 case ReefscapeSetpoints.Place:
                     // Force place setpoint every frame while in Place (but DON'T return - allow Place logic to run)
                     ApplyPlaceSetpoint();
-                    
-                    if (LastSetpoint == ReefscapeSetpoints.Stow && coralAtEE)
-                    {
-                        SetState(ReefscapeSetpoints.Stow);
-                        break;
-                    }
 
                     if (_algaeController.HasPiece())
                     {
@@ -411,8 +384,7 @@ namespace Prefabs.Reefscape.Robots.Mods.OPR._2056
             _placeLock = true;
             _placeLockUntil = Time.time + 0.25f;
             
-            // Transition to Stow and stay there
-            SetState(ReefscapeSetpoints.Stow);
+            // Don't auto-stow after placing - let user control the setpoint
         }
 
         private void ApplyPlaceSetpoint()

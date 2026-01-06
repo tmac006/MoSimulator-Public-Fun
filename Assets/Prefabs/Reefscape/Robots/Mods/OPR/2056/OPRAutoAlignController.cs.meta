@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d9c86db1f59b16e428aaee14b51362ca
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - l4Offset: {fileID: 11400000, guid: 7c7bcb7d326767940a9b81e51778ad3e, type: 2}
+  - l3Offset: {fileID: 11400000, guid: 9a9e7fe5f18d2fb4fb84281932e300f2, type: 2}
+  - l2Offset: {fileID: 11400000, guid: 6e26a3a7733822141ac7b7fc8d3a3fa1, type: 2}
+  - l1Offset: {fileID: 11400000, guid: 077d29af2c54c4f4cbc8a1a9a70341b5, type: 2}
+  - noneOffset: {fileID: 11400000, guid: 8b95078559db75649b02fff7ec36447b, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
