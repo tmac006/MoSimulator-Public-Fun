@@ -439,6 +439,10 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             else if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint == ReefscapeSetpoints.L4)
             {
                 frogState = FroggyState.Stow;
+                foreach (var col in shooterCollidersForAlgae)
+                {
+                    col.enabled = false;
+                }
                 _coralController.ReleaseGamePieceWithForce(FacingReef
                                                             ? new Vector3(0, 0, -6)
                                                             : new Vector3(0, 0, 5));
@@ -564,6 +568,10 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             if (LastSetpoint == ReefscapeSetpoints.Place && CurrentSetpoint == ReefscapeSetpoints.Stow)
             {
                 foreach (var col in collidersToDisableForFroggyCoralScoring)
+                {
+                    col.enabled = true;
+                }
+                foreach (var col in shooterCollidersForAlgae)
                 {
                     col.enabled = true;
                 }

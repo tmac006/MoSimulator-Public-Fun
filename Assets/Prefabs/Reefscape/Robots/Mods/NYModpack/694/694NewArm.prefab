@@ -40060,7 +40060,7 @@ MonoBehaviour:
   backL3: {fileID: 11400000, guid: e48f86ab76dcc4cbf9c0ee66e60de6fc, type: 2}
   frontL4: {fileID: 11400000, guid: 338998a998291fc49a298372e35b70f5, type: 2}
   backL4: {fileID: 11400000, guid: 4a2ebf42c25474a449ed726200663f4b, type: 2}
-  backL4Scored: {fileID: 11400000, guid: bb6838fd0293f6244974a149e16c53f4, type: 2}
+  backL4Scored: {fileID: 11400000, guid: c94186804062341d39ed3d198bac57c1, type: 2}
   lollipopIntake: {fileID: 11400000, guid: 1e974dbb0e1d44ab88697a300d665ec0, type: 2}
   frontLowAlgae: {fileID: 11400000, guid: 959434d0becab4c6ea4190bdcedbdb1f, type: 2}
   frontHighAlgae: {fileID: 11400000, guid: d76264444b1d845b1a6d895e00e0b67b, type: 2}
