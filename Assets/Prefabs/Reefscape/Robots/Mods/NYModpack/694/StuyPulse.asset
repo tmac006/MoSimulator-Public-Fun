@@ -21,7 +21,7 @@ MonoBehaviour:
   mainMenuPrefab: {fileID: 2534371394911199621, guid: c37ee33624c3b4f52afcc602a0a36a2c,
     type: 3}
   hasAlternateRobot: 1
-  alternateRobotPrefab: {fileID: 2534371394911199621, guid: 7185e3cf84ecb4c9990d3bea6befa1c7,
+  alternateRobotPrefab: {fileID: 2534371394911199621, guid: fd866afe83a514ee8a93d28ae8708533,
     type: 3}
   alternateMainMenuPrefab: {fileID: 0}
   robotImage: {fileID: 21300000, guid: 4b0b8ec21c8df0043b0502cd5de04fd4, type: 3}
@@ -29,6 +29,9 @@ MonoBehaviour:
   - {fileID: 6829736770845459078, guid: dcf6687b2efc00345b64bb8e5791b6ee, type: 3}
   - {fileID: 6829736770845459078, guid: 9354947a125c3384dba791ea31a8b1ec, type: 3}
   - {fileID: 6829736770845459078, guid: 44b21fa7e13766549ba2218dc5952059, type: 3}
-  alternateTutorialCards: []
+  alternateTutorialCards:
+  - {fileID: 6829736770845459078, guid: dcf6687b2efc00345b64bb8e5791b6ee, type: 3}
+  - {fileID: 6829736770845459078, guid: 9354947a125c3384dba791ea31a8b1ec, type: 3}
+  - {fileID: 6829736770845459078, guid: 44b21fa7e13766549ba2218dc5952059, type: 3}
   autoClimbs: 0
   alternateAutoClimbs: 0

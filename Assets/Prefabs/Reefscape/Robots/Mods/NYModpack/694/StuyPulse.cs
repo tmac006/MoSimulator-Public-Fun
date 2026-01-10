@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Games.Reefscape.Enums;
 using Games.Reefscape.FieldScripts;
 using Games.Reefscape.GamePieceSystem;
@@ -97,6 +98,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
 
         [Header("Colliders n shit")]
         [SerializeField] private CapsuleCollider[] froggyRollerColliders;
+        [SerializeField] private BoxCollider[] collidersToDisableForFroggyCoralScoring;
         [SerializeField] private MeshCollider[] shooterCollidersForAlgae;
         
         [Header("Audio Stuff")]
@@ -340,15 +342,15 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     froggyRollers[1].stopAngularVelocity();
                     break;
                 case FroggyState.CoralIntake:
-                    froggyRollers[0].SetAngularVelocity(0);
-                    froggyRollers[1].SetAngularVelocity(-2000);
+                    froggyRollers[0].SetAngularVelocity(1000);
+                    froggyRollers[1].SetAngularVelocity(-6000);
                     break;
                 case FroggyState.CoralOuttake:
-                    froggyRollers[0].SetAngularVelocity(-1000);
-                    froggyRollers[1].SetAngularVelocity(1000);
+                    froggyRollers[0].SetAngularVelocity(-2000);
+                    froggyRollers[1].SetAngularVelocity(2000);
                     break;
                 case FroggyState.AlgaeIntake:
-                    froggyRollers[0].SetAngularVelocity(-6000);
+                    froggyRollers[0].SetAngularVelocity(-5000);
                     froggyRollers[1].SetAngularVelocity(0);
                     break;
                 case FroggyState.AlgaeOuttake:
@@ -356,6 +358,26 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     froggyRollers[1].SetAngularVelocity(-1000);
                     break;
             }
+        }
+
+        private IEnumerator ScoreFroggyL1()
+        {
+            SetWheelSpeeds(-froggyAnimationWheelSpeeds, 0);
+            frogState = FroggyState.CoralOuttake;
+            foreach (var col in collidersToDisableForFroggyCoralScoring)
+            {
+                col.enabled = false;
+            }
+            _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1.5f, 0));
+            
+            yield return new WaitForSeconds(1f);
+            
+            foreach (var col in collidersToDisableForFroggyCoralScoring)
+            {
+                col.enabled = true;
+            }
+            frogState = FroggyState.Stow;
+            SetWheelSpeeds(0, 0);
         }
 
         private void PlacePiece()
@@ -375,9 +397,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
             
             if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint != ReefscapeSetpoints.L2 && LastSetpoint != ReefscapeSetpoints.L3 && LastSetpoint != ReefscapeSetpoints.L4 && _coralController.HasPiece() && !(_coralController.currentStateNum == shooterCoralStowState.stateNum && _coralController.atTarget))
             {
-                SetWheelSpeeds(-froggyAnimationWheelSpeeds, 0);
-                frogState = FroggyState.CoralOuttake;
-                _coralController.ReleaseGamePieceWithForce(new Vector3(0, 2, 0));
+                StartCoroutine(ScoreFroggyL1());
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Algae || !_coralController.atTarget) && _algaeController.HasPiece())
             {
@@ -402,10 +422,6 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 }
                 else
                 {
-                    foreach (var col in froggyRollerColliders)
-                    {
-                        col.enabled = false;
-                    }
                     foreach (var col in shooterCollidersForAlgae)
                     {
                         col.enabled = false;
@@ -417,6 +433,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     }
                     _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
                     SetWheelSpeeds(froggyAnimationWheelSpeeds, 0);
+                    frogState = FroggyState.Stow;
                 }
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Coral || !_algaeController.atTarget) && LastSetpoint == ReefscapeSetpoints.L4)
@@ -517,7 +534,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 froggyAlgaeSlider.localPosition = new Vector3(localSliderSpaceX, 0, 0);
             }
 
-            if (CurrentSetpoint != ReefscapeSetpoints.Place)
+            if (CurrentSetpoint != ReefscapeSetpoints.Place || RobotModeToggleAction.IsPressed())
             {
                 stillInPlaceState = false;
             }
@@ -537,6 +554,19 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 _coralController.RequestIntake(froggyCoralIntake, true);
                 _coralController.RequestIntake(funnelCoralIntake, false);
                 _isIntaking = true;
+            }
+
+            if (LastSetpoint == ReefscapeSetpoints.Place)
+            {
+                frogState = FroggyState.Stow;
+            }
+
+            if (LastSetpoint == ReefscapeSetpoints.Place && CurrentSetpoint == ReefscapeSetpoints.Stow)
+            {
+                foreach (var col in collidersToDisableForFroggyCoralScoring)
+                {
+                    col.enabled = true;
+                }
             }
             
             switch (CurrentSetpoint)
@@ -598,6 +628,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                     else if (CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae)
                     {
                         frogState = FroggyState.AlgaeIntake;
+                        RunFroggyWheels();
                         SetSetpoint(froggyLolli ? froggyLollipop : froggyAlgae);
                         _algaeController.SetTargetState(froggyAlgaeStowState);
                         _algaeController.RequestIntake(froggyAlgaeIntake);

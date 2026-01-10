@@ -37659,7 +37659,7 @@ MonoBehaviour:
   froggyCoralStowState:
     name: Froggy Coral Stow State
     stateNum: 3
-    stateMoveSpeed: 60
+    stateMoveSpeed: 100
     stateTarget: {fileID: 3911111398027635487}
     smoothHandoff: 0
     angularSpeed: 180
@@ -37697,6 +37697,29 @@ MonoBehaviour:
   froggyRollerColliders:
   - {fileID: 5369986737703624443}
   - {fileID: 1054295400795045824}
+  collidersToDisableForFroggyCoralScoring:
+  - {fileID: 2802161523138154557}
+  - {fileID: 7856757310448116238}
+  - {fileID: 5042242922179007010}
+  - {fileID: 5355823896774928509}
+  - {fileID: 40427654855881536}
+  - {fileID: 8163474212607932555}
+  - {fileID: 6528699839852619961}
+  - {fileID: 9164267428774313568}
+  - {fileID: 6032446796526612587}
+  - {fileID: 7013694880294231022}
+  - {fileID: 5191831565331534826}
+  - {fileID: 4288946065853823569}
+  - {fileID: 7968916340639822802}
+  - {fileID: 2468712579026506019}
+  - {fileID: 5897854438541187148}
+  - {fileID: 5813109464882048724}
+  - {fileID: 5388221630775434175}
+  - {fileID: 5630889453235811001}
+  - {fileID: 8212730376920975787}
+  - {fileID: 8417618900882616139}
+  - {fileID: 6934214362723266059}
+  - {fileID: 5297955451251857360}
   shooterCollidersForAlgae:
   - {fileID: 3517238842620346431}
   - {fileID: 7514632612562711718}
@@ -37748,10 +37771,10 @@ MonoBehaviour:
   - {fileID: 6363807337354431504}
   elevatorType: 1
   pidConstants:
-    kP: 13.5
+    kP: 13
     kI: 0
     kD: 0.1
-    Max: 2.3
+    Max: 2.2
     Isaturation: 0
   stagesPidConstants:
     kP: 85
@@ -53175,17 +53198,17 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 10
-  intakeForce: 5
+  intakeSpeed: 20
+  intakeForce: 15
   usePlanarTolerancing: 1
   boxExtents: {x: 3.83, y: 4.48, z: 22.5}
-  maxDistance: 20
+  maxDistance: 1
   accuracy: 1.39
   lockXAxis: 0
   lockYAxis: 0
   lockZAxis: 0
-  roationForce: 1
-  maxRotationSpeed: 20
+  roationForce: 10
+  maxRotationSpeed: 25
   useRotaion: 1
   smoothHandoff: 1
   target: {fileID: 3911111398027635487}
@@ -102042,7 +102065,7 @@ Transform:
   m_GameObject: {fileID: 7263511761553267103}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.117, z: 0.012}
+  m_LocalPosition: {x: -0, y: 0.117, z: 0.015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115056,7 +115079,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.05844798, y: -0.0039294465, z: 0.0015760593, w: 0.9982815}
   m_LocalPosition: {x: -0.0117, y: -0.0474, z: 0.0978}
-  m_LocalScale: {x: 1, y: 0.2253, z: 0.20272349}
+  m_LocalScale: {x: 1, y: 0.9084308, z: 0.29630065}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8228175622260510719}
@@ -116361,7 +116384,7 @@ Rigidbody:
     serializedVersion: 2
     m_Bits: 64
   m_ImplicitCom: 1
-  m_ImplicitTensor: 0
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -124820,13 +124843,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8717530643958317635}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.6087933, w: 0.793329}
+  m_LocalRotation: {x: -0, y: -0, z: 0.6724334, w: 0.7401576}
   m_LocalPosition: {x: 0.013, y: 0.035, z: -0.0060022785}
-  m_LocalScale: {x: 1.3152765, y: 2.1200461, z: 1}
+  m_LocalScale: {x: 1.6960491, y: 2.7834795, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4209134667632273686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 75.005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 84.51}
 --- !u!65 &6949144485489234463
 BoxCollider:
   m_ObjectHideFlags: 0
