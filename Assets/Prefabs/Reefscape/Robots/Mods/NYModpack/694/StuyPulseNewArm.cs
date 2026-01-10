@@ -443,9 +443,15 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
                 {
                     col.enabled = false;
                 }
-                _coralController.ReleaseGamePieceWithForce(FacingReef
-                                                            ? new Vector3(0, 0, -6)
-                                                            : new Vector3(0, 0, 5));
+
+                if (FacingReef)
+                {
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, -6));
+                }
+                else
+                {
+                    _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 5), 0.3f, 3);
+                }
                 SetWheelSpeeds(0, FacingReef ? -shooterAnimationWheelSpeeds : shooterAnimationWheelSpeeds);
             }
             else if ((CurrentRobotMode == ReefscapeRobotMode.Coral || _algaeController.atTarget) && LastSetpoint == ReefscapeSetpoints.L1 && CurrentIntakeMode == ReefscapeIntakeMode.Normal)
