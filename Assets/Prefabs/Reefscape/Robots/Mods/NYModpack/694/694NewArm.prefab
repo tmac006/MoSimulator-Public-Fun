@@ -40214,7 +40214,7 @@ MonoBehaviour:
   - {fileID: 4344113301832011486}
   - {fileID: 1114341299190527224}
   - {fileID: 563556666218905623}
-  - {fileID: 983382284446688859}
+  - {fileID: 981682850920713987}
   - {fileID: 5766692452812176373}
   funnelAudioSource: {fileID: 9179355658739864296}
   funnelAudioClip: {fileID: 8300000, guid: 3215d18b5f17d4ff7b631be9b05b3178, type: 3}
@@ -73169,6 +73169,7 @@ GameObject:
   - component: {fileID: 4994611438314294412}
   - component: {fileID: 1334098513679017497}
   - component: {fileID: 8627467447823118279}
+  - component: {fileID: 5339015164936144706}
   m_Layer: 0
   m_Name: Funnel Flap 1 (Bent)
   m_TagString: Untagged
@@ -73243,6 +73244,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5339015164936144706
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800810824808396822}
+  m_Material: {fileID: 13400000, guid: 91a97ecb2bc4d2f46b9d7b6d3f66552a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -257350043495160231, guid: 6136d0019a81b42758b66420f724a6f3, type: 3}
 --- !u!1 &4811822950267144412
 GameObject:
   m_ObjectHideFlags: 0
@@ -76800,7 +76823,7 @@ GameObject:
   - component: {fileID: 7116387089936362042}
   - component: {fileID: 2484597237479338492}
   - component: {fileID: 322498249201084542}
-  - component: {fileID: 983382284446688859}
+  - component: {fileID: 981682850920713987}
   m_Layer: 0
   m_Name: Main Plate
   m_TagString: Untagged
@@ -76875,7 +76898,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &983382284446688859
+--- !u!64 &981682850920713987
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92951,6 +92974,7 @@ GameObject:
   - component: {fileID: 957946896911682684}
   - component: {fileID: 552672192869594086}
   - component: {fileID: 159146456765950690}
+  - component: {fileID: 836607959733686998}
   m_Layer: 0
   m_Name: Funnel Flap 2 (Bent)
   m_TagString: Untagged
@@ -93025,6 +93049,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &836607959733686998
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6251807587955218767}
+  m_Material: {fileID: 13400000, guid: 91a97ecb2bc4d2f46b9d7b6d3f66552a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4498957647639537276, guid: 6136d0019a81b42758b66420f724a6f3, type: 3}
 --- !u!1 &6252163237608064911
 GameObject:
   m_ObjectHideFlags: 0

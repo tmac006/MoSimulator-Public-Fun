@@ -53,6 +53,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
         [SerializeField] private StuyPulseSetpoint process;
 
         [SerializeField] private StuyPulseSetpoint froggyCoral;
+        [SerializeField] private StuyPulseSetpoint froggyCoralWithAlgae;
         [SerializeField] private StuyPulseSetpoint froggyAlgae;
         [SerializeField] private StuyPulseSetpoint froggyLollipop;
         [SerializeField] private StuyPulseSetpoint froggyCoralPlace;
@@ -611,7 +612,7 @@ namespace Prefabs.Reefscape.Robots.Mods.NYPowerhousePack._694
 
                     if (CurrentIntakeMode == ReefscapeIntakeMode.L1 && !hasCoral && CurrentRobotMode == ReefscapeRobotMode.Coral)
                     {
-                        SetSetpoint(froggyCoral);
+                        SetSetpoint(shooterHasAlgae ? froggyCoralWithAlgae : froggyCoral);
                         frogState = FroggyState.CoralIntake;
                         _froggyWheels = 2000f;
                         _coralController.SetTargetState(froggyCoralStowState);
