@@ -1,0 +1,311 @@
+using Games.Reefscape.Enums;
+using Games.Reefscape.GamePieceSystem;
+using Games.Reefscape.Robots;
+using MoSimCore.BaseClasses.GameManagement;
+using MoSimCore.Enums;
+using MoSimLib;
+using RobotFramework.Components;
+using RobotFramework.Controllers.GamePieceSystem;
+using RobotFramework.Controllers.PidSystems;
+using RobotFramework.Enums;
+using RobotFramework.GamePieceSystem;
+using UnityEngine;
+
+namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
+{
+    public class Prototype: ReefscapeRobotBase
+    {
+        [Header("Components")]
+        [SerializeField] private GenericElevator elevator;
+        [SerializeField] private GenericJoint arm;
+        [SerializeField] private GenericJoint funnel;
+        [SerializeField] private GenericJoint climber;
+        
+        [Header("PIDS")]
+        [SerializeField] private PidConstants armPID;
+        [SerializeField] private PidConstants funnelPID;
+        [SerializeField] private PidConstants climberPID;
+
+        [Header("coral Setpoints")]
+        [SerializeField] private PrototypeSetpoint stow;
+        [SerializeField] private PrototypeSetpoint intake;
+        [SerializeField] private PrototypeSetpoint l1;
+        [SerializeField] private PrototypeSetpoint l1Place;
+        [SerializeField] private PrototypeSetpoint l2;
+        [SerializeField] private PrototypeSetpoint l3;
+        [SerializeField] private PrototypeSetpoint l4;
+        [SerializeField] private PrototypeSetpoint l4Place;
+        
+        [Header("algae Setpoints")]
+        [SerializeField] private PrototypeSetpoint groundAlgae;
+        [SerializeField] private PrototypeSetpoint lowAlgae;
+        [SerializeField] private PrototypeSetpoint highAlgae;
+        [SerializeField] private PrototypeSetpoint bargePrep;
+        [SerializeField] private PrototypeSetpoint bargePlace;
+        
+        [Header("Intake Components")]
+        [SerializeField] private ReefscapeGamePieceIntake coralIntake;
+        [SerializeField] private ReefscapeGamePieceIntake algaeIntake;
+        
+        [Header("Game Piece States")]
+        [SerializeField] private GamePieceState coralStowState;
+        [SerializeField] private GamePieceState algaeStowState;
+        
+        [Header("Algae Stall Audio")]
+        [SerializeField] private AudioSource algaeStallSource;
+        [SerializeField] private AudioClip algaeStallAudio;
+        
+        [Header("Robot Audio")]
+        [SerializeField] private AudioSource rollerSource;
+        [SerializeField] private AudioClip intakeClip;
+        
+        [Header("Funnel Close Audio")]
+        [SerializeField] private AudioSource funnelCloseSource;
+        [SerializeField] private AudioClip funnelCloseAudio;
+        [SerializeField] private BoxCollider coralTrigger;
+        private OverlapBoxBounds soundDetector;
+        
+        
+        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _coralController;
+        private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _algaeController;
+
+        private float _elevatorTargetHeight;
+        private float _armTargetAngle;
+        private float _climberTargetAngle;
+        private float _funnelTargetAngle;
+        private LayerMask coralMask;
+        private bool canClack;
+        
+        protected override void Start()
+        {
+            base.Start();
+            
+            arm.SetPid(armPID);
+            funnel.SetPid(funnelPID);
+            climber.SetPid(climberPID);
+
+            _elevatorTargetHeight = 0;
+            _armTargetAngle = 0;
+            _climberTargetAngle = 0;
+            _funnelTargetAngle = 0;
+            
+            RobotGamePieceController.SetPreload(coralStowState);
+            _coralController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Coral.ToString());
+            _algaeController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Algae.ToString());
+
+            _coralController.gamePieceStates = new[]
+            {
+                coralStowState
+            };
+            _coralController.intakes.Add(coralIntake);
+
+            _algaeController.gamePieceStates = new[]
+            {
+                algaeStowState
+            };
+            _algaeController.intakes.Add(algaeIntake);
+            
+            algaeStallSource.clip = algaeStallAudio;
+            algaeStallSource.loop = true;
+            algaeStallSource.Stop();
+            
+            rollerSource.clip = intakeClip;
+            rollerSource.loop = true;
+            rollerSource.Stop();
+            
+            funnelCloseSource.clip = funnelCloseAudio;
+            funnelCloseSource.loop = false;
+            funnelCloseSource.Stop();
+
+            soundDetector = new OverlapBoxBounds(coralTrigger);
+
+            coralMask = LayerMask.GetMask("Coral");
+            canClack = true;
+        }
+
+        private void LateUpdate()
+        {
+            arm.UpdatePid(armPID);
+            funnel.UpdatePid(funnelPID);
+            climber.UpdatePid(climberPID);
+        }
+
+        private void FixedUpdate()
+        {
+            bool hasAlgae = _algaeController.HasPiece();
+            bool hasCoral = _coralController.HasPiece();
+            
+            _algaeController.SetTargetState(algaeStowState);
+            _coralController.SetTargetState(coralStowState);
+            
+            switch (CurrentSetpoint)
+            {
+                case ReefscapeSetpoints.Stow:
+                    SetSetpoint(stow);
+                    break;
+                case ReefscapeSetpoints.Intake:
+                    SetSetpoint(intake);
+
+                    _algaeController.RequestIntake(algaeIntake, CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae && !hasCoral);
+                    _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae);
+                    break;
+                case ReefscapeSetpoints.Place:
+                    if (LastSetpoint == ReefscapeSetpoints.Barge)
+                    {
+                        SetSetpoint(bargePlace);
+                    } 
+                    else if (LastSetpoint == ReefscapeSetpoints.L4)
+                    {
+                        SetSetpoint(l4Place);
+                    } else if (LastSetpoint == ReefscapeSetpoints.L1)
+                    {
+                        SetSetpoint(l1Place);
+                    }
+                    PlacePiece();
+                    break;
+                case ReefscapeSetpoints.L1:
+                    SetSetpoint(l1);
+                    break;
+                case ReefscapeSetpoints.Stack:
+                    SetSetpoint(intake);
+                    _algaeController.RequestIntake(algaeIntake, IntakeAction.IsPressed() && !hasAlgae && !hasCoral);
+                    _coralController.RequestIntake(coralIntake, false);
+                    break;
+                case ReefscapeSetpoints.L2:
+                    SetSetpoint(l2);
+                    break;
+                case ReefscapeSetpoints.LowAlgae:
+                    SetSetpoint(lowAlgae);
+                    _algaeController.RequestIntake(algaeIntake, IntakeAction.IsPressed() && !hasAlgae && !hasCoral);
+                    _coralController.RequestIntake(coralIntake, false);
+                    break;
+                case ReefscapeSetpoints.L3:
+                    SetSetpoint(l3);
+                    break;
+                case ReefscapeSetpoints.HighAlgae:
+                    SetSetpoint(highAlgae);
+                    _algaeController.RequestIntake(algaeIntake, IntakeAction.IsPressed() && !hasAlgae && !hasCoral);
+                    _coralController.RequestIntake(coralIntake, false);
+                    break;
+                case ReefscapeSetpoints.L4:
+                    SetSetpoint(l4);
+                    break;
+                case ReefscapeSetpoints.Processor:
+                    SetSetpoint(stow);
+                    break;
+                case ReefscapeSetpoints.Barge:
+                    SetSetpoint(bargePrep);
+                    break;
+                case ReefscapeSetpoints.RobotSpecial:
+                    SetState(ReefscapeSetpoints.Stow);
+                    break;
+                case ReefscapeSetpoints.Climb:
+                    break;
+                case ReefscapeSetpoints.Climbed:
+                    break;
+            }
+            
+            UpdateSetpoints();
+            UpdateAudio();
+        }
+
+        private void PlacePiece()
+        {
+            if (_algaeController.HasPiece())
+            {
+                if (LastSetpoint == ReefscapeSetpoints.Barge)
+                {
+                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 10, 1.5f));
+                }
+                else
+                {
+                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 0, 1.5f));
+                }
+            }
+            else
+            {
+                if (LastSetpoint == ReefscapeSetpoints.L4)
+                {
+                    _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 5.5f), 1f, 0.5f);
+                }
+                else if (LastSetpoint == ReefscapeSetpoints.L1)
+                {
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 2));
+                }
+                else
+                {
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 6));
+                }
+            }
+        }
+
+        private void SetSetpoint(PrototypeSetpoint setpoint)
+        {
+            _elevatorTargetHeight = setpoint.elevatorHeight;
+            _armTargetAngle = setpoint.armAngle;
+            _funnelTargetAngle = setpoint.funnelAngle;
+            _climberTargetAngle = setpoint.climberAngle;
+        }
+
+        private void UpdateSetpoints()
+        {
+            elevator.SetTarget(_elevatorTargetHeight);
+            arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
+            funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X);
+            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X);
+        }
+
+        private void UpdateAudio()
+        {
+            if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
+            {
+                if (rollerSource.isPlaying || algaeStallSource.isPlaying)
+                {
+                    rollerSource.Stop();
+                    algaeStallSource.Stop();
+                }
+
+                return;
+            }
+
+            if (((IntakeAction.IsPressed() && !_coralController.HasPiece() && !_coralController.HasPiece()) ||
+                 OuttakeAction.IsPressed()) &&
+                !rollerSource.isPlaying)
+            {
+                rollerSource.Play();
+            }
+            else if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed() && rollerSource.isPlaying)
+            {
+                rollerSource.Stop();
+            }
+            else if (IntakeAction.IsPressed() && (_coralController.HasPiece() || _algaeController.HasPiece()))
+            {
+                rollerSource.Stop();
+            }
+
+            if (_algaeController.HasPiece() && !algaeStallSource.isPlaying)
+            {
+                algaeStallSource.Play();
+            }
+            else if (!_algaeController.HasPiece() && algaeStallSource.isPlaying)
+            {
+                algaeStallSource.Stop();
+            }
+
+
+            var a = soundDetector.OverlapBox(coralMask);
+            if (a.Length > 0)
+            {
+                if (canClack && !funnelCloseSource.isPlaying)
+                {
+                    funnelCloseSource.Play();
+                    canClack = false;
+                }
+            }
+            else
+            {
+                canClack = true;
+            }
+        }
+    }
+}
