@@ -1,3 +1,4 @@
+using System.Collections;
 using Games.Reefscape.Enums;
 using Games.Reefscape.GamePieceSystem;
 using Games.Reefscape.Robots;
@@ -34,13 +35,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private PrototypeSetpoint l2;
         [SerializeField] private PrototypeSetpoint l3;
         [SerializeField] private PrototypeSetpoint l4;
-        [SerializeField] private PrototypeSetpoint l4Place;
+        [SerializeField] private float armStowAngle = 15;
         
         [Header("algae Setpoints")]
         [SerializeField] private PrototypeSetpoint groundAlgae;
         [SerializeField] private PrototypeSetpoint lowAlgae;
         [SerializeField] private PrototypeSetpoint highAlgae;
-        [SerializeField] private PrototypeSetpoint bargePrep;
+        [SerializeField] private PrototypeSetpoint bargePrep1;
+        [SerializeField] private PrototypeSetpoint bargePrep2;
         [SerializeField] private PrototypeSetpoint bargePlace;
         
         [Header("Intake Components")]
@@ -154,10 +156,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     {
                         SetSetpoint(bargePlace);
                     } 
-                    else if (LastSetpoint == ReefscapeSetpoints.L4)
-                    {
-                        SetSetpoint(l4Place);
-                    } else if (LastSetpoint == ReefscapeSetpoints.L1)
+                    else if (LastSetpoint == ReefscapeSetpoints.L1)
                     {
                         SetSetpoint(l1Place);
                     }
@@ -194,7 +193,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     SetSetpoint(stow);
                     break;
                 case ReefscapeSetpoints.Barge:
-                    SetSetpoint(bargePrep);
+                    SetSetpoint(bargePrep1);
                     break;
                 case ReefscapeSetpoints.RobotSpecial:
                     SetState(ReefscapeSetpoints.Stow);
@@ -249,10 +248,33 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private void UpdateSetpoints()
         {
-            elevator.SetTarget(_elevatorTargetHeight);
-            arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
+            StartCoroutine(armBackThenElevator());
             funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X);
             climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X);
+        }
+
+        private IEnumerator armBackThenElevator()
+        {
+            if (CurrentSetpoint == ReefscapeSetpoints.L1 || CurrentSetpoint == ReefscapeSetpoints.L2 || CurrentSetpoint == ReefscapeSetpoints.L3 || CurrentSetpoint == ReefscapeSetpoints.L4)
+            {
+                arm.SetTargetAngle(armStowAngle).withAxis(JointAxis.X);
+
+                yield return new WaitForSeconds(0.05f);
+                
+                elevator.SetTarget(_elevatorTargetHeight);
+                
+                yield return new WaitForSeconds(0.5f);
+                
+                arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);  
+            }
+            else
+            {
+                elevator.SetTarget(_elevatorTargetHeight);
+                
+                yield return new WaitForSeconds(0.05f);
+                
+                arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
+            }
         }
 
         private void UpdateAudio()

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aff2b59de2c4a0c96d6b848990b46af, type: 3}
   m_Name: Prototype
   m_EditorClassIdentifier: 
-  teamNumber: 9496
-  teamName: Lynk
-  robotPrefab: {fileID: 2534371394911199621, guid: 30888f11f705eb147815a92a19def5d4,
+  teamNumber: 5449
+  teamName: Prototype
+  robotPrefab: {fileID: 2534371394911199621, guid: ff39c70ae9398459cbfe7b7210a858d2,
     type: 3}
   robotPreloadGamePiece: {fileID: 2185987706872048638, guid: 970bdf84a203d9a4b8dc602974341a07,
     type: 3}
-  mainMenuPrefab: {fileID: 2534371394911199621, guid: b9a6c52e0f827e149bd6f0062f6c75e1,
+  mainMenuPrefab: {fileID: 2534371394911199621, guid: d44e50b5b5d1749bba0246a55369b913,
     type: 3}
   hasAlternateRobot: 0
   alternateRobotPrefab: {fileID: 0}
@@ -29,6 +29,5 @@ MonoBehaviour:
   - {fileID: 6829736770845459078, guid: 6d88ef0a051098f4c9f966c7bf817596, type: 3}
   - {fileID: 6829736770845459078, guid: 9d404ab9e4d805b40bc1177cab1a1dab, type: 3}
   alternateTutorialCards: []
-  addressableKey: 
   autoClimbs: 0
   alternateAutoClimbs: 0
