@@ -27,7 +27,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private PidConstants funnelPID;
         [SerializeField] private PidConstants climberPID;
 
-        [Header("coral Setpoints")]
+        [Header("Coral Setpoints")]
         [SerializeField] private PrototypeSetpoint stow;
         [SerializeField] private PrototypeSetpoint intake;
         [SerializeField] private PrototypeSetpoint l1;
@@ -37,13 +37,18 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private PrototypeSetpoint l4;
         [SerializeField] private float armStowAngle = 15;
         
-        [Header("algae Setpoints")]
+        [Header("Algae Setpoints")]
         [SerializeField] private PrototypeSetpoint groundAlgae;
         [SerializeField] private PrototypeSetpoint lowAlgae;
         [SerializeField] private PrototypeSetpoint highAlgae;
         [SerializeField] private PrototypeSetpoint bargePrep1;
         [SerializeField] private PrototypeSetpoint bargePrep2;
         [SerializeField] private PrototypeSetpoint bargePlace;
+        
+        [Header("Climb Setpoints")]
+        [SerializeField] private PrototypeSetpoint climbPrepClimberOnly;
+        [SerializeField] private PrototypeSetpoint climbPrep;
+        [SerializeField] private PrototypeSetpoint climbClimb;
         
         [Header("Intake Components")]
         [SerializeField] private ReefscapeGamePieceIntake coralIntake;
@@ -78,6 +83,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         private LayerMask coralMask;
         private bool canClack;
         
+        private ReefscapeAutoAlign align;
+
+        private bool hasClimbPrepped = false;
+        
         protected override void Start()
         {
             base.Start();
@@ -88,12 +97,12 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
             _elevatorTargetHeight = 0;
             _armTargetAngle = 0;
-            _climberTargetAngle = 0;
-            _funnelTargetAngle = 0;
+            _climberTargetAngle = -100;
+            _funnelTargetAngle = -10;
             
             RobotGamePieceController.SetPreload(coralStowState);
-            _coralController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Coral.ToString());
-            _algaeController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Algae.ToString());
+            _coralController = RobotGamePieceController.GetPieceByName(nameof(ReefscapeGamePieceType.Coral));
+            _algaeController = RobotGamePieceController.GetPieceByName(nameof(ReefscapeGamePieceType.Algae));
 
             _coralController.gamePieceStates = new[]
             {
@@ -139,6 +148,11 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             
             _algaeController.SetTargetState(algaeStowState);
             _coralController.SetTargetState(coralStowState);
+
+            if (!ClimbAction.IsPressed())
+            {
+                hasClimbPrepped = false;
+            }
             
             switch (CurrentSetpoint)
             {
@@ -199,13 +213,28 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     SetState(ReefscapeSetpoints.Stow);
                     break;
                 case ReefscapeSetpoints.Climb:
+                    if (!hasClimbPrepped)
+                    {
+                        hasClimbPrepped = true;
+                        StartCoroutine(prepClimberBeforeFunnel());
+                    }
                     break;
                 case ReefscapeSetpoints.Climbed:
+                    SetSetpoint(climbClimb);
                     break;
             }
             
             UpdateSetpoints();
             UpdateAudio();
+        }
+
+        private IEnumerator prepClimberBeforeFunnel()
+        {
+            SetSetpoint(climbPrepClimberOnly);
+
+            yield return new WaitForSeconds(0.1f);
+            
+            SetSetpoint(climbPrep);
         }
 
         private void PlacePiece()
@@ -240,41 +269,36 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private void SetSetpoint(PrototypeSetpoint setpoint)
         {
-            _elevatorTargetHeight = setpoint.elevatorHeight;
-            _armTargetAngle = setpoint.armAngle;
+            ArmElevatorArm(setpoint);
             _funnelTargetAngle = setpoint.funnelAngle;
             _climberTargetAngle = setpoint.climberAngle;
         }
 
-        private void UpdateSetpoints()
+        private void ArmElevatorArm(PrototypeSetpoint setpoint)
         {
-            StartCoroutine(armBackThenElevator());
-            funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X);
-            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X);
-        }
-
-        private IEnumerator armBackThenElevator()
-        {
-            if (CurrentSetpoint == ReefscapeSetpoints.L1 || CurrentSetpoint == ReefscapeSetpoints.L2 || CurrentSetpoint == ReefscapeSetpoints.L3 || CurrentSetpoint == ReefscapeSetpoints.L4)
+            if (Utils.InRange(elevator.GetElevatorHeight(), setpoint.elevatorHeight, 5f))
             {
-                arm.SetTargetAngle(armStowAngle).withAxis(JointAxis.X);
-
-                yield return new WaitForSeconds(0.05f);
-                
-                elevator.SetTarget(_elevatorTargetHeight);
-                
-                yield return new WaitForSeconds(0.5f);
-                
-                arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);  
+                _armTargetAngle = setpoint.armAngle;
             }
             else
             {
-                elevator.SetTarget(_elevatorTargetHeight);
-                
-                yield return new WaitForSeconds(0.05f);
-                
-                arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
+                if (Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), armStowAngle, 10f))
+                {
+                    _elevatorTargetHeight = setpoint.elevatorHeight;
+                }
+                else
+                {
+                    _armTargetAngle = armStowAngle;
+                }
             }
+        }
+
+        private void UpdateSetpoints()
+        {
+            elevator.SetTarget(_elevatorTargetHeight);
+            arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
+            funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X);
+            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X);
         }
 
         private void UpdateAudio()

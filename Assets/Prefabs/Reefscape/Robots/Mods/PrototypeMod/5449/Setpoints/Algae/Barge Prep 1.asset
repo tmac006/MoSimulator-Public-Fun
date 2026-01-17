@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
   m_Name: Barge Prep 1
   m_EditorClassIdentifier: 
-  elevatorHeight: 0
-  armAngle: 0
-  funnelAngle: 0
+  elevatorHeight: 53.9
+  armAngle: 9.67
+  funnelAngle: -10
   climberAngle: 100

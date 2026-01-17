@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
-  m_Name: L4
+  m_Name: ClimbPrepClimber
   m_EditorClassIdentifier: 
-  elevatorHeight: 50.8
-  armAngle: 32.9
-  funnelAngle: 0
-  climberAngle: 100
+  elevatorHeight: 0
+  armAngle: 15
+  funnelAngle: -10
+  climberAngle: 0
