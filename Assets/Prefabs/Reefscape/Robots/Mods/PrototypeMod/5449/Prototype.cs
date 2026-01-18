@@ -91,6 +91,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         {
             base.Start();
             
+            hasClimbPrepped = false;
+            
             arm.SetPid(armPID);
             funnel.SetPid(funnelPID);
             climber.SetPid(climberPID);
@@ -215,7 +217,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 case ReefscapeSetpoints.Climb:
                     if (!hasClimbPrepped)
                     {
-                        hasClimbPrepped = true;
                         StartCoroutine(prepClimberBeforeFunnel());
                     }
                     break;
@@ -233,10 +234,12 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             if (hasClimbPrepped == false)
             {
                 SetSetpoint(climbPrepClimberOnly);
+                UpdateSetpoints();
 
                 yield return new WaitForSeconds(0.1f);
 
                 SetSetpoint(climbPrep);
+                UpdateSetpoints();
             }
         }
 
