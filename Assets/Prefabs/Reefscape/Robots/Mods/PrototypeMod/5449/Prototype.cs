@@ -230,11 +230,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private IEnumerator prepClimberBeforeFunnel()
         {
-            SetSetpoint(climbPrepClimberOnly);
+            if (hasClimbPrepped == false)
+            {
+                SetSetpoint(climbPrepClimberOnly);
 
-            yield return new WaitForSeconds(0.1f);
-            
-            SetSetpoint(climbPrep);
+                yield return new WaitForSeconds(0.1f);
+
+                SetSetpoint(climbPrep);
+            }
         }
 
         private void PlacePiece()

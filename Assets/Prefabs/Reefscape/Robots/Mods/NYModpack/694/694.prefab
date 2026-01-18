@@ -37666,7 +37666,7 @@ MonoBehaviour:
   froggyAlgaeStowState:
     name: Froggy Algae Stow State
     stateNum: 4
-    stateMoveSpeed: 0
+    stateMoveSpeed: 10
     stateTarget: {fileID: 3885021024700828827}
     smoothHandoff: 0
     angularSpeed: 180
@@ -53201,7 +53201,7 @@ MonoBehaviour:
   intakeSpeed: 20
   intakeForce: 15
   usePlanarTolerancing: 1
-  boxExtents: {x: 3.83, y: 4.48, z: 22.5}
+  boxExtents: {x: 3.83, y: 4.48, z: 8.3}
   maxDistance: 1
   accuracy: 1.39
   lockXAxis: 0
