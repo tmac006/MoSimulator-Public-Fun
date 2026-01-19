@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
   m_Name: L1 Placed
   m_EditorClassIdentifier: 
-  elevatorHeight: 0
-  armAngle: 0
-  funnelAngle: 0
+  elevatorHeight: 5
+  armAngle: 15
+  funnelAngle: -10
   climberAngle: 100

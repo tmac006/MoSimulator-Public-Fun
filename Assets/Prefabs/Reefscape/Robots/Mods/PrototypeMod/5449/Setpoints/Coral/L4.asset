@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: L4
   m_EditorClassIdentifier: 
   elevatorHeight: 50.8
-  armAngle: 32.9
-  funnelAngle: 0
+  armAngle: 20
+  funnelAngle: -10
   climberAngle: 100

@@ -49002,10 +49002,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2534371394911199621}
   serializedVersion: 4
-  m_Mass: 88
+  m_Mass: 98
   m_Drag: 3
   m_AngularDrag: 5
-  m_CenterOfMass: {x: 0, y: 0.127, z: 0}
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -49348,6 +49348,9 @@ MonoBehaviour:
   arm: {fileID: 1699876145451582923}
   funnel: {fileID: 6319348696855503872}
   climber: {fileID: 5132867756351246201}
+  rollers:
+  - {fileID: 708927084876323900}
+  - {fileID: 4570698903428489219}
   armPID:
     kP: 0.5
     kI: 0
@@ -49370,11 +49373,18 @@ MonoBehaviour:
   intake: {fileID: 11400000, guid: b399b7465003841fd9d4f618766e1de9, type: 2}
   l1: {fileID: 11400000, guid: 0d9964a3c34b14a8fbbb4918488b9397, type: 2}
   l1Place: {fileID: 11400000, guid: 8e84d2d6d1df245faa06f4f871d3f31b, type: 2}
+  l2Prep: {fileID: 11400000, guid: 1f264fa698fc13743a3f32b08c4359c3, type: 2}
   l2: {fileID: 11400000, guid: e835b449a135344c09981d5bd8f3b4f9, type: 2}
+  l2Score: {fileID: 11400000, guid: beb4e69d4eb140847aeb9867a33e9529, type: 2}
+  l3Prep: {fileID: 11400000, guid: 19b0385c66c2a374ea0fc461af14f423, type: 2}
   l3: {fileID: 11400000, guid: 623b6fed0b2964f7f868ec248f0a03c9, type: 2}
+  l3Score: {fileID: 11400000, guid: 9e9a1c000fb891e4087d33f2e2f600cb, type: 2}
+  l4Prep: {fileID: 11400000, guid: d31432e87b1e9ca43b1e87c2f1ca3816, type: 2}
   l4: {fileID: 11400000, guid: c50fbf0223016437396f51cfff7f1a4c, type: 2}
+  l4Score: {fileID: 11400000, guid: f886aec94a9a4a148842b83414f6ff9c, type: 2}
   armStowAngle: 15
   groundAlgae: {fileID: 11400000, guid: 92db5a84c0cec42ae840c07150f2c676, type: 2}
+  lolliAlgae: {fileID: 11400000, guid: d3696beaa13204343a2b4f63c041d15f, type: 2}
   lowAlgae: {fileID: 11400000, guid: f3ae308442b4b43598584c2febf624ad, type: 2}
   highAlgae: {fileID: 11400000, guid: 21e3342d3e84d40b59a5399d2debdaeb, type: 2}
   bargePrep1: {fileID: 11400000, guid: 9bd5426ec73a54222a842f44bcc946b7, type: 2}
@@ -49389,10 +49399,10 @@ MonoBehaviour:
   coralStowState:
     name: Coral Stow State
     stateNum: 1
-    stateMoveSpeed: 80
+    stateMoveSpeed: 50
     stateTarget: {fileID: 8788059755500425787}
     smoothHandoff: 0
-    angularSpeed: 10
+    angularSpeed: 0
   algaeStowState:
     name: Algae Stow State
     stateNum: 2
@@ -63781,8 +63791,8 @@ Transform:
   m_GameObject: {fileID: 3152440217154491670}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13207646, y: -0, z: -0, w: 0.99123955}
-  m_LocalPosition: {x: 0, y: 0.4848, z: -0.0476}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.475, z: -0.011}
+  m_LocalScale: {x: 1, y: 1, z: 1.14}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4967184225510560630}
@@ -63806,17 +63816,17 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 118
+  intakeSpeed: 180
   intakeForce: 80
-  usePlanarTolerancing: 1
+  usePlanarTolerancing: 0
   boxExtents: {x: 5.51, y: 3.65, z: 19}
-  maxDistance: 5
-  accuracy: 0.75
+  maxDistance: 10
+  accuracy: 2
   lockXAxis: 0
   lockYAxis: 0
   lockZAxis: 0
-  roationForce: 10
-  maxRotationSpeed: 25
+  roationForce: 2
+  maxRotationSpeed: 5
   useRotaion: 1
   smoothHandoff: 1
   target: {fileID: 8788059755500425787}
@@ -66106,7 +66116,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3280738934438553784}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -66118,7 +66128,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -104288,7 +104298,7 @@ Transform:
   m_GameObject: {fileID: 5245526925269691084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: -0.002}
+  m_LocalPosition: {x: 0, y: -0, z: 0.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169359,9 +169369,9 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
-  m_ImplicitTensor: 0
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -169644,9 +169654,9 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
-  m_ImplicitTensor: 0
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
