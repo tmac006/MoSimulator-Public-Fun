@@ -49451,6 +49451,7 @@ MonoBehaviour:
   bargePrep1: {fileID: 11400000, guid: 9bd5426ec73a54222a842f44bcc946b7, type: 2}
   bargePrep2: {fileID: 11400000, guid: 8b6428762f4534adbbef0a4dbcef15a9, type: 2}
   bargePlace: {fileID: 11400000, guid: f137324366c4b483fbecd3f7dfad4453, type: 2}
+  processAlgae: {fileID: 11400000, guid: 1c3368d02c70e7341adc98e408922e0e, type: 2}
   climbPrepClimberOnly: {fileID: 11400000, guid: 1397ae612e2d542849cd98091fea2457,
     type: 2}
   climbPrep: {fileID: 11400000, guid: 143461c1bb8cf4db8a9935399d0f18e7, type: 2}

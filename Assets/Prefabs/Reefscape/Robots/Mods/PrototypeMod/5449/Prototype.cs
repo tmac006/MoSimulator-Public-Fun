@@ -60,6 +60,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private PrototypeSetpoint bargePrep1;
         [SerializeField] private PrototypeSetpoint bargePrep2;
         [SerializeField] private PrototypeSetpoint bargePlace;
+        [SerializeField] private PrototypeSetpoint processAlgae;
         
         [Header("Climb Setpoints")]
         [SerializeField] private PrototypeSetpoint climbPrepClimberOnly;
@@ -221,15 +222,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 case ReefscapeSetpoints.Place:
                     if (hasCoral)
                     {
-                        if (LastSetpoint == ReefscapeSetpoints.L1)
-                        {
-                            SetSetpoint(l1Place);
-                            PlacePiece();
-                        }
-                        else
-                        {
-                            StartCoroutine(ScoreCoral(LastSetpoint));
-                        }
+                        StartCoroutine(ScoreCoral(LastSetpoint));
                     } 
                     else if (hasAlgae)
                     {
@@ -274,7 +267,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     SetSetpoint(align.getDistance() < 0.2f && aligning ? l4 : l4Prep);
                     break;
                 case ReefscapeSetpoints.Processor:
-                    SetSetpoint(stow);
+                    SetSetpoint(processAlgae);
                     break;
                 case ReefscapeSetpoints.Barge:
                     SetSetpoint(bargePrep1);
@@ -367,7 +360,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         break;
                     case ReefscapeSetpoints.L1:
                         
-                        rollers[0].SetAngularVelocity(-2500);
+                        rollers[0].SetAngularVelocity(-2350);
                         rollers[1].SetAngularVelocity(1000);
 
                         PlacePiece();
@@ -378,6 +371,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         rollers[1].SetAngularVelocity(400);
 
                         _armTargetAngle = l1Place.armAngle;
+                        _elevatorTargetHeight = l1Place.elevatorHeight;
 
                         break;
                 }
