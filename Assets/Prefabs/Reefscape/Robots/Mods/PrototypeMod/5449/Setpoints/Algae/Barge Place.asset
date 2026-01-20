@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Barge Place
   m_EditorClassIdentifier: 
   elevatorHeight: 53.9
-  armAngle: 38.7
+  armAngle: 24.6
   funnelAngle: -10
   climberAngle: 100

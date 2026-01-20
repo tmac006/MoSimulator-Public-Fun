@@ -126,10 +126,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             funnel.SetPid(funnelPID);
             climber.SetPid(climberPID);
 
-            _elevatorTargetHeight = 0;
-            _armTargetAngle = 0;
-            _climberTargetAngle = -100;
-            _funnelTargetAngle = -10;
+            _elevatorTargetHeight = stow.elevatorHeight;
+            _armTargetAngle = stow.armAngle;
+            _climberTargetAngle = stow.climberAngle;
+            _funnelTargetAngle = stow.funnelAngle;
             
             RobotGamePieceController.SetPreload(coralStowState);
             _coralController = RobotGamePieceController.GetPieceByName(nameof(ReefscapeGamePieceType.Coral));
