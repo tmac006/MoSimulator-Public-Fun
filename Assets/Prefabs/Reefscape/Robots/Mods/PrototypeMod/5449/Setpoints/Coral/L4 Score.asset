@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: L4 Score
   m_EditorClassIdentifier: 
   elevatorHeight: 50.8
-  armAngle: 29
+  armAngle: 30
   funnelAngle: -10
   climberAngle: 100
