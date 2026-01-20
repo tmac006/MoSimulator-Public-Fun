@@ -398,7 +398,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             {
                 if (LastSetpoint == ReefscapeSetpoints.Barge)
                 {
-                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 2f, 5f));
+                    _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 3f, 5.5f));
                 }
                 else
                 {
