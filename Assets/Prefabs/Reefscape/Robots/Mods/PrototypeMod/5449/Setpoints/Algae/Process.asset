@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Process
   m_EditorClassIdentifier: 
   elevatorHeight: -2
-  armAngle: 52
+  armAngle: 62.8
   funnelAngle: -10
   climberAngle: 100

@@ -75,6 +75,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private GamePieceState coralStowState;
         [SerializeField] private GamePieceState algaeStowState;
         
+        /*
         [Header("Algae Stall Audio")]
         [SerializeField] private AudioSource algaeStallSource;
         [SerializeField] private AudioClip algaeStallAudio;
@@ -87,7 +88,22 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private AudioSource funnelCloseSource;
         [SerializeField] private AudioClip funnelCloseAudio;
         [SerializeField] private BoxCollider coralTrigger;
-        private OverlapBoxBounds soundDetector;
+        */
+        
+        [Header("Clicker Joints")]
+        [SerializeField] private GenericAnimationJoint clickerL;
+        [SerializeField] private GenericAnimationJoint clickerR;
+        [SerializeField] private float ClickerSpeed = 120;
+        
+        private new void Update() 
+        {
+            base.Update();
+            
+            clickerL.SpringLoaded().AllowedDirection(1).RotationSpeed(ClickerSpeed);
+            clickerR.SpringLoaded().AllowedDirection(-1).RotationSpeed(ClickerSpeed);
+        } 
+        
+        // private OverlapBoxBounds soundDetector;
         
         
         private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _coralController;
@@ -97,8 +113,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         private float _armTargetAngle;
         private float _climberTargetAngle;
         private float _funnelTargetAngle;
-        private LayerMask coralMask;
-        private bool canClack;
+        // private LayerMask coralMask;
+        // private bool canClack;
         
         private ReefscapeAutoAlign align;
 
@@ -109,6 +125,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         private bool algaePlaced = false;
 
         private bool aligning = false;
+
+        private bool climberDown = false;
+
+        private bool runOnceVar = false;
         
         protected override void Start()
         {
@@ -147,6 +167,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             };
             _algaeController.intakes.Add(algaeIntake);
             
+            /*
             algaeStallSource.clip = algaeStallAudio;
             algaeStallSource.loop = true;
             algaeStallSource.Stop();
@@ -163,6 +184,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
             coralMask = LayerMask.GetMask("Coral");
             canClack = true;
+            */
         }
 
         private void LateUpdate()
@@ -180,7 +202,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             _algaeController.SetTargetState(algaeStowState);
             _coralController.SetTargetState(coralStowState);
 
-            if (!ClimbAction.IsPressed())
+            if (CurrentSetpoint != ReefscapeSetpoints.Climb && CurrentSetpoint != ReefscapeSetpoints.Climbed)
             {
                 hasClimbPrepped = false;
             }
@@ -206,12 +228,24 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 aligning = false;
             }
 
+            if (CurrentSetpoint != ReefscapeSetpoints.Place)
+            {
+
+                foreach (var col in EEcolliders)
+                {
+                    col.enabled = true;
+                }
+                
+            }
+
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
                     rollers[0].SetAngularVelocity(-2000);
                     rollers[1].SetAngularVelocity(2000);
                     SetSetpoint(stow);
+                    
+                    
                     break;
                 case ReefscapeSetpoints.Intake:
                     if (!hasAlgae && !hasCoral)
@@ -292,15 +326,17 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     StartCoroutine(prepClimberBeforeFunnel());
                     
                     hasClimbPrepped = true;
+                    climberDown = true;
                     break;
                 case ReefscapeSetpoints.Climbed:
                     SetSetpoint(climbClimb);
+                    climberDown = true;
                     break;
             }
 
             
             UpdateSetpoints();
-            UpdateAudio();
+            // UpdateAudio();
         }
 
         public IEnumerator ScoreBargeAlgae()
@@ -354,13 +390,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         yield return new WaitForSeconds(0.2f);
 
                         _armTargetAngle = 10;
-                        
-                        yield return new WaitForSeconds(0.2f);
-                        
-                        foreach (var col in EEcolliders)
-                        {
-                            col.enabled = true;
-                        }
 
                         break;
                     case ReefscapeSetpoints.L3:
@@ -414,6 +443,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 yield return new WaitForSeconds(0.5f);
                 
                 _funnelTargetAngle = climbPrep.funnelAngle;
+                
+                yield return new WaitForSeconds(0.5f);
+                
+                _climberTargetAngle = climbPrep.climberAngle;
             }
         }
 
@@ -434,7 +467,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             {
                 if (LastSetpoint == ReefscapeSetpoints.L4)
                 {
-                    _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 5), 0.1f, 0.5f);
+                     _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 4), 1, 1f);
+                    //_coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 6));
                 }
                 else if (LastSetpoint == ReefscapeSetpoints.L1)
                 {
@@ -451,9 +485,13 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         {
             ArmElevatorArm(setpoint);
             
+            _climberTargetAngle = climbPrepClimberOnly.climberAngle;
+            
+            yield return new WaitForSeconds(5f);
+            
             _funnelTargetAngle = setpoint.funnelAngle;
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(5f);
             
             _climberTargetAngle = setpoint.climberAngle;
                 
@@ -461,15 +499,21 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private void SetSetpoint(PrototypeSetpoint setpoint)
         {
-            if (CurrentSetpoint != ReefscapeSetpoints.Climb)
+            if (CurrentSetpoint == ReefscapeSetpoints.Climbed)
+            {
+                _climberTargetAngle = climbClimb.climberAngle;
+            }
+            else if (climberDown && LastSetpoint == ReefscapeSetpoints.Climbed)
             {
                 StartCoroutine(stowClimb(setpoint));
+                climberDown = false;
             }
-            else
+            else if (LastSetpoint != ReefscapeSetpoints.Climbed)
             {
                 ArmElevatorArm(setpoint);
                 _funnelTargetAngle = setpoint.funnelAngle;
                 _climberTargetAngle = setpoint.climberAngle;
+                
             }
         }
 
@@ -500,6 +544,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X).noWrap(-90);
         }
 
+        /*
         private void UpdateAudio()
         {
             if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
@@ -552,5 +597,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 canClack = true;
             }
         }
+        */
     }
 }
