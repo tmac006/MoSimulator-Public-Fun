@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Lollipop Algae
   m_EditorClassIdentifier: 
   elevatorHeight: -2
-  armAngle: 26
+  armAngle: 34.3
   funnelAngle: -10
   climberAngle: 100

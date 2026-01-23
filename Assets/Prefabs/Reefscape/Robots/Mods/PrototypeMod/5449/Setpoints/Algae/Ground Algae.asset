@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Ground Algae
   m_EditorClassIdentifier: 
   elevatorHeight: 0
-  armAngle: 70.46
+  armAngle: 73.3
   funnelAngle: -10
   climberAngle: 100

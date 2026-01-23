@@ -191,6 +191,12 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 algaePlaced = false;
             }
 
+            if (!IntakeAction.IsPressed())
+            {
+                _algaeController.RequestIntake(algaeIntake, false);
+                _coralController.RequestIntake(coralIntake, false);
+            }
+
             if (AutoAlignLeftAction.IsPressed() || AutoAlignRightAction.IsPressed())
             {
                 aligning = true;
@@ -208,7 +214,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     SetSetpoint(stow);
                     break;
                 case ReefscapeSetpoints.Intake:
-                    SetSetpoint(CurrentRobotMode == ReefscapeRobotMode.Coral ? intake : groundAlgae);
+                    if (!hasAlgae && !hasCoral)
+                    {
+                        SetSetpoint(CurrentRobotMode == ReefscapeRobotMode.Coral ? intake : groundAlgae);
+                    }
+                    else
+                    {
+                        SetSetpoint(stow);
+                    }
             
                     if (CurrentRobotMode == ReefscapeRobotMode.Coral)
                     {
@@ -329,13 +342,25 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     case ReefscapeSetpoints.L4:
                         _armTargetAngle = l4Score.armAngle;
 
+                        foreach (var col in EEcolliders)
+                        {
+                            col.enabled = false;
+                        }
+
                         yield return new WaitForSeconds(0.05f);
 
                         PlacePiece();
 
-                        yield return new WaitForSeconds(0.1f);
+                        yield return new WaitForSeconds(0.2f);
 
-                        _armTargetAngle = 15;
+                        _armTargetAngle = 10;
+                        
+                        yield return new WaitForSeconds(0.2f);
+                        
+                        foreach (var col in EEcolliders)
+                        {
+                            col.enabled = true;
+                        }
 
                         break;
                     case ReefscapeSetpoints.L3:
@@ -409,7 +434,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             {
                 if (LastSetpoint == ReefscapeSetpoints.L4)
                 {
-                    _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 3f), 0.67f, 5f);
+                    _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 5), 0.1f, 0.5f);
                 }
                 else if (LastSetpoint == ReefscapeSetpoints.L1)
                 {
