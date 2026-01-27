@@ -16101,7 +16101,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4628039333419968606}
-  - component: {fileID: 114010149961141518}
   m_Layer: 6
   m_Name: Stage 1
   m_TagString: Untagged
@@ -16126,33 +16125,6 @@ Transform:
   - {fileID: 4639428753026530318}
   m_Father: {fileID: 4748557503753968855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &114010149961141518
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845057838964359854}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &851698581068186232
 GameObject:
   m_ObjectHideFlags: 0
@@ -49445,7 +49417,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639428753026530318}
-  - component: {fileID: 2178854242474602589}
   m_Layer: 6
   m_Name: Stage 2
   m_TagString: Untagged
@@ -49470,33 +49441,6 @@ Transform:
   - {fileID: 3115497067451522241}
   m_Father: {fileID: 4628039333419968606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2178854242474602589
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2485863360778680457}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2486248980519026926
 GameObject:
   m_ObjectHideFlags: 0
@@ -120618,7 +120562,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3115497067451522241}
-  - component: {fileID: 4292367097051005930}
   m_Layer: 6
   m_Name: Arm
   m_TagString: Untagged
@@ -120646,33 +120589,6 @@ Transform:
   - {fileID: 2261373600655230720}
   m_Father: {fileID: 4639428753026530318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &4292367097051005930
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6047647599292522116}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &6054803978070430956
 GameObject:
   m_ObjectHideFlags: 0
@@ -126187,7 +126103,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9087423278506481783}
-  - component: {fileID: 2203197884008033835}
   - component: {fileID: 309642278168709664}
   m_Layer: 6
   m_Name: FunnelPivot
@@ -126213,33 +126128,6 @@ Transform:
   - {fileID: 7375782105921558639}
   m_Father: {fileID: 6024163209017085800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2203197884008033835
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6249830587796920926}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!82 &309642278168709664
 AudioSource:
   m_ObjectHideFlags: 0
@@ -155275,7 +155163,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7921999342516311552}
-  - component: {fileID: 2810336438653411468}
   m_Layer: 6
   m_Name: Other-Side
   m_TagString: Untagged
@@ -155299,33 +155186,6 @@ Transform:
   - {fileID: 7671469487273157374}
   m_Father: {fileID: 8646979475518184424}
   m_LocalEulerAnglesHint: {x: 14.042, y: 0, z: 90}
---- !u!54 &2810336438653411468
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7739335043642626372}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &7739481015645941955
 GameObject:
   m_ObjectHideFlags: 0
@@ -171837,7 +171697,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 486337748718457284}
-  - component: {fileID: 1735167639801860431}
   m_Layer: 6
   m_Name: ClimberPivot
   m_TagString: Untagged
@@ -171865,33 +171724,6 @@ Transform:
   - {fileID: 1967734897193125728}
   m_Father: {fileID: 7249677435438928458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1735167639801860431
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8606336127254580032}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &8607905337385523332
 GameObject:
   m_ObjectHideFlags: 0
@@ -181090,7 +180922,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2965516790597883359}
-  - component: {fileID: 2300323727994829584}
   m_Layer: 6
   m_Name: Radio-Side
   m_TagString: Untagged
@@ -181114,33 +180945,6 @@ Transform:
   - {fileID: 1295286940089148316}
   m_Father: {fileID: 8646979475518184424}
   m_LocalEulerAnglesHint: {x: 14.042, y: 0, z: 90}
---- !u!54 &2300323727994829584
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9047658077946297559}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &9052732279393404623
 GameObject:
   m_ObjectHideFlags: 0

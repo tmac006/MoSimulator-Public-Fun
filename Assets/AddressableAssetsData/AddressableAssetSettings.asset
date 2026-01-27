@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 9162ef73a8b7ff14a81079bd59987bc0
   m_currentHash:
     serializedVersion: 2
-    Hash: 8baa187d648e4764b904debf3ece1f30
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e02197fdf4254934fa6b0ab1762bb000, type: 2}
   - {fileID: 11400000, guid: 9cd31e1fc2fdeb84fbde0fabd689577f, type: 2}
   - {fileID: 11400000, guid: f5b71b85a798d6f40bb1c3812901e71f, type: 2}
+  - {fileID: 11400000, guid: 19f56d225e5c39c48b51706c6dd824cd, type: 2}
   - {fileID: 11400000, guid: aac5dc43f207f464cbe5c74a47d73199, type: 2}
   - {fileID: 11400000, guid: 8bb3b6716e90646e08a6450eaa848c91, type: 2}
   m_BuildSettings:
@@ -81,6 +82,8 @@ MonoBehaviour:
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
       - m_Id: 09c8129df8380314483bb47b20758376
         m_Value: '{UnityEngine.Application.persistentDataPath}/Mods/GRR Mod'
+      - m_Id: 196d277ed6bdb3142afce06d6776768c
+        m_Value: '{UnityEngine.Application.dataPath}/../Mods/PrototypeMod'
       - m_Id: 37e529e86860a7741a1cf0fcf45e094b
         m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
       - m_Id: 3995af1f76783674a86b8f7323c5f71e
@@ -95,6 +98,8 @@ MonoBehaviour:
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: 91ce49fdb2930f443bada3f612d02c32
         m_Value: '{UnityEngine.Application.persistentDataPath}/Mods/NYModpack'
+      - m_Id: 9ec4cd1fd67ad48458562ad4b74d10f7
+        m_Value: '{UnityEngine.Application.persistentDataPath}/Mods/PrototypeMod'
       - m_Id: a2842c0f9ded8a54d9ba8ec693eb3bcc
         m_Value: '{UnityEngine.Application.dataPath}/../Mods/Packed Assets'
       - m_Id: c65595e78f4c7db44a4324f2e84106be
@@ -110,6 +115,9 @@ MonoBehaviour:
       m_InlineUsage: 0
     - m_Id: 09c8129df8380314483bb47b20758376
       m_Name: GRR Mod_LoadPath
+      m_InlineUsage: 0
+    - m_Id: 196d277ed6bdb3142afce06d6776768c
+      m_Name: PrototypeMod_BuildPath
       m_InlineUsage: 0
     - m_Id: 37e529e86860a7741a1cf0fcf45e094b
       m_Name: Local.BuildPath
@@ -131,6 +139,9 @@ MonoBehaviour:
       m_InlineUsage: 0
     - m_Id: 91ce49fdb2930f443bada3f612d02c32
       m_Name: NYModpack_LoadPath
+      m_InlineUsage: 0
+    - m_Id: 9ec4cd1fd67ad48458562ad4b74d10f7
+      m_Name: PrototypeMod_LoadPath
       m_InlineUsage: 0
     - m_Id: a2842c0f9ded8a54d9ba8ec693eb3bcc
       m_Name: Packed Assets_BuildPath

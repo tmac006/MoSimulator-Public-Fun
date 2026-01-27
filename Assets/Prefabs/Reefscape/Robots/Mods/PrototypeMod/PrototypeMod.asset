@@ -16,4 +16,5 @@ MonoBehaviour:
   modpackVersion: 1.0.0
   authorName: Sebastian
   description: Fun little modpack that includes FRC 5449 Prototype from China
-  robots: []
+  robots:
+  - {fileID: 11400000, guid: 59d761dc69bb04b9da2ab04eea03c7d9, type: 2}

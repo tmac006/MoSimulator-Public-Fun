@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
-  m_Name: ClimbPrep
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: PrototypeMod_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  elevatorHeight: 0
-  armAngle: 15
-  funnelAngle: -110
-  climberAngle: 23.71
+  m_Group: {fileID: 11400000, guid: 19f56d225e5c39c48b51706c6dd824cd, type: 2}
+  m_StaticContent: 0
