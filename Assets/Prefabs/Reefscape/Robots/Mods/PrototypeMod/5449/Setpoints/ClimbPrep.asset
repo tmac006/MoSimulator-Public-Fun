@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ClimbPrep
   m_EditorClassIdentifier: 
   elevatorHeight: 0
-  armAngle: 15
+  armAngle: 0
   funnelAngle: -110
   climberAngle: 0
