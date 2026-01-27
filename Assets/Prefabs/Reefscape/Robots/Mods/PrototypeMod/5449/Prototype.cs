@@ -16,6 +16,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 {
     public class Prototype: ReefscapeRobotBase
     {
+        [Header("Animation Joints")]
+        [SerializeField] private GenericAnimationJoint[] endEffectorRollers;
+        [SerializeField] private float eeRollerSpeeds = 300;
+        
         [Header("Components")]
         [SerializeField] private GenericElevator elevator;
         [SerializeField] private GenericJoint arm;
@@ -75,7 +79,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private GamePieceState coralStowState;
         [SerializeField] private GamePieceState algaeStowState;
         
-        /*
         [Header("Algae Stall Audio")]
         [SerializeField] private AudioSource algaeStallSource;
         [SerializeField] private AudioClip algaeStallAudio;
@@ -88,7 +91,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private AudioSource funnelCloseSource;
         [SerializeField] private AudioClip funnelCloseAudio;
         [SerializeField] private BoxCollider coralTrigger;
-        */
+        private OverlapBoxBounds soundDetector;
         
         [Header("Clicker Joints")]
         [SerializeField] private GenericAnimationJoint clickerL;
@@ -103,8 +106,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             clickerR.SpringLoaded().AllowedDirection(-1).RotationSpeed(ClickerSpeed);
         } 
         
-        // private OverlapBoxBounds soundDetector;
-        
         
         private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _coralController;
         private RobotGamePieceController<ReefscapeGamePiece, ReefscapeGamePieceData>.GamePieceControllerNode _algaeController;
@@ -113,8 +114,9 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         private float _armTargetAngle;
         private float _climberTargetAngle;
         private float _funnelTargetAngle;
-        // private LayerMask coralMask;
-        // private bool canClack;
+        private float _eeRollerTargetSpeed;
+        private LayerMask coralMask;
+        private bool canClack;
         
         private ReefscapeAutoAlign align;
 
@@ -167,7 +169,6 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             };
             _algaeController.intakes.Add(algaeIntake);
             
-            /*
             algaeStallSource.clip = algaeStallAudio;
             algaeStallSource.loop = true;
             algaeStallSource.Stop();
@@ -184,7 +185,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
             coralMask = LayerMask.GetMask("Coral");
             canClack = true;
-            */
+
         }
 
         private void LateUpdate()
@@ -244,6 +245,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     rollers[0].SetAngularVelocity(-2000);
                     rollers[1].SetAngularVelocity(2000);
                     SetSetpoint(stow);
+                    UpdateEERollers(0);
                     
                     
                     break;
@@ -261,6 +263,11 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     {
                         rollers[0].ChangeAngularVelocity(-8000);
                         rollers[1].ChangeAngularVelocity(8000);
+                        UpdateEERollers(hasCoral || hasAlgae ? 0 : eeRollerSpeeds);
+                    }
+                    else
+                    {
+                        UpdateEERollers(hasCoral || hasAlgae ? 0 : -eeRollerSpeeds);
                     }
                     
                     _algaeController.RequestIntake(algaeIntake, CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae && !hasCoral && IntakeAction.IsPressed());
@@ -291,6 +298,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
                 case ReefscapeSetpoints.Stack:
                     SetSetpoint(lolliAlgae);
+                    UpdateEERollers(-eeRollerSpeeds);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -299,6 +307,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
                 case ReefscapeSetpoints.LowAlgae:
                     SetSetpoint(lowAlgae);
+                    UpdateEERollers(-eeRollerSpeeds);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -307,6 +316,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
                 case ReefscapeSetpoints.HighAlgae:
                     SetSetpoint(highAlgae);
+                    UpdateEERollers(-eeRollerSpeeds);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -336,7 +346,65 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
             
             UpdateSetpoints();
-            // UpdateAudio();
+            UpdateAudio();
+        }
+
+        private void UpdateEERollers(float speed)
+        {
+            _eeRollerTargetSpeed = speed;
+        }
+        
+        private void UpdateAudio()
+        {
+            if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
+            {
+                if (rollerSource.isPlaying || algaeStallSource.isPlaying)
+                {
+                    rollerSource.Stop();
+                    algaeStallSource.Stop();
+                }
+
+                return;
+            }
+            
+            if (((IntakeAction.IsPressed() && !_coralController.HasPiece() && !_coralController.HasPiece()) ||
+                 OuttakeAction.IsPressed()) &&
+                !rollerSource.isPlaying)
+            {
+                rollerSource.Play();
+            }
+            else if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed() && rollerSource.isPlaying)
+            {
+                rollerSource.Stop();
+            }
+            else if (IntakeAction.IsPressed() && (_coralController.HasPiece() || _algaeController.HasPiece()))
+            {
+                rollerSource.Stop();
+            }
+            
+            if (_algaeController.HasPiece() && !algaeStallSource.isPlaying)
+            {
+                algaeStallSource.Play();
+            }
+            else if (!_algaeController.HasPiece() && algaeStallSource.isPlaying)
+            {
+                algaeStallSource.Stop();
+            }
+
+
+            var a = soundDetector.OverlapBox(coralMask);
+            if (a.Length > 0)
+            {
+                if (canClack && !funnelCloseSource.isPlaying)
+                {
+                    funnelCloseSource.Play();
+                    canClack = false;
+                }
+            }
+            else
+            {
+                canClack = true;
+            }
         }
 
         public IEnumerator ScoreBargeAlgae()
@@ -354,6 +422,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
                 _armTargetAngle = bargePlace.armAngle;
                 SetSetpoint(bargePlace);
+                UpdateEERollers(eeRollerSpeeds);
                 
                 yield return new WaitForSeconds(0.03f);
                 
@@ -365,6 +434,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 {
                     col.enabled = true;
                 }
+                UpdateEERollers(0);
                 
             }
         }
@@ -386,30 +456,36 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         yield return new WaitForSeconds(0.05f);
 
                         PlacePiece();
+                        UpdateEERollers(eeRollerSpeeds);
 
                         yield return new WaitForSeconds(0.2f);
 
                         _armTargetAngle = 10;
+                        UpdateEERollers(0);
 
                         break;
                     case ReefscapeSetpoints.L3:
                         _armTargetAngle = l3Score.armAngle;
 
                         PlacePiece();
+                        UpdateEERollers(eeRollerSpeeds);
 
                         yield return new WaitForSeconds(0.2f);
 
                         _armTargetAngle = 15;
+                        UpdateEERollers(0);
 
                         break;
                     case ReefscapeSetpoints.L2:
                         _armTargetAngle = l2Score.armAngle;
 
                         PlacePiece();
+                        UpdateEERollers(eeRollerSpeeds);
 
                         yield return new WaitForSeconds(0.2f);
 
                         _armTargetAngle = 15;
+                        UpdateEERollers(0);
 
                         break;
                     case ReefscapeSetpoints.L1:
@@ -418,6 +494,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         rollers[1].SetAngularVelocity(1000);
 
                         PlacePiece();
+                        UpdateEERollers(eeRollerSpeeds);
                         
                         yield return new WaitForSeconds(0.3f);
                         
@@ -426,6 +503,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
                         _armTargetAngle = l1Place.armAngle;
                         _elevatorTargetHeight = l1Place.elevatorHeight;
+                        UpdateEERollers(0);
 
                         break;
                 }
@@ -539,64 +617,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         private void UpdateSetpoints()
         {
             elevator.SetTarget(_elevatorTargetHeight);
-            arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X);
-            funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X);
-            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X).noWrap(-90);
-        }
-
-        /*
-        private void UpdateAudio()
-        {
-            if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
+            arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X).useCustomStartingOffset(15);
+            funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X).useCustomStartingOffset(-10);
+            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X).noWrap(-90).useCustomStartingOffset(100);
+            
+            foreach (var roller in endEffectorRollers)
             {
-                if (rollerSource.isPlaying || algaeStallSource.isPlaying)
-                {
-                    rollerSource.Stop();
-                    algaeStallSource.Stop();
-                }
-
-                return;
-            }
-
-            if (((IntakeAction.IsPressed() && !_coralController.HasPiece() && !_coralController.HasPiece()) ||
-                 OuttakeAction.IsPressed()) &&
-                !rollerSource.isPlaying)
-            {
-                rollerSource.Play();
-            }
-            else if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed() && rollerSource.isPlaying)
-            {
-                rollerSource.Stop();
-            }
-            else if (IntakeAction.IsPressed() && (_coralController.HasPiece() || _algaeController.HasPiece()))
-            {
-                rollerSource.Stop();
-            }
-
-            if (_algaeController.HasPiece() && !algaeStallSource.isPlaying)
-            {
-                algaeStallSource.Play();
-            }
-            else if (!_algaeController.HasPiece() && algaeStallSource.isPlaying)
-            {
-                algaeStallSource.Stop();
-            }
-
-
-            var a = soundDetector.OverlapBox(coralMask);
-            if (a.Length > 0)
-            {
-                if (canClack && !funnelCloseSource.isPlaying)
-                {
-                    funnelCloseSource.Play();
-                    canClack = false;
-                }
-            }
-            else
-            {
-                canClack = true;
+                roller.VelocityRoller(_eeRollerTargetSpeed);
             }
         }
-        */
     }
 }
