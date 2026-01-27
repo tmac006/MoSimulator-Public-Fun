@@ -603,7 +603,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             }
             else
             {
-                if (Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), armStowAngle, 10f))
+                if (Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), armStowAngle, 1f))
                 {
                     _elevatorTargetHeight = setpoint.elevatorHeight;
                 }

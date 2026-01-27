@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stow
   m_EditorClassIdentifier: 
   elevatorHeight: -2
-  armAngle: 15
+  armAngle: -6.94
   funnelAngle: -10
   climberAngle: 100
