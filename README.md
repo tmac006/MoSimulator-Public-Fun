@@ -7,3 +7,9 @@ yeah we dont know what we're doing prolly idk
 yeah idk
 
 # idk where the link is but the repo this is forked from is offical modding stuff
+
+# has **3** working bobots
+* 694
+* 340
+
+* and now 5449
