@@ -40264,7 +40264,7 @@ Transform:
   m_GameObject: {fileID: 2136314667600111294}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13554117, y: -0, z: -0, w: 0.9907717}
-  m_LocalPosition: {x: 0, y: 0.5296, z: 0.0682}
+  m_LocalPosition: {x: -0.004, y: 0.5296, z: 0.0682}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48524,7 +48524,7 @@ MonoBehaviour:
   coralStowState:
     name: Coral Stow State
     stateNum: 1
-    stateMoveSpeed: 25
+    stateMoveSpeed: 23
     stateTarget: {fileID: 8788059755500425787}
     smoothHandoff: 0
     angularSpeed: 10
@@ -62577,7 +62577,7 @@ Transform:
   m_GameObject: {fileID: 3152440217154491670}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13165432, y: -0, z: -0, w: 0.9912957}
-  m_LocalPosition: {x: 0, y: 0.486, z: -0.0276}
+  m_LocalPosition: {x: -0.004, y: 0.486, z: -0.0276}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -62602,8 +62602,8 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 120
-  intakeForce: 50
+  intakeSpeed: 110
+  intakeForce: 40
   usePlanarTolerancing: 0
   boxExtents: {x: 5.51, y: 3.65, z: 19}
   maxDistance: 10
@@ -75627,7 +75627,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
   m_UseGravity: 1
@@ -118154,8 +118154,8 @@ Transform:
   m_GameObject: {fileID: 5926678353018494168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.58, y: 0.457, z: 0}
-  m_LocalScale: {x: 1.1850001, y: 1, z: 1.1256876}
+  m_LocalPosition: {x: 0.58, y: 0.48373, z: 0}
+  m_LocalScale: {x: 1.1850001, y: 1.0913949, z: 1.1256876}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7508108429782771140}

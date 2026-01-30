@@ -96,7 +96,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [Header("Clicker Joints")]
         [SerializeField] private GenericAnimationJoint clickerL;
         [SerializeField] private GenericAnimationJoint clickerR;
-        [SerializeField] private float ClickerSpeed = 120;
+        [SerializeField] private float ClickerSpeed = 200;
         
         private new void Update() 
         {
@@ -130,7 +130,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private bool climberDown = false;
 
-        private bool runOnceVar = false;
+        private bool runOnce = false;
+        private bool lowerFunnel = false;
         
         protected override void Start()
         {
@@ -239,6 +240,11 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 
             }
 
+            if (CurrentSetpoint != ReefscapeSetpoints.RobotSpecial)
+            {
+                runOnce = false;
+            }
+
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
@@ -330,7 +336,11 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     SetSetpoint(bargePrep1);
                     break;
                 case ReefscapeSetpoints.RobotSpecial:
-                    SetState(ReefscapeSetpoints.Stow);
+                    if (!runOnce)
+                    {
+                        lowerFunnel = !lowerFunnel;
+                        runOnce = true;
+                    }
                     break;
                 case ReefscapeSetpoints.Climb:
                     StartCoroutine(prepClimberBeforeFunnel());
@@ -344,6 +354,13 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
             }
 
+            if (lowerFunnel && _funnelTargetAngle == stow.funnelAngle)
+            {
+                _funnelTargetAngle -= 5;
+            } else if (!lowerFunnel && _funnelTargetAngle == (stow.funnelAngle - 5))
+            {
+                _funnelTargetAngle = stow.funnelAngle;
+            }
             
             UpdateSetpoints();
             UpdateAudio();
@@ -367,9 +384,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 return;
             }
             
-            if (((IntakeAction.IsPressed() && !_coralController.HasPiece() && !_coralController.HasPiece()) ||
-                 OuttakeAction.IsPressed()) &&
-                !rollerSource.isPlaying)
+            if (((IntakeAction.IsPressed() && !_algaeController.HasPiece() && !_coralController.HasPiece()) || OuttakeAction.IsPressed()) && !rollerSource.isPlaying)
             {
                 rollerSource.Play();
             }
@@ -428,7 +443,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 
                 PlacePiece();
                 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.03f);
                 
                 foreach (var col in EEcolliders)
                 {
@@ -448,12 +463,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     case ReefscapeSetpoints.L4:
                         _armTargetAngle = l4Score.armAngle;
 
-                        foreach (var col in EEcolliders)
-                        {
-                            col.enabled = false;
-                        }
-
-                        yield return new WaitForSeconds(0.05f);
+                        yield return new WaitForSeconds(0.023f);
 
                         PlacePiece();
                         UpdateEERollers(eeRollerSpeeds);
@@ -545,7 +555,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             {
                 if (LastSetpoint == ReefscapeSetpoints.L4)
                 {
-                     _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 4), 1, 1f);
+                     _coralController.ReleaseGamePieceWithContinuedForce(new Vector3(0, 0, 4), 0.5f, 1f);
                     //_coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 6));
                 }
                 else if (LastSetpoint == ReefscapeSetpoints.L1)
