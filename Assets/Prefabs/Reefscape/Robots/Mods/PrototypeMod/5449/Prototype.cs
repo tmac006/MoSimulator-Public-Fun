@@ -36,8 +36,13 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         [SerializeField] private PidConstants climberPID;
 
         [Header("Coral Setpoints")]
+        [SerializeField] private SingleEditableFloat lowerDistance;
         [SerializeField] private PrototypeSetpoint stow;
+        [SerializeField] private PrototypeSetpoint algaeStow;
+        [SerializeField] private PrototypeSetpoint stowLow;
+        [SerializeField] private PrototypeSetpoint algaeStowLow;
         [SerializeField] private PrototypeSetpoint intake;
+        [SerializeField] private PrototypeSetpoint intakeLow;
         [SerializeField] private PrototypeSetpoint l1;
         [SerializeField] private PrototypeSetpoint l1Place;
 
@@ -250,7 +255,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 case ReefscapeSetpoints.Stow:
                     rollers[0].SetAngularVelocity(-2000);
                     rollers[1].SetAngularVelocity(2000);
-                    SetSetpoint(stow);
+                    SetSetpoint(hasAlgae ? (lowerFunnel ? algaeStowLow : algaeStow) : (lowerFunnel ? stowLow : stow));
                     UpdateEERollers(0);
                     
                     
@@ -258,11 +263,11 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 case ReefscapeSetpoints.Intake:
                     if (!hasAlgae && !hasCoral)
                     {
-                        SetSetpoint(CurrentRobotMode == ReefscapeRobotMode.Coral ? intake : groundAlgae);
+                        SetSetpoint(CurrentRobotMode == ReefscapeRobotMode.Coral ? (lowerFunnel ? intakeLow : intake) : groundAlgae);
                     }
                     else
                     {
-                        SetSetpoint(stow);
+                        SetSetpoint(hasAlgae ? (lowerFunnel ? algaeStowLow : algaeStow) : (lowerFunnel ? stowLow : stow));
                     }
             
                     if (CurrentRobotMode == ReefscapeRobotMode.Coral)
@@ -356,8 +361,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
             if (lowerFunnel && _funnelTargetAngle == stow.funnelAngle)
             {
-                _funnelTargetAngle -= 5;
-            } else if (!lowerFunnel && _funnelTargetAngle == (stow.funnelAngle - 5))
+                _funnelTargetAngle -= lowerDistance.value;
+            } else if (!lowerFunnel && _funnelTargetAngle == (stow.funnelAngle - lowerDistance.value))
             {
                 _funnelTargetAngle = stow.funnelAngle;
             }

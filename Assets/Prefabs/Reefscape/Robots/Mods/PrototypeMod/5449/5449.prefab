@@ -10308,7 +10308,6 @@ GameObject:
   - component: {fileID: 6018493907563490355}
   - component: {fileID: 8833877156292250988}
   - component: {fileID: 4921991888579097644}
-  - component: {fileID: 178334718861787724}
   m_Layer: 6
   m_Name: Bumpers
   m_TagString: Untagged
@@ -10384,28 +10383,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &178334718861787724
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496424044629067303}
-  m_Material: {fileID: 13400000, guid: 91a97ecb2bc4d2f46b9d7b6d3f66552a, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3507326146162850793, guid: 25f3b4d493c404f77b162c6e3574f249, type: 3}
 --- !u!1 &499438757671480981
 GameObject:
   m_ObjectHideFlags: 0
@@ -48493,8 +48470,13 @@ MonoBehaviour:
     kD: 0.05
     Max: 3
     Isaturation: 0
+  lowerDistance: {fileID: 11400000, guid: 1decf528607b51448ba624e14f6a016f, type: 2}
   stow: {fileID: 11400000, guid: 40d0c528e24bf499aacd6a7d3b2926de, type: 2}
+  algaeStow: {fileID: 11400000, guid: 2a2e69b0104503e49a3b217fbb69147c, type: 2}
+  stowLow: {fileID: 11400000, guid: 329aad986372b32468ae54112ed6a65a, type: 2}
+  algaeStowLow: {fileID: 11400000, guid: c8a64249fb4fd704e8f9c4efcccb07ba, type: 2}
   intake: {fileID: 11400000, guid: b399b7465003841fd9d4f618766e1de9, type: 2}
+  intakeLow: {fileID: 11400000, guid: a82dccb12e0e6084b81c1730d3f07182, type: 2}
   l1: {fileID: 11400000, guid: 0d9964a3c34b14a8fbbb4918488b9397, type: 2}
   l1Place: {fileID: 11400000, guid: 8e84d2d6d1df245faa06f4f871d3f31b, type: 2}
   l2Prep: {fileID: 11400000, guid: 1f264fa698fc13743a3f32b08c4359c3, type: 2}
@@ -62602,8 +62584,8 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 110
-  intakeForce: 40
+  intakeSpeed: 130
+  intakeForce: 50
   usePlanarTolerancing: 0
   boxExtents: {x: 5.51, y: 3.65, z: 19}
   maxDistance: 10
