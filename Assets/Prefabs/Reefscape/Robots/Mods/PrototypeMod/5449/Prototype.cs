@@ -18,7 +18,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
     {
         [Header("Animation Joints")]
         [SerializeField] private GenericAnimationJoint[] endEffectorRollers;
-        [SerializeField] private float eeRollerSpeeds = 300;
+        [SerializeField] private float eeRollerSpeeds = 200;
         
         [Header("Components")]
         [SerializeField] private GenericElevator elevator;

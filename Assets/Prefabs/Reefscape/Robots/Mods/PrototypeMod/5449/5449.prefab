@@ -48526,7 +48526,7 @@ MonoBehaviour:
   coralTrigger: {fileID: 985337029151964142}
   clickerL: {fileID: 8342949699850769492}
   clickerR: {fileID: 5332951802423353323}
-  ClickerSpeed: 120
+  ClickerSpeed: 200
 --- !u!1 &2534956385570241499
 GameObject:
   m_ObjectHideFlags: 0
