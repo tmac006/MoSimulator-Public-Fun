@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevatorHeight: 0
   armAngle: 0
-  funnelAngle: -110
+  funnelAngle: -118
   climberAngle: 0

@@ -18,7 +18,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
     {
         [Header("Animation Joints")]
         [SerializeField] private GenericAnimationJoint[] endEffectorRollers;
-        [SerializeField] private float eeRollerSpeeds = 200;
+        [SerializeField] private float eeRollerSpeeds = 180;
         
         [Header("Components")]
         [SerializeField] private GenericElevator elevator;
@@ -533,7 +533,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 _armTargetAngle = climbPrepClimberOnly.armAngle;
                 _climberTargetAngle = climbPrepClimberOnly.climberAngle;
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.67f);
                 
                 _funnelTargetAngle = climbPrep.funnelAngle;
                 
