@@ -72,7 +72,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             _armTargetAngle = 0;
             _intakeTargetAngle = 0;
             
-            RobotGamePieceController.SetPreload(coralStowState);
+            //RobotGamePieceController.SetPreload(coralStowState);
             _coralController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Coral.ToString());
             _algaeController = RobotGamePieceController.GetPieceByName(ReefscapeGamePieceType.Algae.ToString());
 
@@ -224,7 +224,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             }
             else
             {
-                
+                _algaeController.ReleaseGamePieceWithForce(new Vector3(1, 1, 1));
             }
         }
 

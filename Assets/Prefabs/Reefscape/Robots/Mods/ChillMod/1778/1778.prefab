@@ -22533,24 +22533,24 @@ MonoBehaviour:
   coralIntakeState:
     name: Coral Intake State
     stateNum: 1
-    stateMoveSpeed: 5
+    stateMoveSpeed: 23
     stateTarget: {fileID: 2426909510569497674}
     smoothHandoff: 0
-    angularSpeed: 0
+    angularSpeed: 10
   coralStowState:
     name: Coral Stow State
-    stateNum: 2
-    stateMoveSpeed: 5
+    stateNum: 1
+    stateMoveSpeed: 23
     stateTarget: {fileID: 3680429796230751338}
     smoothHandoff: 0
-    angularSpeed: 0
+    angularSpeed: 10
   algaeStowState:
     name: Algae Stow State
-    stateNum: 3
-    stateMoveSpeed: 5
+    stateNum: 2
+    stateMoveSpeed: 80
     stateTarget: {fileID: 7704173872414636906}
     smoothHandoff: 0
-    angularSpeed: 0
+    angularSpeed: 10
 --- !u!114 &337772558141108340
 MonoBehaviour:
   m_ObjectHideFlags: 0
