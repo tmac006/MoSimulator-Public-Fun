@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 105e55c901e2c994cb2d47245bc9621b, type: 3}
-  m_Name: Algae
+  m_Script: {fileID: 11500000, guid: 855ae2cb10c054546b3d43ca103f97ca, type: 3}
+  m_Name: Front Right
   m_EditorClassIdentifier: 
-  elevatorHeight: 20
-  armAngle: 0
-  intakeAngle: 0
+  xOffset: -5.63
+  yOffset: 0
+  zOffset: 2.08
+  Rotation: 0

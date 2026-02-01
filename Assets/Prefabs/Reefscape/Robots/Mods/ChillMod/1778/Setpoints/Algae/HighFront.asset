@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevatorHeight: 50
   armAngle: 92
-  intakeAngle: -100
+  intakeAngle: 0
