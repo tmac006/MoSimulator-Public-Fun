@@ -125,12 +125,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 Utils.InRange(intake.GetSingleAxisAngle(JointAxis.X), coralTransferring.intakeAngle, 0.1f) &&
                 !_transferRun)
             {
-                if (CurrentIntakeMode == ReefscapeIntakeMode.Normal)
+                if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && CurrentSetpoint != ReefscapeSetpoints.L1)
                 {
                     _coralController.SetTargetState(coralStowState);
                     _transferRun = true;
                 }
-                else if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
+                else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || CurrentSetpoint == ReefscapeSetpoints.L1)
                 {
                     _coralController.SetTargetState(coralIntakeState);
                     _transferRun = true;
@@ -188,7 +188,15 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     }
                     break;
                 case ReefscapeSetpoints.L1:
-                    SetSetpoint(l1);
+                    if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+                    {
+                        SetSetpoint(l1);
+                    }
+                    else
+                    {
+                        SetSetpoint(coralTransferring);
+                        _transferRun = false;
+                    }
                     break;
                 case ReefscapeSetpoints.Stack:
                     SetSetpoint(lolli);
@@ -349,9 +357,21 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void SetSetpoint(ChillOutSetpoint setpoint)
         {
-            _elevatorTargetHeight = setpoint.elevatorHeight;
-            _armTargetAngle = setpoint.armAngle;
-            _intakeTargetAngle = setpoint.intakeAngle;
+            if (setpoint != coralTransferring)
+            {
+                _elevatorTargetHeight = setpoint.elevatorHeight;
+                _armTargetAngle = setpoint.armAngle;
+                _intakeTargetAngle = setpoint.intakeAngle;
+            }
+            else
+            {
+                _intakeTargetAngle = setpoint.intakeAngle;
+                _armTargetAngle = setpoint.armAngle;
+                if (Utils.InRange(_intakeTargetAngle, intake.GetSingleAxisAngle(JointAxis.X), 1f))
+                {
+                    _elevatorTargetHeight = setpoint.elevatorHeight;
+                }
+            }
         }
         
         private void ApplySetpoints() 
@@ -369,9 +389,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void HandoffToArm()
         {
-            _elevatorTargetHeight = coralTransferring.elevatorHeight;
             _intakeTargetAngle = coralTransferring.intakeAngle;
             _armTargetAngle = coralTransferring.armAngle;
+            if (Utils.InRange(_intakeTargetAngle, intake.GetSingleAxisAngle(JointAxis.X), 1f))
+            {
+                _elevatorTargetHeight = coralTransferring.elevatorHeight;
+            }
 
         }
     }
