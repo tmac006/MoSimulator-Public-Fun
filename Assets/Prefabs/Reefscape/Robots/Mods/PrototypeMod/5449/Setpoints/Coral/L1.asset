@@ -15,4 +15,4 @@ MonoBehaviour:
   elevatorHeight: 4
   armAngle: 16
   funnelAngle: -10
-  climberAngle: 100
+  climberAngle: 0
