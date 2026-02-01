@@ -119,12 +119,36 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 _algaeController.RequestIntake(algaeIntake, false);
                 _coralController.RequestIntake(coralIntake, false);
             }
+
+            if (Utils.InRange(elevator.GetElevatorHeight(), coralTransferring.elevatorHeight, 2f) &&
+                Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), coralTransferring.armAngle, 2f) &&
+                Utils.InRange(intake.GetSingleAxisAngle(JointAxis.X), coralTransferring.intakeAngle, 0.1f) &&
+                !_transferRun)
+            {
+                if (CurrentIntakeMode == ReefscapeIntakeMode.Normal)
+                {
+                    _coralController.SetTargetState(coralStowState);
+                    _transferRun = true;
+                }
+                else if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
+                {
+                    _coralController.SetTargetState(coralIntakeState);
+                    _transferRun = true;
+                }
+            }
             
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
-                    SetSetpoint(hasAlgae ? stowAlgae : stow);
-                    
+                    if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && intakeHasCoral)
+                    {
+                        SetSetpoint(coralTransferring);
+                    }
+                    else
+                    {
+                        SetSetpoint(hasAlgae ? stowAlgae : stow);
+                    }
+
                     _algaeController.RequestIntake(algaeIntake, false);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -143,17 +167,16 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     if (!hasCoral)
                     {
                         _coralController.SetTargetState(coralIntakeState);
-                        _coralController.RequestIntake(coralIntake, !hasCoral && IntakeAction.IsPressed());
+                        _coralController.RequestIntake(coralIntake, IntakeAction.IsPressed());
                     }
                     else
                     {
                         _coralController.RequestIntake(coralIntake, false);
                     }
 
-                    if (!_transferRun && intakeHasCoral)
+                    if (!_transferRun && hasCoral)
                     {
-                        StartCoroutine(TransferCoral());
-                        _transferRun = true;
+                        HandoffToArm();
                     }
 
                     break;
@@ -294,8 +317,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         {
             if (_coralController.atTarget && _coralController.currentStateNum == coralStowState.stateNum)
             {
-                //StartCoroutine(PlaceCoralOnBranch());
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, 0));
+                _transferRun = false;
+            }
+            else if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+            {
                 _transferRun = false;
             }
             else
@@ -341,25 +367,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             intake.SetTargetAngle(_intakeTargetAngle).withAxis(JointAxis.X);
         }
 
-        private IEnumerator TransferCoral()
+        private void HandoffToArm()
         {
             _elevatorTargetHeight = coralTransferring.elevatorHeight;
             _intakeTargetAngle = coralTransferring.intakeAngle;
             _armTargetAngle = coralTransferring.armAngle;
-            
-            yield return new WaitForSeconds(0.2f);
-
-            if (CurrentIntakeMode == ReefscapeIntakeMode.Normal)
-            {
-                _coralController.SetTargetState(coralStowState);
-            } else if (CurrentIntakeMode == ReefscapeIntakeMode.L1)
-            {
-                _coralController.SetTargetState(coralIntakeState);
-            }
-            
-            yield return new WaitForSeconds(0.2f);
-
-            _elevatorTargetHeight = stow.elevatorHeight;
 
         }
     }

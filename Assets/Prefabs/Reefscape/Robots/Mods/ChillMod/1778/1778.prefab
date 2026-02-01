@@ -22421,7 +22421,7 @@ MonoBehaviour:
   elevatorAxis: 1
   flipped: 0
   setStageOverrides: []
-  stageHeight: 26
+  stageHeight: 35
   stageOverlap: 5
   carriageHeight: 8
   elevatorSound: {fileID: 0}
