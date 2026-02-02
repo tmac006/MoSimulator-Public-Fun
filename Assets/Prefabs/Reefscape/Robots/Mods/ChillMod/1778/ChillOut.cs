@@ -137,6 +137,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 }
             }
             
+            if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && intakeHasCoral)
+            {
+                SetSetpoint(coralTransferring);
+            }
+            
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
@@ -335,7 +340,9 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             else
             {
                 _algaeController.ReleaseGamePieceWithForce(new Vector3(0, 4, 0));
+                _transferRun = false;
             }
+            _transferRun = false;
         }
 
         private void SetSetpointPlaced(ChillOutSetpoint setpoint)
