@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105e55c901e2c994cb2d47245bc9621b, type: 3}
   m_Name: Transferring
   m_EditorClassIdentifier: 
-  elevatorHeight: 37
+  elevatorHeight: 35
   armAngle: 180
   intakeAngle: 0
