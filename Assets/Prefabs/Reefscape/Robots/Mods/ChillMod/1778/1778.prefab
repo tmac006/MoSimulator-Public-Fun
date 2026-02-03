@@ -10275,6 +10275,7 @@ GameObject:
   - component: {fileID: 4679442083038250539}
   - component: {fileID: 7380919608819733307}
   - component: {fileID: 5188219319353152324}
+  - component: {fileID: 6220279283399205905}
   m_Layer: 6
   m_Name: TopCenteringPlate
   m_TagString: BlueRobot
@@ -10349,6 +10350,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6220279283399205905
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639291984141558223}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5832214592285237661, guid: 34cd08123c69ebb459045dd609800f31, type: 3}
 --- !u!1 &639506193876777529
 GameObject:
   m_ObjectHideFlags: 0
@@ -19591,7 +19614,7 @@ Transform:
   m_GameObject: {fileID: 1260946508561013705}
   serializedVersion: 2
   m_LocalRotation: {x: -0.27059805, y: 0.6532815, z: -0.27059805, w: 0.6532815}
-  m_LocalPosition: {x: -0, y: -0.07, z: 0.231}
+  m_LocalPosition: {x: -0, y: -0.063, z: 0.224}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34295,7 +34318,7 @@ Transform:
   m_GameObject: {fileID: 2158355675215648576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.059, z: 0.265}
+  m_LocalPosition: {x: -0, y: -0.059, z: 0.2308}
   m_LocalScale: {x: 0.1602834, y: 0.036683302, z: 0.040611405}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40108,6 +40131,7 @@ GameObject:
   - component: {fileID: 8120953990827179163}
   - component: {fileID: 8171762995165165424}
   - component: {fileID: 5239023729204733347}
+  - component: {fileID: 4767535049298802877}
   m_Layer: 6
   m_Name: BottomCenteringPlate
   m_TagString: BlueRobot
@@ -40182,6 +40206,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4767535049298802877
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2510078909690229065}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3481561656060180112, guid: 34cd08123c69ebb459045dd609800f31, type: 3}
 --- !u!1 &2519935249721397823
 GameObject:
   m_ObjectHideFlags: 0
