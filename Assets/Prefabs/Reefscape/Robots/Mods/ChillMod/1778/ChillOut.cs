@@ -122,7 +122,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         private void setIntakeIntake()
         {
             intakeRollers[0].SetAngularVelocity(-1000);
-            intakeRollers[1].SetAngularVelocity(3500);
+            intakeRollers[1].SetAngularVelocity(5000);
         }
 
         private void setIntakeOuttaking()
@@ -130,6 +130,14 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             for (int i = 0; i < intakeRollers.Length; i++)
             {
                 intakeRollers[i].SetAngularVelocity((i * -1) * 1500);
+            }
+        }
+        
+        private void setIntakeOuttaking(float s)
+        {
+            for (int i = 0; i < intakeRollers.Length; i++)
+            {
+                intakeRollers[i].SetAngularVelocity((i * -1) * s);
             }
         }
 
@@ -160,7 +168,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 setIntakeOuttaking();
             }
 
-            if (atSetpoint(coralTransferring) && !transferOnce)
+            if (atSetpoint(l1))
+            {
+                setIntakeOuttaking(3000);
+            }
+
+            if (atSetpoint(coralTransferring) && !transferOnce && CurrentIntakeMode == ReefscapeIntakeMode.Normal && CurrentSetpoint != ReefscapeSetpoints.L1)
             {
                 setIntakeOuttaking();
                 transferToArm();
@@ -234,13 +247,23 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     }
                     break;
                 case ReefscapeSetpoints.L1:
-                    if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+                    if (intakeHasCoral)
                     {
                         SetSetpoint(l1);
                     }
                     else
                     {
-                        SetSetpoint(coralTransferring);
+                        if (armHasCoral)
+                        {
+                            _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, 0));
+                        }
+                        else
+                        {
+                            setIntakeIntake();
+                            _coralController.SetTargetState(coralIntakeState);
+                            _coralController.RequestIntake(coralIntake, true);
+                            _coralController.RequestIntake(armCoralIntake, false);
+                        }
                     }
                     break;
                 case ReefscapeSetpoints.Stack:
@@ -381,6 +404,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             if (_coralController.atTarget && _coralController.currentStateNum == coralStowState.stateNum)
             {
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, 0));
+            }
+            else if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+            {
+                _coralController.ReleaseGamePieceWithForce(new Vector3(0, -5, 0));
             }
             else
             {
