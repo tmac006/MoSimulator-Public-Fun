@@ -500,7 +500,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                   LastSetpoint == ReefscapeSetpoints.Stack) || _algaeController.atTarget)
                     ? 180
                     : (FacingReef ? 150 : 210));
-            intake.SetTargetAngle(_intakeTargetAngle).withAxis(JointAxis.X);
+            intake.SetTargetAngle(_intakeTargetAngle).withAxis(JointAxis.X).noWrap(-90);
         }
 
         private void HandoffToArm()
