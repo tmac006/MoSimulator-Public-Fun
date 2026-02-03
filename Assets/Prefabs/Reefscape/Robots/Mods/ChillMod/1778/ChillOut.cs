@@ -78,6 +78,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private bool transferOnce = false;
         private bool intk = false;
+        private bool transferring = false;
+        private bool coralInPossesion = false;
+
+        private ReefscapeSetpoints nextLevel = ReefscapeSetpoints.Stow;
         
         protected override void Start()
         {
@@ -114,14 +118,14 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         private bool atSetpoint(ChillOutSetpoint stp)
         {
             return
-                Utils.InRange(elevator.GetElevatorHeight(), stp.elevatorHeight, 2f) &&
-                Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), stp.armAngle, 2f) &&
+                Utils.InAngularRange(elevator.GetElevatorHeight(), stp.elevatorHeight, 2f) &&
+                Utils.InAngularRange(arm.GetSingleAxisAngle(JointAxis.X), stp.armAngle, 2f) &&
                 Utils.InRange(intake.GetSingleAxisAngle(JointAxis.X), stp.intakeAngle, 2f);
         }
         
         public bool atSetpoint(ChillOutSetpoint stp, GenericJoint jnt)
         {
-            return Utils.InRange(jnt.GetSingleAxisAngle(JointAxis.X), stp.elevatorHeight, 2f);
+            return Utils.InAngularRange(jnt.GetSingleAxisAngle(JointAxis.X), stp.elevatorHeight, 2f);
         }
         
         public bool atSetpoint(ChillOutSetpoint stp, GenericElevator elv)
@@ -168,15 +172,16 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 _coralController.RequestIntake(coralIntake, false);
                 transferOnce = false;
             }
-            
-            if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && intakeHasCoral)
+
+            if (intakeHasCoral || transferring)
             {
-                SetSetpoint(coralTransferring);
+                coralInPossesion = true;
+                setIntakeOuttaking();
             }
 
-            if (intakeHasCoral)
+            if (armHasCoral)
             {
-                setIntakeOuttaking();
+                _coralController.RequestIntake(armCoralIntake, false);
             }
 
             if (atSetpoint(l1))
@@ -184,9 +189,21 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 setIntakeOuttaking(3000);
             }
 
+            if (CurrentIntakeMode == ReefscapeIntakeMode.Normal)
+            {
+                if (intakeHasCoral && atSetpoint(stow))
+                {
+                    transferring = true;
+                } 
+                else if (armHasCoral && transferring)
+                {
+                    transferring = false;
+                    SetState(nextLevel);
+                }
+            }
+
             if (atSetpoint(coralTransferring) && !transferOnce && CurrentIntakeMode == ReefscapeIntakeMode.Normal && CurrentSetpoint != ReefscapeSetpoints.L1)
             {
-                setIntakeOuttaking();
                 transferToArm();
                 transferOnce = true;
                 intk = false;
@@ -212,7 +229,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
-                    if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && intakeHasCoral)
+                    if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && (intakeHasCoral || coralInPossesion) && transferring)
                     {
                         SetSetpoint(coralTransferring);
                     }
@@ -222,12 +239,13 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     }
 
                     _algaeController.RequestIntake(algaeIntake, false);
-                    _coralController.RequestIntake(coralIntake, false);
+                    _coralController.RequestIntake(coralIntake, !transferring && atSetpoint(stow));
                     break;
                 case ReefscapeSetpoints.Intake:
-                    if (CurrentRobotMode == ReefscapeRobotMode.Coral || !hasAlgae && !hasCoral)
+                    if (CurrentRobotMode == ReefscapeRobotMode.Coral ||
+                        !hasAlgae && !hasCoral)
                     {
-                        SetSetpoint(intakeHasCoral ? coralTransferring : intakeOut);
+                        SetSetpoint(intakeOut);
                     }
 
                     if (CurrentRobotMode == ReefscapeRobotMode.Algae && !armHasCoral)
@@ -238,16 +256,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     _algaeController.RequestIntake(algaeIntake, CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae && !armHasCoral && IntakeAction.IsPressed());
                     if (!hasCoral && !atSetpoint(coralTransferring) && !transferOnce)
                     {
-                        _coralController.SetTargetState(coralIntakeState);
-                        _coralController.RequestIntake(coralIntake, IntakeAction.IsPressed());
+                        _coralController.RequestIntake(coralIntake, !transferring);
                         intk = true;
-                    }
-                    else
-                    {
-                        _coralController.RequestIntake(coralIntake, false);
-                        SetSetpoint(coralTransferring);
-                        setIntakeOuttaking();
-                        //SetState(ReefscapeSetpoints.Stow);
                     }
 
                     break;
@@ -257,6 +267,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     {
                         SetSetpointPlaced(GetSetpointByLevel());
                     }
+
+                    nextLevel = ReefscapeSetpoints.Stow;
                     break;
                 case ReefscapeSetpoints.L1:
                     if (intakeHasCoral)
@@ -288,6 +300,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     {
                         SetSetpoint(FacingReef ? l2Front : l2Back);
                     }
+                    else
+                    {
+                        SetState(ReefscapeSetpoints.Stow);
+                        nextLevel = ReefscapeSetpoints.L2;
+                    }
                     break;
                 case ReefscapeSetpoints.LowAlgae:
                     SetSetpoint(FacingReef ? lowFront : lowBack);
@@ -299,6 +316,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     {
                         SetSetpoint(FacingReef ? l3Front : l3Back);
                     }
+                    else
+                    {
+                        SetState(ReefscapeSetpoints.Stow);
+                        nextLevel = ReefscapeSetpoints.L3;
+                    }
                     break;
                 case ReefscapeSetpoints.HighAlgae:
                     SetSetpoint(FacingReef ? highFront : highBack);
@@ -309,6 +331,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     if (armHasCoral)
                     {
                         SetSetpoint(FacingReef ? l4Front : l4Back);
+                    }
+                    else
+                    {
+                        SetState(ReefscapeSetpoints.Stow);
+                        nextLevel = ReefscapeSetpoints.L4;
                     }
                     break;
                 case ReefscapeSetpoints.Processor:
@@ -336,7 +363,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, -3, 0));
                 _coralController.SetTargetState(coralStowState);
             }
-            _coralController.RequestIntake(armCoralIntake, atSetpoint(coralTransferring));
+
+            _coralController.RequestIntake(armCoralIntake, transferring); //atSetpoint(coralTransferring));
         }
         
         private void AutoAlignnnn()
@@ -416,10 +444,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             if (_coralController.atTarget && _coralController.currentStateNum == coralStowState.stateNum)
             {
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, 0));
+                coralInPossesion = false;
             }
             else if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
             {
                 _coralController.ReleaseGamePieceWithForce(new Vector3(0, -5, 0));
+                coralInPossesion = false;
             }
             else
             {
@@ -446,18 +476,9 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void SetSetpoint(ChillOutSetpoint setpoint)
         {
-            if (setpoint != coralTransferring)
-            {
-                _elevatorTargetHeight = setpoint.elevatorHeight;
-                _armTargetAngle = setpoint.armAngle;
-                _intakeTargetAngle = setpoint.intakeAngle;
-            }
-            else
-            {
-                _elevatorTargetHeight = setpoint.elevatorHeight;
-                _intakeTargetAngle = setpoint.intakeAngle;
-                _armTargetAngle = setpoint.armAngle;
-            }
+            _elevatorTargetHeight = setpoint.elevatorHeight;
+            _armTargetAngle = setpoint.armAngle;
+            _intakeTargetAngle = setpoint.intakeAngle;
         }
 
         private bool isCurrentSetpoint(ChillOutSetpoint setpoint)
@@ -471,18 +492,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         
         private void ApplySetpoints() 
         {
-            if (atSetpoint(stow, intake) && isCurrentSetpoint(coralTransferring))
-            {
-                elevator.SetTarget(_elevatorTargetHeight);
-            }
-            else if (isCurrentSetpoint(coralTransferring))
-            {
-                elevator.SetTarget(stow.elevatorHeight);
-            }
-            else
-            {
-                elevator.SetTarget(_elevatorTargetHeight);
-            }
+            elevator.SetTarget(_elevatorTargetHeight);
             arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X).noWrap(
                 ((CurrentRobotMode == ReefscapeRobotMode.Algae || CurrentSetpoint == ReefscapeSetpoints.HighAlgae ||
                   CurrentSetpoint == ReefscapeSetpoints.LowAlgae || LastSetpoint == ReefscapeSetpoints.HighAlgae ||

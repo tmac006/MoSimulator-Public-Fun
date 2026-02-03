@@ -25211,14 +25211,14 @@ MonoBehaviour:
     angularSpeed: 10
   coralStowState:
     name: Coral Stow State
-    stateNum: 1
+    stateNum: 2
     stateMoveSpeed: 50
     stateTarget: {fileID: 3680429796230751338}
     smoothHandoff: 0
     angularSpeed: 10
   algaeStowState:
     name: Algae Stow State
-    stateNum: 2
+    stateNum: 3
     stateMoveSpeed: 80
     stateTarget: {fileID: 7704173872414636906}
     smoothHandoff: 0
