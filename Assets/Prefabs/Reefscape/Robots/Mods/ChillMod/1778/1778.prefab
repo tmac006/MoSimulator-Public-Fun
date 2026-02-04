@@ -25631,11 +25631,11 @@ MonoBehaviour:
   drivetrainParent: {fileID: 4753355262321804836}
   wheelDiameter: 4
   maxSpeed:
-    _obfuscationKey: 1207525922
-    _encryptedValue: 108093986
+    _obfuscationKey: 2114894395
+    _encryptedValue: 1066318395
   accelerationForce:
-    _obfuscationKey: 1367097691
-    _encryptedValue: 276578651
+    _obfuscationKey: 538441373
+    _encryptedValue: 1628650064
   falloffPercent: 0.075
   falloffExponent: 10
   steerMultiplier: 1
@@ -25694,10 +25694,10 @@ MonoBehaviour:
   - {fileID: 5453170195171339129}
   elevatorType: 1
   pidConstants:
-    kP: 14
+    kP: 14.5
     kI: 0
     kD: 0.1
-    Max: 2.6
+    Max: 2
     Isaturation: 0
   stagesPidConstants:
     kP: 100
@@ -25784,17 +25784,17 @@ MonoBehaviour:
   elevator: {fileID: 7743890291765140694}
   arm: {fileID: 7776011454489350576}
   armPid:
-    kP: 1
-    kI: 0
-    kD: 0.1
-    Max: 5.4
+    kP: 1.5
+    kI: 0.001
+    kD: 0.15
+    Max: 6.567
     Isaturation: 0
   intake: {fileID: 4061517513665538183}
   intakePid:
-    kP: 1
+    kP: 1.5
     kI: 0
     kD: 0.1
-    Max: 5.4
+    Max: 6
     Isaturation: 0
   stow: {fileID: 11400000, guid: 2decadb539d45a34ea4a63f4c2412908, type: 2}
   stowAlgae: {fileID: 11400000, guid: b9025c9a7b0ad88408826c92d950a60b, type: 2}
@@ -25876,7 +25876,7 @@ MonoBehaviour:
   - {fileID: 3623737555244312401}
   - {fileID: 1272454164200024072}
   - {fileID: 6977512758659003277}
-  l2l3timeout: 0.017
+  l2l3timeout: 0.015
 --- !u!114 &337772558141108340
 MonoBehaviour:
   m_ObjectHideFlags: 0
