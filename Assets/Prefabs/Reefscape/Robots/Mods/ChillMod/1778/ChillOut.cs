@@ -363,7 +363,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                         }
                         else
                         {
-                            if (atSetpoint(coralTransferring, elevator))
+                            if (atSetpoint(coralTransferring, elevator) && atSetpoint(coralTransferring, arm))
                             {
                                 if (armHasCoral && !l1once)
                                 {

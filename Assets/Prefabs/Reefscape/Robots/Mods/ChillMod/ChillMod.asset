@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modpackName: Chill Mod
   modpackVersion: 1.0.0
-  authorName: people idk
+  authorName: Seb, Evan
   description: ts
   robots:
   - {fileID: 11400000, guid: 2f0aebb5627d6fa4faf6b9294d9a640d, type: 2}
