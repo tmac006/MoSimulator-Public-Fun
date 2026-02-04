@@ -406,9 +406,14 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     }
                     break;
                 case ReefscapeSetpoints.LowAlgae:
-                    SetSetpoint(!FacingReef ? lowFront : lowBack);
-                    _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
-                    _coralController.RequestIntake(coralIntake, false);
+                    if (transferring || atSetpoint(coralTransferring)) 
+                    {
+                        SetState(ReefscapeSetpoints.L2);
+                    } else {
+                        SetSetpoint(!FacingReef ? lowFront : lowBack);
+                        _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
+                        _coralController.RequestIntake(coralIntake, false);   
+                    }
                     break;
                 case ReefscapeSetpoints.L3:
                     if (armHasCoral)
@@ -422,9 +427,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     }
                     break;
                 case ReefscapeSetpoints.HighAlgae:
-                    SetSetpoint(!FacingReef ? highFront : highBack);
-                    _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
-                    _coralController.RequestIntake(coralIntake, false);
+                    if (transferring || atSetpoint(coralTransferring)) 
+                    {
+                        SetState(ReefscapeSetpoints.L2);
+                    }
+                    else
+                    {
+                        SetSetpoint(!FacingReef ? highFront : highBack);
+                        _algaeController.RequestIntake(algaeIntake,
+                            IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
+                        _coralController.RequestIntake(coralIntake, false);
+                    }
+
                     break;
                 case ReefscapeSetpoints.L4:
                     if (armHasCoral)
@@ -482,6 +496,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     SetState(ReefscapeSetpoints.Stow);
                 }
             }
+
+            if (transferring)
+            {
+                SetRobotMode(ReefscapeRobotMode.Coral);
+            }
+
             
             AutoAlignnnn();
             ApplySetpoints();
@@ -606,16 +626,16 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     PlacePiece();
                     break;
                 case 3:
-                    _elevatorTargetHeight = setpoint.elevatorHeight - 5;
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 7 : -7);
+                    // _elevatorTargetHeight = setpoint.elevatorHeight - 5;
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 30 : -30);
                     
                     yield return new WaitForSeconds(l2l3timeout);
                     
                     PlacePiece();
                     break;
                 case 2:
-                    _elevatorTargetHeight = setpoint.elevatorHeight - 5;
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 7 : -7);
+                    // _elevatorTargetHeight = setpoint.elevatorHeight - 5;
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 25 : -25);
                     
                     yield return new WaitForSeconds(l2l3timeout);
                     
