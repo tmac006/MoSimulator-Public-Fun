@@ -225,6 +225,23 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             {
                 _coralController.SetTargetState(coralIntakeState);
             }
+
+            if (transferring)
+            {
+                if (L4Action.IsPressed())
+                {
+                    nextLevel = ReefscapeSetpoints.L4;
+                }
+                if (L3Action.IsPressed())
+                {
+                    nextLevel = ReefscapeSetpoints.L3;
+                }
+                if (L2Action.IsPressed())
+                {
+                    nextLevel = ReefscapeSetpoints.L2;
+                }
+
+            }
             
             switch (CurrentSetpoint)
             {
@@ -242,8 +259,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     _coralController.RequestIntake(coralIntake, !transferring && atSetpoint(stow));
                     break;
                 case ReefscapeSetpoints.Intake:
-                    if (CurrentRobotMode == ReefscapeRobotMode.Coral ||
-                        !hasAlgae && !hasCoral)
+                    if ((CurrentRobotMode == ReefscapeRobotMode.Coral ||
+                        hasAlgae) && !hasCoral)
                     {
                         SetSetpoint(intakeOut);
                     }
@@ -262,6 +279,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
                     break;
                 case ReefscapeSetpoints.Place:
+                    _coralController.RequestIntake(coralIntake, false);
+                    _coralController.RequestIntake(armCoralIntake, false);
                     PlacePiece();
                     if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.L3 || LastSetpoint == ReefscapeSetpoints.L2)
                     {
@@ -279,16 +298,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     {
                         if (armHasCoral)
                         {
+                            _coralController.RequestIntake(armCoralIntake, false);
                             _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, 0));
                         }
                         else
                         {
+                            _coralController.RequestIntake(armCoralIntake, false);
                             setIntakeIntake();
                             _coralController.SetTargetState(coralIntakeState);
                             _coralController.RequestIntake(coralIntake, true);
-                            _coralController.RequestIntake(armCoralIntake, false);
                         }
-                    }
+                    } 
+                    _coralController.RequestIntake(coralIntake, true);
                     break;
                 case ReefscapeSetpoints.Stack:
                     SetSetpoint(lolli);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855ae2cb10c054546b3d43ca103f97ca, type: 3}
   m_Name: Front Right
   m_EditorClassIdentifier: 
-  xOffset: -5.63
+  xOffset: -9.32
   yOffset: 0
-  zOffset: 2.08
+  zOffset: 7.63
   Rotation: 0

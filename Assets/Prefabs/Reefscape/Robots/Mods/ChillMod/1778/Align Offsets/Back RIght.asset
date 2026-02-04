@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855ae2cb10c054546b3d43ca103f97ca, type: 3}
   m_Name: Back RIght
   m_EditorClassIdentifier: 
-  xOffset: 3.73
+  xOffset: 9.73
   yOffset: 0
-  zOffset: 11.2
+  zOffset: 8.1
   Rotation: 0
