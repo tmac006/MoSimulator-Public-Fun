@@ -87,7 +87,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private bool l1once = false;
 
-        private bool forcedAlgae = false;
+        [SerializeField] private float l2l3timeout;
 
         private bool placed = false;
 
@@ -609,7 +609,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     _elevatorTargetHeight = setpoint.elevatorHeight - 5;
                     _armTargetAngle = setpoint.armAngle - (FacingReef ? 7 : -7);
                     
-                    yield return new WaitForSeconds(0.015f);
+                    yield return new WaitForSeconds(l2l3timeout);
                     
                     PlacePiece();
                     break;
@@ -617,7 +617,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     _elevatorTargetHeight = setpoint.elevatorHeight - 5;
                     _armTargetAngle = setpoint.armAngle - (FacingReef ? 7 : -7);
                     
-                    yield return new WaitForSeconds(0.015f);
+                    yield return new WaitForSeconds(l2l3timeout);
                     
                     PlacePiece();
                     break;
