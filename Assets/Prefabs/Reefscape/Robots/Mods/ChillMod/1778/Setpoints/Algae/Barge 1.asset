@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 105e55c901e2c994cb2d47245bc9621b, type: 3}
-  m_Name: L3 Back
+  m_Name: Barge 1
   m_EditorClassIdentifier: 
-  elevatorHeight: 35.3
-  armAngle: -55.5
+  elevatorHeight: 59.79
+  armAngle: 20
   intakeAngle: 0
