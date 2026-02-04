@@ -90,6 +90,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         [SerializeField] private float l2l3timeout;
 
         private bool placed = false;
+        
+        private bool placeOnce = false;
 
         private ReefscapeSetpoints nextLevel = ReefscapeSetpoints.Stow;
         
@@ -241,6 +243,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     transferring = false;
                     SetState(nextLevel);
                 }
+            }
+        
+            if (CurrentSetpoint != ReefscapeSetpoints.Place) {
+                placeOnce = false;
             }
 
             if (atSetpoint(coralTransferring) && !transferOnce && CurrentIntakeMode == ReefscapeIntakeMode.Normal && transferring)
@@ -592,25 +598,29 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void PlacePiece()
         {
-            if (_algaeController.atTarget &&
-                (CurrentRobotMode == ReefscapeRobotMode.Algae ||
-               LastSetpoint == ReefscapeSetpoints.Barge ||
-               LastSetpoint == ReefscapeSetpoints.Processor))
-            {
-                _algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 6, 0) : new Vector3(0, 2, 0));
-            }
-            else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
-            {
-                setIntakeOuttaking();
-                _coralController.ReleaseGamePieceWithForce(new Vector3(1, -5f, 0));
-                coralInPossesion = false;
-            }
-            else
-            {
-                _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? 0.5f : -0.5f));
-                // _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 0));
-                coralInPossesion = false;
-            }
+			if (!placeOnce) {
+            	if (_algaeController.atTarget &&
+                	(CurrentRobotMode == ReefscapeRobotMode.Algae ||
+               		LastSetpoint == ReefscapeSetpoints.Barge ||
+               		LastSetpoint == ReefscapeSetpoints.Processor))
+            	{
+                	_algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 6, 0) : new Vector3(0, 2, 0));
+            	}
+            	else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
+            	{
+                	setIntakeOuttaking();
+                	_coralController.ReleaseGamePieceWithForce(new Vector3(1, -5f, 0));
+                	coralInPossesion = false;
+            	}
+            	else
+            	{
+                	_coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? 0.5f : -0.5f));
+                	// _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 0));
+                	coralInPossesion = false;
+            	}
+			}
+
+            placeOnce = true;
         }
 
         private IEnumerator PlaceBranch(ChillOutSetpoint setpoint)
