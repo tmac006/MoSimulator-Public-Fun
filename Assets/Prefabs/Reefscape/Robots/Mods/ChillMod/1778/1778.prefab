@@ -25876,7 +25876,9 @@ MonoBehaviour:
   - {fileID: 3623737555244312401}
   - {fileID: 1272454164200024072}
   - {fileID: 6977512758659003277}
-  l2l3timeout: 0.035
+  thing: {fileID: 1288987913225319441}
+  ElevatorLowerHeight: 1.8
+  ArmLowerHeight: 13
 --- !u!114 &337772558141108340
 MonoBehaviour:
   m_ObjectHideFlags: 0

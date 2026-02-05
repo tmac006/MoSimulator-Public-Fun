@@ -76,6 +76,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         [SerializeField] private GenericRoller[] intakeRollers;
         [SerializeField] private GenericRoller[] center1;
         [SerializeField] private GenericRoller[] center50;
+
+        [SerializeField] private BoxCollider thing;
         private bool intaking;
         
         private ReefscapeAutoAlign align;
@@ -87,7 +89,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private bool l1once = false;
 
-        [SerializeField] private float l2l3timeout;
+        [SerializeField] private float ElevatorLowerHeight;
+        [SerializeField] private float ArmLowerHeight;
 
         private bool placed = false;
         
@@ -144,12 +147,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             {
                 return Utils.InRange(elv.GetElevatorHeight(), stp.elevatorHeight, 2f);
             }
+        
+        public bool armAtTargetAngle()
+        {
+            return Utils.InRange(arm.GetSingleAxisAngle(JointAxis.X), _armTargetAngle, 2f);
+        }
 
 
         private void setIntakeIntake()
         {
             intakeRollers[0].SetAngularVelocity(-2000);
             intakeRollers[1].SetAngularVelocity(5000);
+            thing.isTrigger = false;
         }
 
         private void setIntakeOuttaking()
@@ -158,6 +167,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             {
                 intakeRollers[i].SetAngularVelocity((i * -1) * 1500);
             }
+            thing.isTrigger = true;
         }
         
         private void setIntakeOuttaking(float s)
@@ -166,6 +176,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             {
                 intakeRollers[i].SetAngularVelocity((i * -1) * s);
             }
+
+            thing.isTrigger = true;
         }
 
         private void stopIntakeCenter()
@@ -342,11 +354,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     _coralController.RequestIntake(armCoralIntake, false);
                     if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.L3 || LastSetpoint == ReefscapeSetpoints.L2)
                     {
-                        if (!placed)
-                        {
-                            StartCoroutine(PlaceBranch(GetSetpointByLevel()));
-                            placed = true;
-                        }
+                        PlaceBranch(GetSetpointByLevel());;
                     }
                     else
                     {
@@ -609,7 +617,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             	else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
             	{
                 	setIntakeOuttaking();
-                	_coralController.ReleaseGamePieceWithForce(new Vector3(1, -5f, 0));
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(1, -7f, 0));
                 	coralInPossesion = false;
             	}
             	else
@@ -623,33 +631,39 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             placeOnce = true;
         }
 
-        private IEnumerator PlaceBranch(ChillOutSetpoint setpoint)
+        private void PlaceBranch(ChillOutSetpoint setpoint)
         {
             switch (GetLevelByState())
             {
                 case 4:
                     _elevatorTargetHeight = setpoint.elevatorHeight - 1;
                     _armTargetAngle = setpoint.armAngle - (FacingReef ? 20 : -20);
-                    
-                    yield return new WaitForSeconds(0.05f);
-                    
-                    PlacePiece();
+
+                    if (armAtTargetAngle())
+                    {
+                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? .5f: -.5f));
+                        coralInPossesion = false;
+                    }
                     break;
                 case 3:
-                    // _elevatorTargetHeight = setpoint.elevatorHeight - 5;
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 30 : -30);
+                    _elevatorTargetHeight = setpoint.elevatorHeight - ElevatorLowerHeight;
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? ArmLowerHeight : -ArmLowerHeight);
                     
-                    yield return new WaitForSeconds(l2l3timeout);
-                    
-                    PlacePiece();
+                    if (armAtTargetAngle())
+                    {
+                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, !FacingReef ? 1 : -1));
+                        coralInPossesion = false;
+                    }
                     break;
-                case 2:
-                    // _elevatorTargetHeight = setpoint.elevatorHeight - 5;
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 25 : -25);
+                case 2: 
+                    _elevatorTargetHeight = setpoint.elevatorHeight - ElevatorLowerHeight;
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? ArmLowerHeight : -ArmLowerHeight);
                     
-                    yield return new WaitForSeconds(l2l3timeout);
-                    
-                    PlacePiece();
+                    if (armAtTargetAngle())
+                    {
+                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, .7f, !FacingReef ? 1 : -1));
+                        coralInPossesion = false;
+                    }
                     break;
             }
             _intakeTargetAngle = setpoint.intakeAngle;
