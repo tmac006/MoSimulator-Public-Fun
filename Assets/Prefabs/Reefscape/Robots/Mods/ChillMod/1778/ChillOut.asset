@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 3}
   robotPreloadGamePiece: {fileID: 2185987706872048638, guid: 970bdf84a203d9a4b8dc602974341a07,
     type: 3}
-  mainMenuPrefab: {fileID: 1627221153509397327, guid: a5577239cd6375746b3a7ad2abb3f3e5,
+  mainMenuPrefab: {fileID: 2534371394911199621, guid: 232577d760d56844f9acb00e8145b370,
     type: 3}
   hasAlternateRobot: 0
   alternateRobotPrefab: {fileID: 0}
