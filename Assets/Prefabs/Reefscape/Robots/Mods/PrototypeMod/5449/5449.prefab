@@ -40349,8 +40349,8 @@ MonoBehaviour:
   hasGamePiece: 0
   requestIntake: 0
   pieceName: 
-  intakeSpeed: 200
-  intakeForce: 80
+  intakeSpeed: 50
+  intakeForce: 20
   usePlanarTolerancing: 1
   boxExtents: {x: 3, y: 3, z: 3}
   maxDistance: 5
