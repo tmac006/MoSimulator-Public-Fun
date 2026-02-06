@@ -103698,6 +103698,7 @@ GameObject:
   - component: {fileID: 2776069637141392755}
   - component: {fileID: 6748947263559814540}
   - component: {fileID: 2682218967683405344}
+  - component: {fileID: 5538999031818319704}
   m_Layer: 6
   m_Name: Bellypan
   m_TagString: Untagged
@@ -103772,6 +103773,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5538999031818319704
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6741563523017275206}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.007368477, y: 0.000047625, z: 0.007368477}
+  m_Center: {x: 0, y: -0.0001666875, z: 0}
 --- !u!1 &6742801575221611299
 GameObject:
   m_ObjectHideFlags: 0
