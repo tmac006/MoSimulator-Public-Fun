@@ -73,11 +73,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         [SerializeField] private AutoAlignOffset backRight;
         
         [Header("Roller Stuff")]
-        [SerializeField] private GenericRoller[] intakeRollers;
+        [SerializeField] private GenericRoller intakeRoller;
         [SerializeField] private GenericRoller[] center1;
         [SerializeField] private GenericRoller[] center50;
 
-        [SerializeField] private BoxCollider thing;
         private bool intaking;
         
         private ReefscapeAutoAlign align;
@@ -91,8 +90,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         [SerializeField] private float ElevatorLowerHeight;
         [SerializeField] private float ArmLowerHeight;
-
-        [SerializeField] private Collider[] disTS;
 
         private bool placed = false;
         
@@ -158,28 +155,17 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void setIntakeIntake()
         {
-            intakeRollers[0].SetAngularVelocity(-2000);
-            intakeRollers[1].SetAngularVelocity(6700);
-            thing.isTrigger = false;
+            intakeRoller.SetAngularVelocity(4500);
         }
 
         private void setIntakeOuttaking()
         {
-            for (int i = 0; i < intakeRollers.Length; i++)
-            {
-                intakeRollers[i].SetAngularVelocity((i * -1) * 1500);
-            }
-            thing.isTrigger = true;
+            intakeRoller.SetAngularVelocity(-4500);
         }
         
         private void setIntakeOuttaking(float s)
         {
-            for (int i = 0; i < intakeRollers.Length; i++)
-            {
-                intakeRollers[i].SetAngularVelocity((i * -1) * s);
-            }
-
-            thing.isTrigger = true;
+            intakeRoller.SetAngularVelocity(-s);
         }
 
         private void stopIntakeCenter()
@@ -242,19 +228,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     stopIntakeCenter();   
                 }
                 setIntakeOuttaking(5000);
-                foreach (var ts in disTS)
-                {
-                    ts.enabled = false;
-                }
             }
             else
             {
                 startIntakeCenter();
                 setIntakeIntake();
-                foreach (var ts in disTS)
-                {
-                    ts.enabled = true;
-                }
             }
 
             if (armHasCoral)
@@ -395,7 +373,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                         }
                         else
                         {
-                            if (atSetpoint(coralTransferring, elevator))
+                            if (atSetpoint(coralTransferring, arm))
                             {
                                 if (armHasCoral && !l1once)
                                 {
