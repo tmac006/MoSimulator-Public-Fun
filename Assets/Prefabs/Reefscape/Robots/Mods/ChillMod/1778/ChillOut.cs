@@ -74,8 +74,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         
         [Header("Roller Stuff")]
         [SerializeField] private GenericRoller intakeRoller;
-        [SerializeField] private GenericRoller[] center1;
-        [SerializeField] private GenericRoller[] center50;
 
         private bool intaking;
         
@@ -166,7 +164,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void setIntakeOuttaking()
         {
-            intakeRoller.SetAngularVelocity(-5500);
+            intakeRoller.SetAngularVelocity(-3000);
             foreach (var col in scoop)
             {
                 col.enabled = false;
@@ -179,32 +177,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             foreach (var col in scoop)
             {
                 col.enabled = false;
-            }
-        }
-
-        private void stopIntakeCenter()
-        {
-            foreach (var rol in center1)
-            {
-                rol.SetAngularVelocity(0);
-            }
-            
-            foreach (var rol in center50)
-            {
-                rol.SetAngularVelocity(0);
-            }
-        }
-
-        private void startIntakeCenter()
-        {
-            foreach (var rol in center1)
-            {
-                rol.SetAngularVelocity(1000);
-            }
-            
-            foreach (var rol in center50)
-            {
-                rol.SetAngularVelocity(5000);
             }
         }
 
@@ -237,15 +209,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
             if (CurrentSetpoint == ReefscapeSetpoints.L1 || LastSetpoint == ReefscapeSetpoints.L1)
             {
-                if (hasCoral)
-                {
-                    stopIntakeCenter();   
-                }
                 setIntakeOuttaking();
             }
             else
             {
-                startIntakeCenter();
                 setIntakeIntake();
             }
 
@@ -391,8 +358,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                             {
                                 if (armHasCoral && !l1once)
                                 {
-                                    _coralController.RequestIntake(armCoralIntake, false);
-                                    _coralController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
+                                    //_coralController.RequestIntake(armCoralIntake, false);
+                                    //_coralController.ReleaseGamePieceWithForce(new Vector3(0, 3, 0));
                                     l1once = true;
                                 }
 
@@ -404,10 +371,10 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
                             if (l1once)
                             {
-                                _coralController.RequestIntake(armCoralIntake, false);
+                                //_coralController.RequestIntake(armCoralIntake, false);
                                 setIntakeIntake();
                                 _coralController.SetTargetState(coralIntakeState);
-                                _coralController.RequestIntake(coralIntake, true);
+                                //_coralController.RequestIntake(coralIntake, true);
                             }
                         }
                     } 
@@ -626,7 +593,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             	}
             	else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
             	{
-                    _coralController.ReleaseGamePieceWithForce(new Vector3(1.5f, -7.5f, 0));
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(4.67f, .4f, 0));
 //                    _coralController.ReleaseGamePieceWithForce(new Vector3(-1.5f, -3.8f, 0));
                 	coralInPossesion = false;
             	}
