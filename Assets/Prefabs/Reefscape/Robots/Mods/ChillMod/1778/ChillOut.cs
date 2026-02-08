@@ -95,6 +95,8 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         
         private bool placeOnce = false;
 
+        [SerializeField] private BoxCollider[] scoop;
+
         private ReefscapeSetpoints nextLevel = ReefscapeSetpoints.Stow;
         
         protected override void Start()
@@ -155,17 +157,29 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void setIntakeIntake()
         {
-            intakeRoller.SetAngularVelocity(4500);
+            intakeRoller.SetAngularVelocity(5500);
+            foreach (var col in scoop)
+            {
+                col.enabled = true;
+            }
         }
 
         private void setIntakeOuttaking()
         {
-            intakeRoller.SetAngularVelocity(-4500);
+            intakeRoller.SetAngularVelocity(-5500);
+            foreach (var col in scoop)
+            {
+                col.enabled = false;
+            }
         }
         
         private void setIntakeOuttaking(float s)
         {
             intakeRoller.SetAngularVelocity(-s);
+            foreach (var col in scoop)
+            {
+                col.enabled = false;
+            }
         }
 
         private void stopIntakeCenter()
@@ -227,7 +241,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 {
                     stopIntakeCenter();   
                 }
-                setIntakeOuttaking(5000);
+                setIntakeOuttaking();
             }
             else
             {
@@ -373,7 +387,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                         }
                         else
                         {
-                            if (atSetpoint(coralTransferring, arm))
+                            if (atSetpoint(coralTransferring))
                             {
                                 if (armHasCoral && !l1once)
                                 {
@@ -397,7 +411,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                             }
                         }
                     } 
-                    _coralController.RequestIntake(coralIntake, true);
+                    // _coralController.RequestIntake(coralIntake, true);
                     break;
                 case ReefscapeSetpoints.Stack:
                     SetSetpoint(lolli);
@@ -521,11 +535,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         {
             if (_coralController.currentStateNum == coralIntakeState.stateNum && _coralController.atTarget)
             {
-                _coralController.ReleaseGamePieceWithForce(new Vector3(0, -3, 0));
+                //_coralController.ReleaseGamePieceWithForce(new Vector3(0, -3, 0));
                 _coralController.SetTargetState(coralStowState);
             }
 
-            _coralController.RequestIntake(armCoralIntake, transferring); //atSetpoint(coralTransferring));
+            //_coralController.RequestIntake(armCoralIntake, transferring); //atSetpoint(coralTransferring));
         }
         
         private void AutoAlignnnn()

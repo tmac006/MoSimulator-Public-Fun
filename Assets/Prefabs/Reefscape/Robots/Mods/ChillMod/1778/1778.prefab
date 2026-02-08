@@ -25885,13 +25885,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7240960448468027769}
   - component: {fileID: 7610441326638472147}
+  - component: {fileID: 5518715250341149979}
   - component: {fileID: 3050401251044084290}
   - component: {fileID: 2181541604851625788}
   - component: {fileID: 7743890291765140694}
   - component: {fileID: 4169923535914085388}
   - component: {fileID: -7524166567088832450}
   - component: {fileID: 337772558141108340}
-  - component: {fileID: 5518715250341149979}
   m_Layer: 6
   m_Name: 1778
   m_TagString: BlueRobot
@@ -25943,6 +25943,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5518715250341149979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627221153509397327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c9f738d2c54a48ad3e959efd15d13b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cageScoringTrigger: {fileID: 4701649254960108805}
+  autoClimbTriggers: []
 --- !u!114 &3050401251044084290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26242,20 +26256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePieceNodes: []
---- !u!114 &5518715250341149979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627221153509397327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40c9f738d2c54a48ad3e959efd15d13b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cageScoringTrigger: {fileID: 4701649254960108805}
-  autoClimbTriggers: []
 --- !u!1 &1630979921953458161
 GameObject:
   m_ObjectHideFlags: 0
@@ -39987,8 +39987,8 @@ Transform:
   m_GameObject: {fileID: 2435107530535234053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.229, y: 0.5566, z: -0}
-  m_LocalScale: {x: 0.1, y: 0.09733554, z: 0.18118}
+  m_LocalPosition: {x: 0.229, y: 0.5566, z: 2.3123e-10}
+  m_LocalScale: {x: 0.1, y: 0.112688124, z: 0.2417666}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7516864047872122029}
@@ -80377,11 +80377,11 @@ MonoBehaviour:
   requestIntake: 0
   pieceName: 
   intakeSpeed: 200
-  intakeForce: 70
+  intakeForce: 100
   usePlanarTolerancing: 1
-  boxExtents: {x: 4.13, y: 6.5, z: 8.58}
+  boxExtents: {x: 4.19, y: 7.47, z: 8.26}
   maxDistance: 5
-  accuracy: 2
+  accuracy: 3
   lockXAxis: 0
   lockYAxis: 0
   lockZAxis: 0
