@@ -24743,6 +24743,7 @@ GameObject:
   - component: {fileID: -7524166567088832450}
   - component: {fileID: 337772558141108340}
   - component: {fileID: -7853930176185221619}
+  - component: {fileID: -4673459225993311682}
   m_Layer: 6
   m_Name: 1778
   m_TagString: BlueRobot
@@ -25030,6 +25031,9 @@ MonoBehaviour:
   - {fileID: 5331114955763825749}
   - {fileID: 2228643127482140128}
   - {fileID: 2626302104569866296}
+  - {fileID: 4807778349799671918}
+  - {fileID: 7079111888186974132}
+  - {fileID: 799168407619001670}
   intakeRollers:
   - {fileID: 7090850349440694890}
   - {fileID: 2028728391536331732}
@@ -25068,6 +25072,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cageScoringTrigger: {fileID: 4701649254960108805}
   autoClimbTriggers: []
+--- !u!65 &-4673459225993311682
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627221153509397327}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8513222, y: 0.12444097, z: 0.8490521}
+  m_Center: {x: -0.0030757189, y: 0.07349157, z: 0.0010063052}
 --- !u!1 &1630979921953458161
 GameObject:
   m_ObjectHideFlags: 0
@@ -134955,42 +134980,42 @@ PrefabInstance:
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -6.1863353e-10
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.035
+      value: -0.034999996
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.23
+      value: -0.22999902
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.70510453
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.053175412
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0.70510453
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.053175412
       objectReference: {fileID: 0}
     - target: {fileID: 6760626626677071172, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 8.626
       objectReference: {fileID: 0}
     - target: {fileID: 8688991878984316308, guid: 3bb031a400eb70b47b413daa41ecec00,
         type: 3}

@@ -95,7 +95,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         
         private bool placeOnce = false;
 
-        [SerializeField] private BoxCollider[] scoop;
+        [SerializeField] private Collider[] scoop;
 
         private ReefscapeSetpoints nextLevel = ReefscapeSetpoints.Stow;
 
@@ -234,7 +234,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 setIntakeOuttaking(0);
             }
 
-            if (CurrentSetpoint == ReefscapeSetpoints.L1 || LastSetpoint == ReefscapeSetpoints.L1)
+            if (CurrentSetpoint == ReefscapeSetpoints.L1 || LastSetpoint == ReefscapeSetpoints.L1 && CurrentSetpoint != ReefscapeSetpoints.Intake && CurrentSetpoint != ReefscapeSetpoints.Stow)
             {
                 setIntakeOuttaking();
             }
@@ -691,12 +691,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 			if (!placeOnce) {
             	if (_algaeController.atTarget)
             	{
-                	_algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 4.5f, 0) : new Vector3(0, 2, 0));
+                	_algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 4, 0) : new Vector3(0, 2, 0));
                     setEndEffectorRollers(-20);
             	}
             	else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
             	{
-                    _coralController.ReleaseGamePieceWithForce(new Vector3(4.67f, 0, 0));
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(4, .6f, 0));
 //                    _coralController.ReleaseGamePieceWithForce(new Vector3(-1.5f, -3.8f, 0));
                 	coralInPossesion = false;
                     setIntakeRollers(20);
@@ -735,11 +735,11 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     //}
                     //break;
                     _elevatorTargetHeight = setpoint.elevatorHeight - (ElevatorLowerHeight * 0.8f);
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? (1.5f * ArmLowerHeight) : (1.5f * -ArmLowerHeight));
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? (1.4f * ArmLowerHeight) : (1.4f * -ArmLowerHeight));
                     
                     if (armAtTargetAngle())
                     {
-                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, !FacingReef ? 2 : -2));
+                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, .5f, !FacingReef ? 2 : -2));
                         coralInPossesion = false;
                     }
                     break;
