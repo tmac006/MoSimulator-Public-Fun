@@ -208,6 +208,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void FixedUpdate()
         {
+            RunAudio();
             
             bool hasAlgae = _algaeController.HasPiece();
             bool hasCoral = _coralController.HasPiece();
@@ -600,7 +601,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             
             AutoAlignnnn();
             ApplySetpoints();
-            RunAudio();
         }
 
         private void transferToArm()
@@ -734,7 +734,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     //    coralInPossesion = false;
                     //}
                     //break;
-                    _elevatorTargetHeight = setpoint.elevatorHeight - ElevatorLowerHeight;
+                    _elevatorTargetHeight = setpoint.elevatorHeight - (ElevatorLowerHeight * 0.8f);
                     _armTargetAngle = setpoint.armAngle - (FacingReef ? (1.5f * ArmLowerHeight) : (1.5f * -ArmLowerHeight));
                     
                     if (armAtTargetAngle())
@@ -778,7 +778,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         private void intakeRollersStop()
         {
             setIntakeRollers(0);
-            intakeAudio.Stop();
         }
         
         private void setEndEffectorRollers(float speed)
@@ -792,7 +791,6 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         private void endEffectorRollersStop()
         {
             setEndEffectorRollers(0);
-            eeAudio.Stop();
         }
 
         private void RunAudio()
@@ -818,25 +816,75 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 algaeStallSource.Stop();
             }
 
-
-
-            if (IntakeAction.IsPressed() && (atSetpoint(intakeOut) || atSetpoint(intakeOutAlgae)) && !intakeAudio.isPlaying && !_coralController.atTarget)
+            
+            if (IntakeAction.IsPressed())
             {
-                intakeAudio.Play();
+                if (CurrentSetpoint == ReefscapeSetpoints.HighAlgae || CurrentSetpoint == ReefscapeSetpoints.LowAlgae ||
+                    CurrentSetpoint == ReefscapeSetpoints.Stack ||
+                    (CurrentSetpoint == ReefscapeSetpoints.Intake && CurrentRobotMode == ReefscapeRobotMode.Algae))
+                {
+                    if (!eeAudio.isPlaying)
+                    {
+                        eeAudio.Play();
+                    }
+                }
+                
+                else if (CurrentSetpoint == ReefscapeSetpoints.Intake && !atSetpoint(stow, intake))
+                {
+                    if (!intakeAudio.isPlaying)
+                    {
+                        intakeAudio.Play();
+                    }
+                }
             }
-            else if (!IntakeAction.IsPressed() || _coralController.atTarget)
+            else if (OuttakeAction.IsPressed())
             {
-                intakeAudio.Stop();
+                if (_coralController.atTarget && _coralController.currentStateNum == coralStowState.stateNum)
+                {
+                    if (!eeAudio.isPlaying)
+                    {
+                        eeAudio.Play();
+                    }
+                }
+                
+                else if (_algaeController.atTarget)
+                {
+                    if (!eeAudio.isPlaying)
+                    {
+                        eeAudio.Play();
+                    }
+                }
+                
+                else if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+                {
+                    if (!intakeAudio.isPlaying)
+                    {
+                        intakeAudio.Play();
+                    }
+                }
+            } 
+            else if (transferring)
+            {
+                if (!eeAudio.isPlaying)
+                {
+                    eeAudio.Play();
+                }
+                if (!intakeAudio.isPlaying)
+                {
+                    intakeAudio.Play();
+                }
             }
-
-            if (IntakeAction.IsPressed() && (CurrentSetpoint == ReefscapeSetpoints.LowAlgae || CurrentSetpoint == ReefscapeSetpoints.HighAlgae ||
-                 CurrentSetpoint == ReefscapeSetpoints.Stack) && !eeAudio.isPlaying)
+            else if (!OuttakeAction.IsPressed() && !OuttakeAction.IsPressed() && !transferring)
             {
-                eeAudio.Play();
-            }
-            else if (!IntakeAction.IsPressed() || _algaeController.atTarget)
-            {
-                eeAudio.Stop();
+                if (intakeAudio.isPlaying)
+                {
+                    intakeAudio.Stop();
+                }
+                
+                if (eeAudio.isPlaying)
+                {
+                    eeAudio.Stop();
+                }
             }
         }
 
