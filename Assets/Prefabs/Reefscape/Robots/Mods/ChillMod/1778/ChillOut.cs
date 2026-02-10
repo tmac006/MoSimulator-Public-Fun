@@ -2,6 +2,8 @@ using System.Collections;
 using Games.Reefscape.Enums;
 using Games.Reefscape.GamePieceSystem;
 using Games.Reefscape.Robots;
+using MoSimCore.BaseClasses.GameManagement;
+using MoSimCore.Enums;
 using MoSimLib;
 using RobotFramework.Components;
 using RobotFramework.Controllers.GamePieceSystem;
@@ -96,6 +98,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         [SerializeField] private BoxCollider[] scoop;
 
         private ReefscapeSetpoints nextLevel = ReefscapeSetpoints.Stow;
+
+        [SerializeField] private GenericAnimationJoint[] intakeRollers;
+        [SerializeField] private GenericAnimationJoint[] eeRollers;
+        
+        [Header("Algae Stall Audio")]
+        [SerializeField] private AudioSource algaeStallSource;
+        [SerializeField] private AudioClip algaeStallAudio;
+        
+        [Header("Intake and EE Rollers")]
+        [SerializeField] private AudioSource intakeAudio;
+        [SerializeField] private AudioSource eeAudio;
+        [SerializeField] private AudioClip rollerAudio;
         
         protected override void Start()
         {
@@ -127,6 +141,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 algaeStowState
             };
             _algaeController.intakes.Add(algaeIntake);
+            
+            algaeStallSource.clip = algaeStallAudio;
+            algaeStallSource.loop = true;
+            algaeStallSource.Stop();
+            
+            intakeAudio.clip = rollerAudio;
+            intakeAudio.loop = true;
+            intakeAudio.Stop();
+            
+            eeAudio.clip = rollerAudio;
+            eeAudio.loop = true;
+            eeAudio.Stop();
         }
 
         private bool atSetpoint(ChillOutSetpoint stp)
@@ -155,7 +181,7 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
 
         private void setIntakeIntake()
         {
-            intakeRoller.SetAngularVelocity(5500);
+            intakeRoller.SetAngularVelocity(4000);
             foreach (var col in scoop)
             {
                 col.enabled = true;
@@ -249,6 +275,16 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 setIntakeIntake();
             }
 
+            if (atSetpoint(coralTransferring) && !(CurrentIntakeMode == ReefscapeIntakeMode.L1 || CurrentSetpoint == ReefscapeSetpoints.L1))
+            {
+                setIntakeRollers(-20);
+                setEndEffectorRollers(20);
+            } else if (atSetpoint(coralTransferring))
+            {
+                setIntakeRollers(20);
+                setEndEffectorRollers(-20);
+            }
+
             if (CurrentIntakeMode == ReefscapeIntakeMode.Normal && intk)
             {
                 _coralController.SetTargetState(coralIntakeState);
@@ -288,6 +324,18 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             {
                 placed = false;
             }
+
+            if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed())
+            {
+                intakeRollersStop();
+                endEffectorRollersStop();
+            }
+
+            if (CurrentSetpoint != ReefscapeSetpoints.Place)
+            {
+                intakeRollersStop();
+                endEffectorRollersStop();
+            }
             
             switch (CurrentSetpoint)
             {
@@ -299,6 +347,12 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     else
                     {
                         SetSetpoint(hasAlgae ? stowAlgae : stow);
+                    }
+
+                    if (!transferring)
+                    {
+                        intakeRollersStop();
+                        endEffectorRollersStop();
                     }
 
                     _algaeController.RequestIntake(algaeIntake, false);
@@ -325,17 +379,37 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                         intk = true;
                     }
 
+                    if (atSetpoint(intakeOut))
+                    {
+                        setIntakeRollers(50);
+                    } 
+                    else if (atSetpoint(intakeOutAlgae))
+                    {
+                        setIntakeRollers(50);
+                        setEndEffectorRollers(50);
+                    }
+                    else
+                    {
+                        setEndEffectorRollers(50);
+                    }
+
                     break;
                 case ReefscapeSetpoints.Place:
                     _coralController.RequestIntake(coralIntake, false);
                     _coralController.RequestIntake(armCoralIntake, false);
-                    if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.L3 || LastSetpoint == ReefscapeSetpoints.L2)
+
+                    if (!placeOnce)
                     {
-                        PlaceBranch(GetSetpointByLevel());;
-                    }
-                    else
-                    {
-                        PlacePiece();
+                        if (LastSetpoint == ReefscapeSetpoints.L4 || LastSetpoint == ReefscapeSetpoints.L3 ||
+                            LastSetpoint == ReefscapeSetpoints.L2)
+                        {
+                            PlaceBranch(GetSetpointByLevel());
+                            setEndEffectorRollers(-20);
+                        }
+                        else
+                        {
+                            PlacePiece();
+                        }
                     }
 
                     nextLevel = ReefscapeSetpoints.Stow;
@@ -384,6 +458,14 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     SetSetpoint(lolli);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
+                    if (IntakeAction.IsPressed())
+                    {
+                        setEndEffectorRollers(50);
+                    }
+                    else
+                    {
+                        setEndEffectorRollers(0);
+                    }
                     break;
                 case ReefscapeSetpoints.L2:
                     if (armHasCoral)
@@ -403,7 +485,15 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                     } else {
                         SetSetpoint(!FacingReef ? lowFront : lowBack);
                         _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
-                        _coralController.RequestIntake(coralIntake, false);   
+                        _coralController.RequestIntake(coralIntake, false);
+                        if (IntakeAction.IsPressed())
+                        {
+                            setEndEffectorRollers(50);
+                        }
+                        else
+                        {
+                            setEndEffectorRollers(0);
+                        }
                     }
                     break;
                 case ReefscapeSetpoints.L3:
@@ -428,6 +518,14 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                         _algaeController.RequestIntake(algaeIntake,
                             IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                         _coralController.RequestIntake(coralIntake, false);
+                        if (IntakeAction.IsPressed())
+                        {
+                            setEndEffectorRollers(50);
+                        }
+                        else
+                        {
+                            setEndEffectorRollers(0);
+                        }
                     }
 
                     break;
@@ -493,9 +591,16 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
                 SetRobotMode(ReefscapeRobotMode.Coral);
             }
 
+            if (placeOnce)
+            {
+                intakeRollersStop();
+                endEffectorRollersStop();
+            }
+
             
             AutoAlignnnn();
             ApplySetpoints();
+            RunAudio();
         }
 
         private void transferToArm()
@@ -584,24 +689,31 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
         private void PlacePiece()
         {
 			if (!placeOnce) {
-            	if (_algaeController.atTarget &&
-                	(CurrentRobotMode == ReefscapeRobotMode.Algae ||
-               		LastSetpoint == ReefscapeSetpoints.Barge ||
-               		LastSetpoint == ReefscapeSetpoints.Processor))
+            	if (_algaeController.atTarget)
             	{
-                	_algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 6, 0) : new Vector3(0, 2, 0));
+                	_algaeController.ReleaseGamePieceWithForce(atSetpoint(barge1, elevator) ? new Vector3(0, 4.5f, 0) : new Vector3(0, 2, 0));
+                    setEndEffectorRollers(-20);
             	}
             	else if (CurrentIntakeMode == ReefscapeIntakeMode.L1 || LastSetpoint == ReefscapeSetpoints.L1)
             	{
-                    _coralController.ReleaseGamePieceWithForce(new Vector3(4.67f, .4f, 0));
+                    _coralController.ReleaseGamePieceWithForce(new Vector3(4.67f, 0, 0));
 //                    _coralController.ReleaseGamePieceWithForce(new Vector3(-1.5f, -3.8f, 0));
                 	coralInPossesion = false;
+                    setIntakeRollers(20);
             	}
             	else
             	{
                 	_coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? 0.5f : -0.5f));
                 	// _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0, 0));
                 	coralInPossesion = false;
+                    if (_coralController.atTarget && _coralController.currentStateNum == coralIntakeState.stateNum)
+                    {
+                        setIntakeRollers(20);
+                    }
+                    else
+                    {
+                        setEndEffectorRollers(-20);
+                    }
             	}
 			}
 
@@ -613,12 +725,21 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             switch (GetLevelByState())
             {
                 case 4:
-                    _elevatorTargetHeight = setpoint.elevatorHeight - 1;
-                    _armTargetAngle = setpoint.armAngle - (FacingReef ? 20 : -20);
+                    //_elevatorTargetHeight = setpoint.elevatorHeight - 2.5f;
+                    //_armTargetAngle = setpoint.armAngle - (FacingReef ? 17 : -17);
 
+                    //if (Utils.InAngularRange(arm.GetSingleAxisAngle(JointAxis.X), _armTargetAngle, 2f))
+                    //{
+                    //    _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? 1f: -1f));
+                    //    coralInPossesion = false;
+                    //}
+                    //break;
+                    _elevatorTargetHeight = setpoint.elevatorHeight - ElevatorLowerHeight;
+                    _armTargetAngle = setpoint.armAngle - (FacingReef ? (1.5f * ArmLowerHeight) : (1.5f * -ArmLowerHeight));
+                    
                     if (armAtTargetAngle())
                     {
-                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, 0.5f, FacingReef ? .5f: -.5f));
+                        _coralController.ReleaseGamePieceWithForce(new Vector3(0, 1, !FacingReef ? 2 : -2));
                         coralInPossesion = false;
                     }
                     break;
@@ -646,14 +767,77 @@ namespace Prefabs.Reefscape.Robots.Mods.ChillMod._1778
             _intakeTargetAngle = setpoint.intakeAngle;
         }
 
-        private void SetRollerState()
+        private void setIntakeRollers(float speed)
         {
-            
+            for(int i = 0; i < intakeRollers.Length; i++)
+            {
+                intakeRollers[i].VelocityRoller(5 * speed);
+            }
+        }
+
+        private void intakeRollersStop()
+        {
+            setIntakeRollers(0);
+            intakeAudio.Stop();
+        }
+        
+        private void setEndEffectorRollers(float speed)
+        {
+            for(int i = 0; i < eeRollers.Length; i++)
+            {
+                eeRollers[i].VelocityRoller(5 * speed);
+            }
+        }
+
+        private void endEffectorRollersStop()
+        {
+            setEndEffectorRollers(0);
+            eeAudio.Stop();
         }
 
         private void RunAudio()
         {
-            
+            if (BaseGameManager.Instance.RobotState == RobotState.Disabled)
+            {
+                if (intakeAudio.isPlaying || eeAudio.isPlaying || algaeStallSource.isPlaying)
+                {
+                    intakeAudio.Stop();
+                    eeAudio.Stop();
+                    algaeStallSource.Stop();
+                }
+
+                return;
+            }
+            if (_algaeController.atTarget && !algaeStallSource.isPlaying)
+            {
+                algaeStallSource.Play();
+            }
+
+            if (!_algaeController.atTarget)
+            {
+                algaeStallSource.Stop();
+            }
+
+
+
+            if (IntakeAction.IsPressed() && (atSetpoint(intakeOut) || atSetpoint(intakeOutAlgae)) && !intakeAudio.isPlaying && !_coralController.atTarget)
+            {
+                intakeAudio.Play();
+            }
+            else if (!IntakeAction.IsPressed() || _coralController.atTarget)
+            {
+                intakeAudio.Stop();
+            }
+
+            if (IntakeAction.IsPressed() && (CurrentSetpoint == ReefscapeSetpoints.LowAlgae || CurrentSetpoint == ReefscapeSetpoints.HighAlgae ||
+                 CurrentSetpoint == ReefscapeSetpoints.Stack) && !eeAudio.isPlaying)
+            {
+                eeAudio.Play();
+            }
+            else if (!IntakeAction.IsPressed() || _algaeController.atTarget)
+            {
+                eeAudio.Stop();
+            }
         }
 
         private void SetSetpoint(ChillOutSetpoint setpoint)
