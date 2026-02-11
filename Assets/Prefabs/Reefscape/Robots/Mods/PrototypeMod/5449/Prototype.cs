@@ -220,10 +220,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 algaePlaced = false;
             }
 
-            if (!IntakeAction.IsPressed() && LastSetpoint != ReefscapeSetpoints.Intake)
+            if (CurrentSetpoint != ReefscapeSetpoints.Intake && CurrentSetpoint != ReefscapeSetpoints.Intake)
             {
                 _algaeController.RequestIntake(algaeIntake, false);
                 _coralController.RequestIntake(coralIntake, false);
+            } else if (LastSetpoint == ReefscapeSetpoints.Intake)
+            {
+                _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae);
+                UpdateEERollers(hasCoral || hasAlgae ? 0 : eeRollerSpeeds);
             }
 
             if (AutoAlignLeftAction.IsPressed() || AutoAlignRightAction.IsPressed())
@@ -250,19 +254,21 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 runOnce = false;
             }
             
-            if (LastSetpoint == ReefscapeSetpoints.Intake)
-            {
-                _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae);
-                UpdateEERollers(hasCoral || hasAlgae ? 0 : eeRollerSpeeds);
-            }
-
             switch (CurrentSetpoint)
             {
                 case ReefscapeSetpoints.Stow:
                     rollers[0].SetAngularVelocity(LastSetpoint == ReefscapeSetpoints.Intake ? -8000 : -2000);
                     rollers[1].SetAngularVelocity(LastSetpoint == ReefscapeSetpoints.Intake ? 8000 : 2000);
                     SetSetpoint(hasAlgae ? (lowerFunnel ? algaeStowLow : algaeStow) : (lowerFunnel ? stowLow : stow));
-                    UpdateEERollers(0);
+                    if (LastSetpoint == ReefscapeSetpoints.Intake)
+                    {
+                        _coralController.RequestIntake(coralIntake);
+                        UpdateEERollers(hasCoral || hasAlgae ? 0 : eeRollerSpeeds);
+                    }
+                    else
+                    {
+                        UpdateEERollers(0);
+                    }
                     break;
                 case ReefscapeSetpoints.Intake:
                     if (!hasAlgae && !hasCoral)
@@ -286,7 +292,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     }
                     
                     _algaeController.RequestIntake(algaeIntake, CurrentRobotMode == ReefscapeRobotMode.Algae && !hasAlgae && !hasCoral && IntakeAction.IsPressed());
-                    _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae && IntakeAction.IsPressed());
+                    _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae);
                     break;
                 case ReefscapeSetpoints.Place:
                     if (hasCoral)
@@ -638,7 +644,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
             elevator.SetTarget(_elevatorTargetHeight);
             arm.SetTargetAngle(_armTargetAngle).withAxis(JointAxis.X).useCustomStartingOffset(15);
             funnel.SetTargetAngle(_funnelTargetAngle).withAxis(JointAxis.X).useCustomStartingOffset(-10);
-            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X).noWrap(-90).useCustomStartingOffset(100);
+            climber.SetTargetAngle(_climberTargetAngle).withAxis(JointAxis.X).noWrap(90).useCustomStartingOffset(100);
             
             foreach (var roller in endEffectorRollers)
             {
