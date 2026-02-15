@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
-  m_Name: Lollipop Algae
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: RoboChargers_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  elevatorHeight: 10
-  armAngle: 62.3
-  funnelAngle: -10
-  climberAngle: 0
+  m_Group: {fileID: 11400000, guid: 9d0c3d21001638149b2dd0b907186a53, type: 2}
+  m_StaticContent: 0

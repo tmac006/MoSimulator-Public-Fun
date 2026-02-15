@@ -137,6 +137,9 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
         private bool runOnce = false;
         private bool lowerFunnel = false;
+
+        private bool soring = false;
+        private bool algsco = false;
         
         protected override void Start()
         {
@@ -295,10 +298,17 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     _coralController.RequestIntake(coralIntake, !hasCoral && !hasAlgae);
                     break;
                 case ReefscapeSetpoints.Place:
-                    if (hasCoral)
+                    if (hasCoral && ((align.getDistance() < 0.35f && aligning) || !aligning))
                     {
                         StartCoroutine(ScoreCoral(LastSetpoint));
+
+                        placed = true;
+                        algaePlaced = true;
                     } 
+                    else if (hasCoral && !((align.getDistance() < 0.35f && aligning) || !aligning))
+                    {
+                        SetState(LastSetpoint);
+                    }
                     else if (hasAlgae)
                     {
                         if (LastSetpoint == ReefscapeSetpoints.Barge)
@@ -309,17 +319,18 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         {
                             PlacePiece();
                         }
-                    }
 
-                    placed = true;
-                    algaePlaced = true;
+                        placed = true;
+                        algaePlaced = true;
+                    }
                     break;
                 case ReefscapeSetpoints.L1:
                     SetSetpoint(l1);
                     break;
                 case ReefscapeSetpoints.Stack:
                     SetSetpoint(lolliAlgae);
-                    UpdateEERollers(-eeRollerSpeeds);
+                    if (IntakeAction.IsPressed()) UpdateEERollers(-eeRollerSpeeds);
+                    else UpdateEERollers(0);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -328,7 +339,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
                 case ReefscapeSetpoints.LowAlgae:
                     SetSetpoint(lowAlgae);
-                    UpdateEERollers(-eeRollerSpeeds);
+                    if (IntakeAction.IsPressed()) UpdateEERollers(-eeRollerSpeeds);
+                    else UpdateEERollers(0);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -337,7 +349,8 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     break;
                 case ReefscapeSetpoints.HighAlgae:
                     SetSetpoint(highAlgae);
-                    UpdateEERollers(-eeRollerSpeeds);
+                    if (IntakeAction.IsPressed()) UpdateEERollers(-eeRollerSpeeds);
+                    else UpdateEERollers(0);
                     _algaeController.RequestIntake(algaeIntake, IntakeAction.IsInProgress() && !hasAlgae && !hasCoral);
                     _coralController.RequestIntake(coralIntake, false);
                     break;
@@ -355,6 +368,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                     {
                         lowerFunnel = !lowerFunnel;
                         runOnce = true;
+                        SetState(ReefscapeSetpoints.Stow);
                     }
                     break;
                 case ReefscapeSetpoints.Climb:
@@ -399,11 +413,15 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 return;
             }
             
-            if (((IntakeAction.IsPressed() && !_algaeController.HasPiece() && !_coralController.HasPiece()) || OuttakeAction.IsPressed()) && !rollerSource.isPlaying)
+            if (((IntakeAction.IsPressed() && !_algaeController.HasPiece() && !_coralController.HasPiece()) || (OuttakeAction.IsPressed() && soring) || algsco) && !rollerSource.isPlaying)
             {
                 rollerSource.Play();
             }
-            else if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed() && rollerSource.isPlaying)
+            else if (OuttakeAction.IsPressed() && !soring && !algsco)
+            {
+                rollerSource.Stop();
+            }
+            else if (!IntakeAction.IsPressed() && !OuttakeAction.IsPressed() && rollerSource.isPlaying && !algsco)
             {
                 rollerSource.Stop();
             }
@@ -441,6 +459,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
         {
             if (!algaePlaced)
             {
+                algsco = true;
                 _armTargetAngle = bargePrep2.armAngle;
 
                 foreach (var col in EEcolliders)
@@ -464,8 +483,10 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 {
                     col.enabled = true;
                 }
-                UpdateEERollers(0);
                 
+                yield return new WaitForSeconds(.35f);
+                UpdateEERollers(0);
+                algsco = false;
             }
         }
 
@@ -477,6 +498,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                 {
                     case ReefscapeSetpoints.L4:
                         _armTargetAngle = l4Score.armAngle;
+                        soring = true;
 
                         yield return new WaitForSeconds(0.023f);
 
@@ -487,10 +509,12 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
                         _armTargetAngle = 10;
                         UpdateEERollers(0);
+                        soring = false;
 
                         break;
                     case ReefscapeSetpoints.L3:
                         _armTargetAngle = l3Score.armAngle;
+                        soring = true;
 
                         PlacePiece();
                         UpdateEERollers(eeRollerSpeeds);
@@ -499,10 +523,12 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
                         _armTargetAngle = 15;
                         UpdateEERollers(0);
+                        soring = false;
 
                         break;
                     case ReefscapeSetpoints.L2:
                         _armTargetAngle = l2Score.armAngle;
+                        soring = true;
 
                         PlacePiece();
                         UpdateEERollers(eeRollerSpeeds);
@@ -511,12 +537,14 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
 
                         _armTargetAngle = 15;
                         UpdateEERollers(0);
+                        soring = false;
 
                         break;
                     case ReefscapeSetpoints.L1:
                         
                         rollers[0].SetAngularVelocity(-2350);
                         rollers[1].SetAngularVelocity(1000);
+                        soring = true;
 
                         PlacePiece();
                         UpdateEERollers(eeRollerSpeeds);
@@ -529,6 +557,7 @@ namespace Prefabs.Reefscape.Robots.Mods.PrototypeMod._5449
                         _armTargetAngle = l1Place.armAngle;
                         _elevatorTargetHeight = l1Place.elevatorHeight;
                         UpdateEERollers(0);
+                        soring = false;
 
                         break;
                 }

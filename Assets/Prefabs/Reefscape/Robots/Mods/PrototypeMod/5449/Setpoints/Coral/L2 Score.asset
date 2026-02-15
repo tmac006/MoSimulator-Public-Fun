@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27939f3b2391414996b180766844e39, type: 3}
   m_Name: L2 Score
   m_EditorClassIdentifier: 
-  elevatorHeight: 9.37
+  elevatorHeight: 9.5
   armAngle: 37
   funnelAngle: -10
   climberAngle: 0

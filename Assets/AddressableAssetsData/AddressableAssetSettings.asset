@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 9162ef73a8b7ff14a81079bd59987bc0
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: dd2ae132f2bde3cec71b779922f7f5f3
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -66,6 +66,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5b71b85a798d6f40bb1c3812901e71f, type: 2}
   - {fileID: 11400000, guid: 19f56d225e5c39c48b51706c6dd824cd, type: 2}
   - {fileID: 11400000, guid: aac5dc43f207f464cbe5c74a47d73199, type: 2}
+  - {fileID: 11400000, guid: 9d0c3d21001638149b2dd0b907186a53, type: 2}
   - {fileID: 11400000, guid: 8bb3b6716e90646e08a6450eaa848c91, type: 2}
   - {fileID: 11400000, guid: c6199238e54a182429ed9f524fa0b749, type: 2}
   m_BuildSettings:
@@ -111,6 +112,10 @@ MonoBehaviour:
         m_Value: '{UnityEngine.Application.dataPath}/../Mods/ChillMod'
       - m_Id: dc362afee9112ee489246a2a832e6005
         m_Value: '{UnityEngine.Application.dataPath}/../Mods/MechTechMod'
+      - m_Id: ddacb20ba78304840ac70354f26b0cff
+        m_Value: '{UnityEngine.Application.persistentDataPath}/Mods/RoboChargers'
+      - m_Id: e63bb23060720f84581e4c54844de48d
+        m_Value: '{UnityEngine.Application.dataPath}/../Mods/RoboChargers'
     m_ProfileEntryNames:
     - m_Id: 067e7677776176d459115365ce143ae6
       m_Name: Remote.LoadPath
@@ -162,6 +167,12 @@ MonoBehaviour:
       m_InlineUsage: 0
     - m_Id: dc362afee9112ee489246a2a832e6005
       m_Name: MechTechMod_BuildPath
+      m_InlineUsage: 0
+    - m_Id: ddacb20ba78304840ac70354f26b0cff
+      m_Name: RoboChargers_LoadPath
+      m_InlineUsage: 0
+    - m_Id: e63bb23060720f84581e4c54844de48d
+      m_Name: RoboChargers_BuildPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
