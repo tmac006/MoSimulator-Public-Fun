@@ -2337,6 +2337,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 935784547}
     m_Modifications:
+    - target: {fileID: 1564711394052891153, guid: 288076962666d3745a484c7a5088b4c6,
+        type: 3}
+      propertyPath: defaultModpack
+      value: 
+      objectReference: {fileID: 11400000, guid: bc07e0cdfd3571a46901662ede8a0215,
+        type: 2}
     - target: {fileID: 6686171717398937248, guid: 288076962666d3745a484c7a5088b4c6,
         type: 3}
       propertyPath: m_Name
@@ -8148,7 +8154,7 @@ MonoBehaviour:
   redSpawnPoints:
   - {fileID: 1686937160}
   - {fileID: 693219865}
-  robotOverride: {fileID: 11400000, guid: 59d761dc69bb04b9da2ab04eea03c7d9, type: 2}
+  robotOverride: {fileID: 11400000, guid: bf13614c2c3c5c24eaadbd50f5093984, type: 2}
 --- !u!81 &1142033755
 AudioListener:
   m_ObjectHideFlags: 0

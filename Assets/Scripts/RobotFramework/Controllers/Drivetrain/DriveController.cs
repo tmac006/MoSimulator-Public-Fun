@@ -1,3 +1,4 @@
+using System;
 using MoSimCore.BaseClasses.GameManagement;
 using MoSimCore.Enums;
 using MoSimLib;
@@ -364,21 +365,71 @@ namespace RobotFramework.Controllers.Drivetrain
         {
             var module = _swerveWheels[moduleIndex];
             var setpoint = _swerveSetpoints[moduleIndex];
-    
-            // Get ground speed
-            var realGroundSpeed = module.transform.InverseTransformVector(
-                _rb.GetPointVelocity(module.transform.position)).z;
-    
-            // Use lookup table instead of calculating falloff
-            var speedRatio = Mathf.Clamp01(Mathf.Abs(realGroundSpeed) / _maxSpeedMeters);
-            var falloff = GetFalloffFromLookup(speedRatio);
-    
-            // Calculate force (no Pow call needed!)
-            var forceMag = accelerationForce * FEET_TO_METERS * setpoint.Velocity * falloff;
+
+            // in the case of our robot (340) with our current
+            // limits and X60 drive motors, our constants are:
+            //
+            // Kₜ = .01981 (Motor torque constant)
+            // Iₜₗ = 100 (Stator limit)
+            // Iₐ = 80 (Supply limit)
+            // Iₛ = 476.1 (Motor stall current)
+            // Iₘ = 3.1 (Free current @ 12V)
+            // ωₘ = 5785 (Free speed)
+
+            const float k_t = 0.01981f;
+            const float i_tl = 100f;
+            const float i_a = 80f;
+            const float i_s = 476.1f;
+            const float i_m = 3.1f;
+            const float w_m = 5785f;
+
+            // get reference motor rpm
+
+            const float ratio = 243f / 38f;
+            const float wheelDiameter = 0.1016f;
+            const float rotationsPerMeter = ratio / (wheelDiameter * Mathf.PI);
+
+            float s_v = module.transform.InverseTransformVector(_rb.GetPointVelocity(module.transform.position)).z;
+            float w = Mathf.Min(w_m, Mathf.Abs(s_v * 60f * rotationsPerMeter)); // rpm @ rotor
+
+            // idrk what this line does lol
 
             module.transform.localEulerAngles = new Vector3(0f, setpoint.Angle, 0f);
+
+            // simple P controller + velocity FF
+            // gains are literally stolen from our 2025
+            // robot code with their units rescaled lmfao
+
+            const float k_p = 0.00041667f;
+            const float k_v = 0.00020833f;
+
+            float r_k = setpoint.Velocity * (w_m * 0.9f); // velocity is [-1.0, 1.0] (?)
+            float y_k = (r_k - w) * k_p + r_k * k_v; // output units is duty cycle
+
+            // calculate output torque of rotor
+            //
+            // τ = Kₜ • min(Iₜₗ, Iₜₘ, Iₜₛ), where
+            //
+            // Iₜₗ is given
+            // Iₜₘ = (−IΔ • ωₜ + √((IΔ • ωₜ)² + 4IₛIₐ)) / 2
+            // Iₜₛ = Iₛ • (V/Vₐ − ωₜ) + Iₘωₜ
+            //
+            // and
+            //
+            // IΔ = Iₛ − Iₘ
+            // ωₜ = ω/ωₘ
+
+            float i_delta = i_s - i_m;
+            float w_t = w / w_m;
+
+            float i_tm = (-i_delta * w_t + Mathf.Sqrt(i_delta * w_t * (i_delta * w_t) + 4f * i_s * i_a)) / 2f;
+            float i_ts = i_s * (Mathf.Abs(y_k) - w_t) + i_m * w_t;
+
+            float tau = k_t * Mathf.Min(i_tl, i_tm, i_ts) * Mathf.Sign(y_k); // we fucking did it
     
-            Vector3 propulsionForce = module.transform.forward * forceMag;
+            // do unity bullshit
+
+            Vector3 propulsionForce = module.transform.forward * tau;
             _rb.AddForceAtPosition(propulsionForce, hit.point, ForceMode.Impulse); 
 
             module.wheelAngle = module.transform.localRotation.eulerAngles.y;
